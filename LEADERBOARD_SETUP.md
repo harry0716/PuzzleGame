@@ -59,6 +59,12 @@ window.APP_CONFIG = {
 };
 ```
 
+如果你不想手動重打，也可以直接把 [config.supabase.example.js](C:/Users/harry/.codex/Interactive_puzzle_game/config.supabase.example.js) 的內容複製到 [config.js](C:/Users/harry/.codex/Interactive_puzzle_game/config.js)，再把裡面的 4 個值換成正式值。
+
+## 3.1 可直接貼進 Supabase 的 SQL 檔
+- 我已經另外放好一份 [supabase-leaderboard.sql](C:/Users/harry/.codex/Interactive_puzzle_game/supabase-leaderboard.sql)。
+- 你可以直接把這個檔案內容貼進 Supabase SQL Editor 執行。
+
 ## 4. 建議做法
 - 每一場活動用不同 `eventCode`，避免不同場次資料混在一起。
 - 若只是校內單場體驗，匿名寫入就夠用了。
@@ -68,4 +74,4 @@ window.APP_CONFIG = {
 - 前端目前只會讀取前 8 名。
 - 雲端模式下，前端不提供清空排行榜，避免任何學生誤刪。
 - 如果雲端服務不可用，程式會自動退回本機模式。
-
+- GitHub Pages 與 Supabase 可以同時使用：前端頁面放 GitHub Pages，排行榜資料放 Supabase。
