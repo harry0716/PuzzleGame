@@ -1,10 +1,15 @@
-const CACHE_NAME = "ai-lab-talent-sprint-v1";
+const CACHE_NAME = "ai-lab-talent-sprint-v2";
 const ASSETS = [
   "./",
   "./index.html",
+  "./leaderboard.html",
+  "./presenter.html",
   "./styles.css",
   "./app.js",
   "./config.js",
+  "./leaderboard-shared.js",
+  "./leaderboard-page.js",
+  "./presenter.js",
   "./manifest.webmanifest",
   "./icon.svg"
 ];

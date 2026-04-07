@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PuzzleGame Presenter</title>
+    <meta name="theme-color" content="#0a7f6f" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="presenter-body">
+    <div class="presenter-shell">
+      <section class="presenter-hero">
+        <p class="eyebrow">HOST MODE</p>
+        <h1>AI Lab Talent Sprint</h1>
+        <p class="presenter-copy">學生掃碼進場，右側即時更新排行榜。</p>
+        <div class="presenter-meta">
+          <span id="presenter-mode" class="meta-chip">排行榜模式載入中</span>
+          <span class="meta-chip">建議投影全螢幕</span>
+        </div>
+      </section>
+
+      <section class="presenter-grid">
+        <div class="presenter-card presenter-qr-card">
+          <p class="mini-label">SCAN TO PLAY</p>
+          <h2>手機掃碼開始</h2>
+          <img id="presenter-qr" class="presenter-qr" alt="遊戲 QR Code" />
+          <p id="presenter-url" class="presenter-url"></p>
+        </div>
+
+        <div class="presenter-card presenter-board-card">
+          <div class="leaderboard-page-head">
+            <div>
+              <p class="mini-label">LIVE RANKING</p>
+              <h2>目前排行榜</h2>
+            </div>
+            <div class="leaderboard-actions">
+              <button id="refresh-presenter" class="ghost-button" type="button">立即更新</button>
+              <a class="ghost-button link-button" href="./leaderboard.html">獨立排行榜頁</a>
+            </div>
+          </div>
+          <ol id="presenter-board" class="leaderboard-list leaderboard-list-presenter"></ol>
+        </div>
+      </section>
+    </div>
+
+    <script src="./config.js"></script>
+    <script src="./leaderboard-shared.js"></script>
+    <script src="./presenter.js"></script>
+  </body>
+</html>

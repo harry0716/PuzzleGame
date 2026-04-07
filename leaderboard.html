@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PuzzleGame Leaderboard</title>
+    <meta name="theme-color" content="#0a7f6f" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero hero-compact">
+        <p class="eyebrow">LIVE LEADERBOARD</p>
+        <h1>全班共用排行榜</h1>
+        <p class="hero-copy">這裡會顯示目前活動場次的最新排名。</p>
+      </header>
+
+      <main class="screen-card leaderboard-page">
+        <section class="screen">
+          <div class="leaderboard-page-head">
+            <div>
+              <p id="leaderboard-mode-page" class="pill">載入中</p>
+              <h2>即時分數榜</h2>
+            </div>
+            <div class="leaderboard-actions">
+              <button id="refresh-standalone" class="cta-button" type="button">重新整理</button>
+              <a class="ghost-button link-button" href="./index.html">回到遊戲</a>
+            </div>
+          </div>
+          <ol id="standalone-board" class="leaderboard-list leaderboard-list-large"></ol>
+        </section>
+      </main>
+    </div>
+
+    <script src="./config.js"></script>
+    <script src="./leaderboard-shared.js"></script>
+    <script src="./leaderboard-page.js"></script>
+  </body>
+</html>

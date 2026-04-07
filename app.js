@@ -554,6 +554,7 @@ function renderLeaderboard(board) {
 
   if (!board.length) {
     const item = document.createElement("li");
+    item.className = "leaderboard-row empty";
     item.textContent = "目前還沒有排行榜紀錄。";
     list.appendChild(item);
     return;
@@ -561,7 +562,15 @@ function renderLeaderboard(board) {
 
   board.forEach((entry, index) => {
     const item = document.createElement("li");
-    item.textContent = `#${index + 1} ${entry.player} - ${entry.score} 分 - ${entry.talent} (${entry.playedAt})`;
+    item.className = `leaderboard-row rank-${Math.min(index + 1, 4)}`;
+    item.innerHTML = `
+      <span class="leaderboard-rank">#${index + 1}</span>
+      <div class="leaderboard-entry-main">
+        <strong>${entry.player}</strong>
+        <small>${entry.talent} · ${entry.playedAt}</small>
+      </div>
+      <div class="leaderboard-entry-score">${entry.score} 分</div>
+    `;
     list.appendChild(item);
   });
 }
