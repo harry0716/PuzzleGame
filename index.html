@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Lab Talent Sprint</title>
+    <meta
+      name="description"
+      content="慈幼工商參訪正修電子系 AI 人工智慧實驗室互動小遊戲"
+    />
+    <meta name="theme-color" content="#0a7f6f" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <p class="eyebrow">CHIP HUNTER LITE</p>
+        <h1>AI Lab Talent Sprint</h1>
+        <p class="hero-copy">
+          5 題快問快答，2 分鐘認識 AI、晶片、智慧製造與你的未來角色。
+        </p>
+        <div class="hero-meta">
+          <span id="deploy-status" class="meta-chip">靜態部署就緒</span>
+          <span id="leaderboard-mode" class="meta-chip">排行榜：本機模式</span>
+        </div>
+      </header>
+
+      <main id="app" class="screen-card" aria-live="polite"></main>
+    </div>
+
+    <template id="landing-template">
+      <section class="screen screen-landing">
+        <div class="screen-copy">
+          <span class="pill">手機掃碼即可開始</span>
+          <h2>歡迎來到正修電子系 AI 實驗室</h2>
+          <p>
+            這是一場專為參訪設計的輕量互動。答完題，你會知道自己更像哪一種
+            AI / 電子人才。
+          </p>
+        </div>
+
+        <form id="player-form" class="stack-lg">
+          <label class="field">
+            <span>你的暱稱</span>
+            <input
+              id="nickname"
+              name="nickname"
+              type="text"
+              maxlength="12"
+              placeholder="例如：小宇"
+              autocomplete="nickname"
+            />
+          </label>
+
+          <div class="rules-box">
+            <h3>玩法很簡單</h3>
+            <ul class="rules-list">
+              <li>共 5 題，每題 12 秒。</li>
+              <li>答對加分，越快作答分數越高。</li>
+              <li>最後會得到你的 AI 人才結果卡。</li>
+            </ul>
+          </div>
+
+          <button class="cta-button" type="submit">開始挑戰</button>
+        </form>
+      </section>
+    </template>
+
+    <template id="question-template">
+      <section class="screen screen-question">
+        <div class="question-top">
+          <div>
+            <p class="mini-label">QUESTION <span id="question-number"></span></p>
+            <h2 id="question-title"></h2>
+          </div>
+          <div class="status-chip">
+            <span>剩餘</span>
+            <strong id="time-left"></strong>
+          </div>
+        </div>
+
+        <div class="progress-wrap" aria-hidden="true">
+          <div id="progress-bar" class="progress-bar"></div>
+        </div>
+
+        <p id="question-description" class="question-description"></p>
+        <div id="answer-list" class="answer-list"></div>
+      </section>
+    </template>
+
+    <template id="feedback-template">
+      <section class="screen screen-feedback">
+        <p class="mini-label">ROUND RESULT</p>
+        <h2 id="feedback-title"></h2>
+        <p id="feedback-copy" class="feedback-copy"></p>
+        <div class="feedback-panel">
+          <p>
+            目前分數
+            <strong id="score-total"></strong>
+          </p>
+          <p id="feedback-tag" class="feedback-tag"></p>
+        </div>
+      </section>
+    </template>
+
+    <template id="result-template">
+      <section class="screen screen-result">
+        <p class="mini-label">YOUR TALENT CARD</p>
+        <h2 id="result-name"></h2>
+        <p id="result-summary" class="result-summary"></p>
+
+        <div class="talent-card">
+          <div>
+            <p class="stat-label">總分</p>
+            <p id="final-score" class="stat-value"></p>
+          </div>
+          <div>
+            <p class="stat-label">答對題數</p>
+            <p id="correct-count" class="stat-value"></p>
+          </div>
+        </div>
+
+        <div class="result-block">
+          <h3>你適合的方向</h3>
+          <p id="result-fit"></p>
+        </div>
+
+        <div class="result-block">
+          <h3>下一步可以學什麼</h3>
+          <ul id="result-skills" class="bullet-list"></ul>
+        </div>
+
+        <div class="result-block">
+          <h3>現場加深印象</h3>
+          <p id="result-hook"></p>
+        </div>
+
+        <section class="leaderboard">
+          <div class="leaderboard-head">
+            <div>
+              <h3 id="leaderboard-title">本機排行榜</h3>
+              <p id="leaderboard-copy" class="leaderboard-copy">
+                目前使用瀏覽器本機紀錄。
+              </p>
+            </div>
+            <div class="leaderboard-actions">
+              <button id="refresh-board" class="ghost-button" type="button">
+                重新整理
+              </button>
+              <button id="clear-board" class="ghost-button" type="button">
+                清除
+              </button>
+            </div>
+          </div>
+          <ol id="leaderboard-list" class="leaderboard-list"></ol>
+        </section>
+
+        <div class="button-row">
+          <button id="restart-game" class="cta-button" type="button">
+            再玩一次
+          </button>
+          <button id="share-result" class="ghost-button" type="button">
+            複製結果文字
+          </button>
+        </div>
+      </section>
+    </template>
+
+    <script src="./config.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
