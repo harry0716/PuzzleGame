@@ -1,5 +1,23 @@
 # Version Record
 
+## v1.5.0
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Add branching question type support
+
+### Changes
+
+- added `branching` support to the type-aware question engine
+- introduced scene-aware next-question routing for branch outcomes
+- updated the current `晶片獵人` scene to include a branching question path
+- bumped the service worker cache version to `v5` for the latest front-end assets
+
+### Notes
+
+- the main game now supports `single-choice`, `ordering`, `image-choice`, `matching`, and `branching`
+- richer timed-type variations are still pending
+
 ## v1.4.0
 
 - Date: 2026-04-19

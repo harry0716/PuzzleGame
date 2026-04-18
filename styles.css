@@ -366,6 +366,11 @@ input {
   font: inherit;
 }
 
+.matching-select:focus {
+  outline: 2px solid rgba(10, 127, 111, 0.2);
+  border-color: rgba(10, 127, 111, 0.42);
+}
+
 .image-answer-list {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }

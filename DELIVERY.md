@@ -34,6 +34,7 @@ Build a lightweight interactive event website for visiting students that can:
 - ordering question support in the current scene
 - image-based question support in the current scene
 - matching question support in the current scene
+- branching question support in the current scene
 
 ### Leaderboard
 
@@ -104,6 +105,7 @@ This delivery baseline now additionally includes:
 - one working non-single-choice question type: `ordering`
 - one working image-based question type: `image-choice`
 - one working matching question type: `matching`
+- one working branching question type: `branching`
 
 ## Recommended Next Additions
 

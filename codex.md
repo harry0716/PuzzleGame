@@ -19,6 +19,7 @@ decisions should be recorded here before and after major work.
 - scene-system phase 3 first pass is now implemented with type-aware rendering hooks
 - scene-system phase 3 second pass is now implemented with image-based question support
 - scene-system phase 3 third pass is now implemented with matching question support
+- scene-system phase 3 fourth pass is now implemented with branching question support
 
 ## Confirmed Maintenance Rules
 
@@ -183,6 +184,28 @@ Current design-prep artifacts:
 ### Still Pending After This Pass
 
 - branching
+- richer timed-type variations
+
+## Completed On 2026-04-19 (Phase 3 Fourth Pass)
+
+### Implemented Progress
+
+- added `branching` question support to the type-aware rendering flow
+- introduced next-question routing so a selected answer can determine the following scene step
+- updated `晶片獵人` so it now includes a working branching question path
+- bumped the service worker cache version to reduce stale deployed assets
+
+### Practical Result
+
+- the current project now supports five active interaction patterns in the main game:
+  - `single-choice`
+  - `ordering`
+  - `image-choice`
+  - `matching`
+  - `branching`
+
+### Still Pending After This Pass
+
 - richer timed-type variations
 
 ## Future Update Reminder

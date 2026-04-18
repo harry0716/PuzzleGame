@@ -1,11 +1,5 @@
 (function attachSceneRegistry(global) {
-  function buildSceneIllustration({
-    title,
-    subtitle,
-    accent,
-    highlight,
-    symbol
-  }) {
+  function buildSceneIllustration({ title, subtitle, accent, highlight, symbol }) {
     const svg = `
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" role="img" aria-label="${title}">
         <defs>
@@ -39,7 +33,7 @@
     panel: {
       badge: "現行活動場景",
       level: "入門探索",
-      tags: ["單選題", "排序題", "圖片題", "配對題", "限時", "AI", "系統整合"]
+      tags: ["單選題", "排序題", "圖片題", "配對題", "分支題", "限時", "AI", "系統整合"]
     },
     theme: {
       accent: "#0a7f6f",
@@ -47,10 +41,10 @@
     },
     landing: {
       title: "開始晶片獵人挑戰",
-      copy: "你將在 5 題限時互動中，認識 AI 實驗室設備、智慧工廠與 AIoT 系統整合。",
+      copy: "你將在 6 個互動節點中，認識 AI 實驗室設備、智慧工廠與 AIoT 系統整合。",
       rules: [
-        "共 5 題，每題預設 12 秒。",
-        "目前支援單選題、排序題、圖片題、配對題。",
+        "共 6 個互動節點，每題預設 12 秒。",
+        "目前支援單選題、排序題、圖片題、配對題、分支題。",
         "答對可得分，越快作答分數越高。",
         "結果卡會依照你的選擇傾向給出適合方向。"
       ]
@@ -59,7 +53,7 @@
       eventCode: "puzzlegame-visit-2026-04-08"
     },
     settings: {
-      questionCount: 5,
+      questionCount: 6,
       defaultTimeLimit: 12
     },
     resultOutro: "如果你對這個方向有感，現場可以直接把它和正修電子系的 AI 實作特色連起來。",
@@ -110,6 +104,30 @@
       },
       {
         id: "q4",
+        type: "branching",
+        prompt: "如果你現在站在展示區，第一步最值得先看哪一區？",
+        description: "這題會根據你的選擇，導向不同的後續題目。",
+        topic: "探索路徑",
+        correctId: "server-first",
+        choices: [
+          {
+            id: "server-first",
+            label: "先看 AI 伺服器與運算設備",
+            detail: "先理解核心算力，再往應用延伸。",
+            trait: "ai",
+            next: "q4-image"
+          },
+          {
+            id: "system-first",
+            label: "先看系統整合與應用情境",
+            detail: "先理解整體用途，再回頭看設備角色。",
+            trait: "system",
+            next: "q4-image"
+          }
+        ]
+      },
+      {
+        id: "q4-image",
         type: "image-choice",
         prompt: "哪一張圖最接近本場景的 AI 高效運算設備？",
         description: "用圖片辨識的方式找出最符合 AI 實驗室亮點的設備。",
