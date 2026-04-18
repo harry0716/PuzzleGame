@@ -1,6 +1,7 @@
 const leaderboardModePage = document.querySelector("#leaderboard-mode-page");
 const standaloneBoard = document.querySelector("#standalone-board");
 const refreshStandalone = document.querySelector("#refresh-standalone");
+const clearStandalone = document.querySelector("#clear-standalone");
 
 function renderStandaloneBoard(entries) {
   standaloneBoard.innerHTML = "";
@@ -37,6 +38,29 @@ async function loadStandaloneBoard() {
 
 refreshStandalone.addEventListener("click", () => {
   loadStandaloneBoard();
+});
+
+clearStandalone.addEventListener("click", async () => {
+  const isShared = window.LeaderboardShared.hasSharedLeaderboard();
+  const confirmed = window.confirm(
+    isShared
+      ? "確定要重置雲端排行榜嗎？目前活動代碼下的分數都會被刪除。"
+      : "確定要清空目前裝置上的排行榜嗎？"
+  );
+  if (!confirmed) {
+    return;
+  }
+
+  try {
+    await window.LeaderboardShared.clearLeaderboardEntries();
+    loadStandaloneBoard();
+  } catch (error) {
+    window.alert(
+      isShared
+        ? "雲端排行榜重置失敗，請確認 Supabase 已開啟 delete 權限。"
+        : "本機排行榜清空失敗。"
+    );
+  }
 });
 
 loadStandaloneBoard();

@@ -177,7 +177,13 @@ const leaderboardStore = {
 
   async clearEntries() {
     if (this.mode === "shared") {
-      return false;
+      try {
+        await window.LeaderboardShared.clearLeaderboardEntries();
+        return true;
+      } catch (error) {
+        console.error("Shared leaderboard clear failed.", error);
+        return false;
+      }
     }
     window.localStorage.removeItem(LOCAL_BOARD_KEY);
     return true;
@@ -519,13 +525,28 @@ async function showResult() {
   });
 
   document.querySelector("#clear-board").addEventListener("click", async () => {
+    const confirmed = window.confirm(
+      leaderboardStore.mode === "shared"
+        ? "確定要重置雲端排行榜嗎？目前活動代碼下的分數都會被刪除。"
+        : "確定要清空目前裝置上的排行榜嗎？"
+    );
+    if (!confirmed) {
+      return;
+    }
+
     const cleared = await leaderboardStore.clearEntries();
     if (!cleared) {
-      document.querySelector("#leaderboard-copy").textContent = "雲端排行榜不可由前端直接清除。";
+      document.querySelector("#leaderboard-copy").textContent =
+        leaderboardStore.mode === "shared"
+          ? "雲端排行榜重置失敗，請確認 Supabase 已開啟 delete 權限。"
+          : "本機排行榜清空失敗。";
       return;
     }
     renderLeaderboard([]);
-    document.querySelector("#leaderboard-copy").textContent = "本機排行榜已清除。";
+    document.querySelector("#leaderboard-copy").textContent =
+      leaderboardStore.mode === "shared"
+        ? "目前活動代碼下的雲端排行榜已重置。"
+        : "本機排行榜已清除。";
   });
 }
 
@@ -540,7 +561,7 @@ function syncLeaderboardDescription() {
   if (leaderboardStore.mode === "shared") {
     title.textContent = "全班共用排行榜";
     copy.textContent = "目前使用 Supabase 雲端排行榜，所有裝置會看到同一份成績。";
-    clearButton.disabled = true;
+    clearButton.disabled = false;
   } else {
     title.textContent = "本機排行榜";
     copy.textContent = "目前使用瀏覽器本機紀錄。若要全班共用，請先填入 config.js 的 Supabase 設定。";

@@ -1,4 +1,4 @@
-const CACHE_NAME = "ai-lab-talent-sprint-v2";
+const CACHE_NAME = "ai-lab-talent-sprint-v3";
 const ASSETS = [
   "./",
   "./index.html",

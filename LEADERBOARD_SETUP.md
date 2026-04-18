@@ -40,6 +40,12 @@ on leaderboard_entries
 for insert
 to anon
 with check (true);
+
+create policy "public delete leaderboard"
+on leaderboard_entries
+for delete
+to anon
+using (true);
 ```
 
 ## 3. 修改 `config.js`

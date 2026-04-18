@@ -81,6 +81,27 @@
     );
   }
 
+  async function clearSharedLeaderboard() {
+    const options = APP_CONFIG.leaderboard;
+    const endpoint =
+      `${options.supabaseUrl}/rest/v1/${options.table}` +
+      `?event_code=eq.${encodeURIComponent(options.eventCode)}`;
+
+    const response = await fetch(endpoint, {
+      method: "DELETE",
+      headers: {
+        apikey: options.supabaseAnonKey,
+        Authorization: `Bearer ${options.supabaseAnonKey}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Clear leaderboard failed: ${response.status}`);
+    }
+
+    return [];
+  }
+
   async function getLeaderboardEntries() {
     if (hasSharedLeaderboard()) {
       return fetchSharedLeaderboard();
@@ -88,10 +109,20 @@
     return normalizeBoard(getLocalLeaderboard());
   }
 
+  async function clearLeaderboardEntries() {
+    if (hasSharedLeaderboard()) {
+      return clearSharedLeaderboard();
+    }
+
+    global.localStorage.removeItem(LOCAL_BOARD_KEY);
+    return [];
+  }
+
   global.LeaderboardShared = {
     APP_CONFIG,
     MAX_LEADERBOARD,
     hasSharedLeaderboard,
+    clearLeaderboardEntries,
     getLeaderboardEntries,
     normalizeBoard,
     sanitizeNickname
