@@ -1,5 +1,23 @@
 # Version Record
 
+## v1.3.0
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Add image-based question support
+
+### Changes
+
+- added `image-choice` support to the type-aware question engine
+- updated the current `晶片獵人` scene to include an image-based question
+- added image answer card styles in `styles.css`
+- kept the scene system and leaderboard flow unchanged while expanding interaction types
+
+### Notes
+
+- the main game now supports `single-choice`, `ordering`, and `image-choice`
+- matching and branching question types are still pending
+
 ## v1.2.0
 
 - Date: 2026-04-19

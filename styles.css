@@ -327,6 +327,25 @@ input {
   justify-content: flex-end;
 }
 
+.image-answer-list {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.image-answer-button {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.image-answer-visual {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid rgba(24, 33, 39, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+}
+
 .answer-button {
   width: 100%;
   padding: 16px 18px;

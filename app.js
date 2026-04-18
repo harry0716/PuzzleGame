@@ -341,6 +341,9 @@ function renderQuestionByType(question) {
     case "ordering":
       renderOrderingQuestion(question);
       break;
+    case "image-choice":
+      renderImageChoiceQuestion(question);
+      break;
     case "single-choice":
     default:
       renderSingleChoiceQuestion(question);
@@ -362,8 +365,28 @@ function renderSingleChoiceQuestion(question) {
   });
 }
 
+function renderImageChoiceQuestion(question) {
+  const list = document.querySelector("#answer-list");
+  list.innerHTML = "";
+  list.classList.add("image-answer-list");
+
+  question.options.forEach((option) => {
+    const button = document.createElement("button");
+    button.className = "answer-button image-answer-button";
+    button.type = "button";
+    button.innerHTML = `
+      <img class="image-answer-visual" src="${option.image}" alt="${option.alt}" />
+      <strong>${option.label}</strong>
+      <small>${option.detail}</small>
+    `;
+    button.addEventListener("click", () => handleAnswer(option.id));
+    list.appendChild(button);
+  });
+}
+
 function renderOrderingQuestion(question) {
   const list = document.querySelector("#answer-list");
+  list.innerHTML = "";
   state.orderingDraft = [...question.items];
 
   const wrapper = document.createElement("div");
@@ -442,6 +465,13 @@ function scheduleAutoPlay(question) {
     return;
   }
 
+  if (question.type === "image-choice") {
+    autoPlayAnswerTimer = window.setTimeout(() => {
+      handleAnswer(question.correctId);
+    }, 320);
+    return;
+  }
+
   autoPlayAnswerTimer = window.setTimeout(() => {
     handleAnswer(question.correctId);
   }, 300);
@@ -483,6 +513,11 @@ function getAwardedTrait(question, selectedValue, correct) {
     return correct ? question.trait : null;
   }
 
+  if (question.type === "image-choice") {
+    const chosen = question.options.find((option) => option.id === selectedValue);
+    return chosen?.trait || null;
+  }
+
   const chosen = question.answers.find((answer) => answer.id === selectedValue);
   return chosen?.trait || null;
 }
@@ -494,17 +529,23 @@ function formatCorrectAnswer(question) {
       .join(" → ");
   }
 
+  if (question.type === "image-choice") {
+    return question.options.find((item) => item.id === question.correctId)?.label || "";
+  }
+
   return question.answers.find((item) => item.id === question.correctId)?.label || "";
 }
 
 function decorateQuestionResult(question, selectedValue, correct) {
-  if (question.type !== "single-choice") {
+  if (question.type === "ordering") {
     return;
   }
 
   const buttons = Array.from(document.querySelectorAll(".answer-button"));
+  const collection = question.type === "image-choice" ? question.options : question.answers;
+
   buttons.forEach((button, index) => {
-    const answer = question.answers[index];
+    const answer = collection[index];
     button.disabled = true;
     if (answer.id === question.correctId) {
       button.classList.add("is-correct");

@@ -1,4 +1,31 @@
 (function attachSceneRegistry(global) {
+  function buildSceneIllustration({
+    title,
+    subtitle,
+    accent,
+    highlight,
+    symbol
+  }) {
+    const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" role="img" aria-label="${title}">
+        <defs>
+          <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="${accent}" />
+            <stop offset="100%" stop-color="${highlight}" />
+          </linearGradient>
+        </defs>
+        <rect width="480" height="320" rx="32" fill="url(#bg)" />
+        <circle cx="390" cy="82" r="52" fill="rgba(255,255,255,0.18)" />
+        <circle cx="110" cy="250" r="74" fill="rgba(255,255,255,0.12)" />
+        <text x="42" y="82" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="26" fill="rgba(255,255,255,0.92)">${subtitle}</text>
+        <text x="42" y="144" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="54" font-weight="700" fill="#fffaf3">${title}</text>
+        <text x="42" y="238" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="120" fill="rgba(255,255,255,0.9)">${symbol}</text>
+      </svg>
+    `;
+
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+  }
+
   const CHIP_HUNTER_SCENE = {
     id: "chip-hunter",
     title: "晶片獵人",
@@ -12,7 +39,7 @@
     panel: {
       badge: "現行活動場景",
       level: "入門探索",
-      tags: ["單選題", "排序題", "限時", "AI", "系統整合"]
+      tags: ["單選題", "排序題", "圖片題", "限時", "AI", "系統整合"]
     },
     theme: {
       accent: "#0a7f6f",
@@ -23,7 +50,7 @@
       copy: "你將在 5 題限時互動中，認識 AI 實驗室設備、智慧工廠與 AIoT 系統整合。",
       rules: [
         "共 5 題，每題預設 12 秒。",
-        "目前支援單選題與排序題。",
+        "目前支援單選題、排序題、圖片題。",
         "答對可得分，越快作答分數越高。",
         "結果卡會依照你的選擇傾向給出適合方向。"
       ]
@@ -83,6 +110,58 @@
       },
       {
         id: "q4",
+        type: "image-choice",
+        prompt: "哪一張圖最接近本場景的 AI 高效運算設備？",
+        description: "用圖片辨識的方式找出最符合 AI 實驗室亮點的設備。",
+        topic: "圖像辨識",
+        correctId: "server",
+        options: [
+          {
+            id: "server",
+            label: "AI 伺服器機櫃",
+            detail: "代表高效運算與模型訓練設備。",
+            alt: "AI 伺服器機櫃示意圖",
+            image: buildSceneIllustration({
+              title: "AI Server",
+              subtitle: "High Compute",
+              accent: "#0a7f6f",
+              highlight: "#16325c",
+              symbol: "▦"
+            }),
+            trait: "ai"
+          },
+          {
+            id: "printer",
+            label: "一般印表機",
+            detail: "辦公用途常見，但不是 AI 訓練核心。",
+            alt: "印表機示意圖",
+            image: buildSceneIllustration({
+              title: "Printer",
+              subtitle: "Office Device",
+              accent: "#d46a3b",
+              highlight: "#ffb36e",
+              symbol: "▤"
+            }),
+            trait: "maker"
+          },
+          {
+            id: "projector",
+            label: "簡報投影機",
+            detail: "展示可用，但不是高效運算設備。",
+            alt: "投影機示意圖",
+            image: buildSceneIllustration({
+              title: "Projector",
+              subtitle: "Presentation",
+              accent: "#445a7a",
+              highlight: "#7aa2c8",
+              symbol: "◫"
+            }),
+            trait: "system"
+          }
+        ]
+      },
+      {
+        id: "q5",
         type: "single-choice",
         prompt: "如果把 AI 放進電子系的學習脈絡，最適合搭配的是哪一種發展方向？",
         description: "這題在看你能不能把硬體、系統和 AI 聯想到一起。",
@@ -93,20 +172,6 @@
           { id: "b", label: "只研究剪輯與影音", detail: "和電子系核心展示不符。", trait: "maker" },
           { id: "c", label: "單純記背理論名詞", detail: "不是實驗室強調的實作方向。", trait: "system" },
           { id: "d", label: "AIoT 系統整合應用", detail: "這是 AI 與電子工程結合最有代表性的方向之一。", trait: "system" }
-        ]
-      },
-      {
-        id: "q5",
-        type: "single-choice",
-        prompt: "如果你對實驗室的 AI 伺服器、GPU 與推理能力最有感，最可能偏向哪個方向？",
-        description: "看看你比較像是 AI 模型應用派，還是其他類型。",
-        correctId: "a",
-        topic: "興趣傾向",
-        answers: [
-          { id: "a", label: "AI 應用 / 邊緣運算 / 模型實作", detail: "這條線最接近 AI 裝置與模型應用。", trait: "ai" },
-          { id: "b", label: "手作裝置與機構製作", detail: "更偏向 maker 的方向。", trait: "maker" },
-          { id: "c", label: "感測器控制與設備串接", detail: "比較接近系統整合類型。", trait: "system" },
-          { id: "d", label: "工廠流程與智慧產線", detail: "較偏向智慧製造方向。", trait: "industry" }
         ]
       }
     ],

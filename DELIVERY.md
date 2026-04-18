@@ -32,6 +32,7 @@ Build a lightweight interactive event website for visiting students that can:
 - share / copy result text
 - type-aware question rendering foundation
 - ordering question support in the current scene
+- image-based question support in the current scene
 
 ### Leaderboard
 
@@ -100,6 +101,7 @@ This delivery baseline now additionally includes:
 - scene-specific leaderboard event code handling in the main game flow
 - the first question-engine refactor pass
 - one working non-single-choice question type: `ordering`
+- one working image-based question type: `image-choice`
 
 ## Recommended Next Additions
 

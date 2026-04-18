@@ -17,6 +17,7 @@ decisions should be recorded here before and after major work.
 - this file is `codex.md` and is the preferred internal project record
 - scene-system phase 1 and phase 2 are now implemented in the main game entry
 - scene-system phase 3 first pass is now implemented with type-aware rendering hooks
+- scene-system phase 3 second pass is now implemented with image-based question support
 
 ## Confirmed Maintenance Rules
 
@@ -140,6 +141,27 @@ Current design-prep artifacts:
 - image-based questions
 - explicit timed-type variations beyond the shared timer
 - deeper renderer separation if needed
+
+## Completed On 2026-04-19 (Phase 3 Second Pass)
+
+### Implemented Progress
+
+- added `image-choice` question support to the type-aware rendering flow
+- kept the same scene-driven architecture and reused the same engine entry point
+- updated `晶片獵人` so it now includes a working image-based question
+
+### Practical Result
+
+- the current project now supports three active interaction patterns in the main game:
+  - `single-choice`
+  - `ordering`
+  - `image-choice`
+
+### Still Pending After This Pass
+
+- matching
+- branching
+- richer timed-type variations
 
 ## Future Update Reminder
 
