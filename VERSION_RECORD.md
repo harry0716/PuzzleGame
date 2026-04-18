@@ -1,5 +1,23 @@
 # Version Record
 
+## v1.6.0
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Add timed-choice question type support
+
+### Changes
+
+- added explicit `timed-choice` support to the type-aware question engine
+- introduced a dedicated short-countdown question in the current `晶片獵人` scene
+- expanded the current scene from 6 to 7 interaction nodes
+- bumped the service worker cache version to `v6` for the latest front-end assets
+
+### Notes
+
+- the main game now supports `single-choice`, `timed-choice`, `ordering`, `image-choice`, `matching`, and `branching`
+- the first planned batch of target question types is now covered in the current architecture
+
 ## v1.5.0
 
 - Date: 2026-04-19

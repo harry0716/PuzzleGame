@@ -31,6 +31,7 @@ Build a lightweight interactive event website for visiting students that can:
 - trait-based result mapping
 - share / copy result text
 - type-aware question rendering foundation
+- explicit timed-choice question support in the current scene
 - ordering question support in the current scene
 - image-based question support in the current scene
 - matching question support in the current scene
@@ -102,6 +103,7 @@ This delivery baseline now additionally includes:
 - migration of the existing `晶片獵人` content into scene-driven data
 - scene-specific leaderboard event code handling in the main game flow
 - the first question-engine refactor pass
+- one working timed question type: `timed-choice`
 - one working non-single-choice question type: `ordering`
 - one working image-based question type: `image-choice`
 - one working matching question type: `matching`

@@ -265,6 +265,25 @@ input {
   margin-top: 18px;
 }
 
+.timed-question-callout {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 138, 61, 0.28);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255, 138, 61, 0.14), rgba(255, 255, 255, 0.92));
+  color: #6a3411;
+}
+
+.timed-question-callout strong {
+  font-size: 1rem;
+}
+
+.timed-question-callout span {
+  color: rgba(106, 52, 17, 0.84);
+  line-height: 1.5;
+}
+
 .ordering-question {
   display: grid;
   gap: 14px;

@@ -41,10 +41,10 @@
     },
     landing: {
       title: "開始晶片獵人挑戰",
-      copy: "你將在 6 個互動節點中，認識 AI 實驗室設備、智慧工廠與 AIoT 系統整合。",
+      copy: "你將在 7 個互動節點中，認識 AI 實驗室設備、智慧工廠與 AIoT 系統整合。",
       rules: [
-        "共 6 個互動節點，每題預設 12 秒。",
-        "目前支援單選題、排序題、圖片題、配對題、分支題。",
+        "共 7 個互動節點，每題預設 12 秒。",
+        "目前支援單選題、限時題、排序題、圖片題、配對題、分支題。",
         "答對可得分，越快作答分數越高。",
         "結果卡會依照你的選擇傾向給出適合方向。"
       ]
@@ -53,7 +53,7 @@
       eventCode: "puzzlegame-visit-2026-04-08"
     },
     settings: {
-      questionCount: 6,
+      questionCount: 7,
       defaultTimeLimit: 12
     },
     resultOutro: "如果你對這個方向有感，現場可以直接把它和正修電子系的 AI 實作特色連起來。",
@@ -88,6 +88,23 @@
       },
       {
         id: "q3",
+        type: "timed-choice",
+        prompt: "如果導覽老師只給你 8 秒，你會怎麼快速判斷哪個展示最有 AI 核心價值？",
+        description: "這是一題明確的限時題型，會用更短的秒數考驗你的直覺判斷。",
+        topic: "限時判斷",
+        correctId: "gpu-first",
+        timeLimit: 8,
+        countdownLabel: "8 秒快答",
+        urgencyText: "先抓出真正代表 AI 算力的設備，時間到就直接進下一題。",
+        answers: [
+          { id: "gpu-first", label: "先找 GPU / AI 伺服器", detail: "算力是 AI 展示最核心的辨識點。", trait: "ai" },
+          { id: "poster-first", label: "先看海報文字", detail: "資訊有幫助，但不一定最快抓到核心。", trait: "industry" },
+          { id: "lights-first", label: "先看燈光最亮的設備", detail: "視覺吸睛不一定代表技術重點。", trait: "maker" },
+          { id: "crowd-first", label: "哪裡人多就先看哪裡", detail: "熱鬧不等於是場景中的核心設備。", trait: "system" }
+        ]
+      },
+      {
+        id: "q4",
         type: "ordering",
         prompt: "請把這個參訪理解流程排出較合理的順序。",
         description: "這題先用排序題試跑新的題型引擎。",
@@ -103,7 +120,7 @@
         correctOrder: ["observe", "understand", "connect", "reflect"]
       },
       {
-        id: "q4",
+        id: "q5",
         type: "branching",
         prompt: "如果你現在站在展示區，第一步最值得先看哪一區？",
         description: "這題會根據你的選擇，導向不同的後續題目。",
@@ -115,19 +132,19 @@
             label: "先看 AI 伺服器與運算設備",
             detail: "先理解核心算力，再往應用延伸。",
             trait: "ai",
-            next: "q4-image"
+            next: "q5-image"
           },
           {
             id: "system-first",
             label: "先看系統整合與應用情境",
             detail: "先理解整體用途，再回頭看設備角色。",
             trait: "system",
-            next: "q4-image"
+            next: "q5-image"
           }
         ]
       },
       {
-        id: "q4-image",
+        id: "q5-image",
         type: "image-choice",
         prompt: "哪一張圖最接近本場景的 AI 高效運算設備？",
         description: "用圖片辨識的方式找出最符合 AI 實驗室亮點的設備。",
@@ -179,7 +196,7 @@
         ]
       },
       {
-        id: "q5",
+        id: "q6",
         type: "matching",
         prompt: "把展示主題和最接近的對應說明配對起來。",
         description: "這題用來驗證新的配對題型。",

@@ -20,6 +20,7 @@ decisions should be recorded here before and after major work.
 - scene-system phase 3 second pass is now implemented with image-based question support
 - scene-system phase 3 third pass is now implemented with matching question support
 - scene-system phase 3 fourth pass is now implemented with branching question support
+- scene-system phase 3 fifth pass is now implemented with timed-choice question support
 
 ## Confirmed Maintenance Rules
 
@@ -207,6 +208,29 @@ Current design-prep artifacts:
 ### Still Pending After This Pass
 
 - richer timed-type variations
+
+## Completed On 2026-04-19 (Phase 3 Fifth Pass)
+
+### Implemented Progress
+
+- added explicit `timed-choice` question support to the type-aware rendering flow
+- updated `晶片獵人` so it now includes a short-countdown decision question
+- expanded the current playable scene from 6 to 7 interaction nodes
+- bumped the service worker cache version again to reduce stale deployed assets
+
+### Practical Result
+
+- the current project now supports six active interaction patterns in the main game:
+  - `single-choice`
+  - `timed-choice`
+  - `ordering`
+  - `image-choice`
+  - `matching`
+  - `branching`
+
+### Still Pending After This Pass
+
+- richer timed-type variations if a future scene needs more specialized timer rules
 
 ## Future Update Reminder
 

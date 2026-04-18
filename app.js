@@ -357,6 +357,9 @@ function showQuestion() {
 
 function renderQuestionByType(question) {
   switch (question.type) {
+    case "timed-choice":
+      renderTimedChoiceQuestion(question);
+      break;
     case "ordering":
       renderOrderingQuestion(question);
       break;
@@ -374,6 +377,28 @@ function renderQuestionByType(question) {
       renderSingleChoiceQuestion(question);
       break;
   }
+}
+
+function renderTimedChoiceQuestion(question) {
+  const list = document.querySelector("#answer-list");
+  list.innerHTML = "";
+
+  const intro = document.createElement("div");
+  intro.className = "timed-question-callout";
+  intro.innerHTML = `
+    <strong>${question.countdownLabel || "限時決策"}</strong>
+    <span>${question.urgencyText || "這題秒數更短，請快速判斷最合理的答案。"}</span>
+  `;
+  list.appendChild(intro);
+
+  question.answers.forEach((answer) => {
+    const button = document.createElement("button");
+    button.className = "answer-button";
+    button.type = "button";
+    button.innerHTML = `<strong>${answer.label}</strong><small>${answer.detail}</small>`;
+    button.addEventListener("click", () => handleAnswer(answer.id));
+    list.appendChild(button);
+  });
 }
 
 function renderSingleChoiceQuestion(question) {
