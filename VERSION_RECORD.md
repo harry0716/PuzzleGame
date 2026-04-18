@@ -1,5 +1,27 @@
 # Version Record
 
+## v1.1.0
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Add scene registry and front-end scene panel
+
+### Changes
+
+- added a new `scene-registry.js` file
+- migrated the existing `晶片獵人` content into a scene data structure
+- added a front-end scene selection panel to `index.html`
+- refactored `app.js` to load and play the active scene
+- made the main game leaderboard use scene-specific event codes
+- updated `leaderboard-shared.js` to support override options
+- updated `service-worker.js` to cache the new scene registry asset and bump cache version
+
+### Notes
+
+- this batch completes the planned scene-system phase 1 and phase 2
+- only one playable scene exists right now, but the project is ready to add more
+- advanced question types remain scheduled for later phases
+
 ## v1.0.1
 
 - Date: 2026-04-18

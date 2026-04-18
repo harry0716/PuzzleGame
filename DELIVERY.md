@@ -16,11 +16,12 @@ Build a lightweight interactive event website for visiting students that can:
 ### Core User Flow
 
 1. Participant opens the game page
-2. Participant enters a nickname
-3. Participant answers 5 timed questions
-4. System calculates score and trait result
-5. System saves the result to the leaderboard
-6. Participant can view ranking and restart
+2. Participant selects a scene from the scene panel
+3. Participant enters a nickname
+4. Participant answers the scene's questions
+5. System calculates score and trait result
+6. System saves the result to the scene-aware leaderboard
+7. Participant can replay or return to the scene panel
 
 ### Quiz Experience
 
@@ -34,6 +35,7 @@ Build a lightweight interactive event website for visiting students that can:
 
 - local browser leaderboard
 - shared Supabase leaderboard
+- scene-aware event code handling in the main game flow
 - standalone leaderboard page
 - presenter leaderboard page
 - front-end reset button for local and Supabase modes
@@ -85,6 +87,15 @@ This delivery baseline now includes:
 - front-end leaderboard reset from the standalone leaderboard page
 - Supabase delete policy documentation
 - service worker cache version bump to help the deployed site load updated files
+
+## 2026-04-19 Update
+
+This delivery baseline now additionally includes:
+
+- a front-end scene selection panel
+- a dedicated scene registry file
+- migration of the existing `晶片獵人` content into scene-driven data
+- scene-specific leaderboard event code handling in the main game flow
 
 ## Recommended Next Additions
 

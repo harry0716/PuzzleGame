@@ -114,6 +114,7 @@ input {
 }
 
 .screen-landing,
+.screen-scene-select,
 .screen-result {
   display: grid;
   gap: 22px;
@@ -518,6 +519,95 @@ input {
   width: 100%;
 }
 
+.button-row-landing {
+  margin-top: 8px;
+}
+
+.scene-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.scene-card {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 14px 28px rgba(24, 33, 39, 0.08);
+}
+
+.scene-card-media {
+  display: grid;
+  gap: 10px;
+  min-height: 170px;
+  padding: 18px;
+  background:
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.3), transparent 28%),
+    linear-gradient(135deg, var(--scene-accent), color-mix(in srgb, var(--scene-surface) 70%, white));
+  color: #fffaf3;
+}
+
+.scene-card-media h3 {
+  font-size: 1.8rem;
+}
+
+.scene-card-media p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+.scene-card-chip {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 34px;
+  padding: 7px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.scene-card-body {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.scene-card-description {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.scene-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.scene-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(10, 127, 111, 0.1);
+  color: var(--primary-strong);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.scene-card-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
 @media (min-width: 720px) {
   .app-shell {
     padding-top: 42px;
@@ -530,6 +620,10 @@ input {
   .screen-landing {
     grid-template-columns: 1.05fr 0.95fr;
     align-items: start;
+  }
+
+  .scene-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   }
 
   .leaderboard-head {

@@ -13,11 +13,22 @@
 
   function sanitizeNickname(value) {
     const trimmed = String(value || "").trim();
-    return trimmed ? trimmed.slice(0, 12) : "參訪者";
+    return trimmed ? trimmed.slice(0, 12) : "玩家";
   }
 
-  function hasSharedLeaderboard() {
-    const options = APP_CONFIG.leaderboard || {};
+  function resolveOptions(overrides = {}) {
+    return {
+      ...APP_CONFIG.leaderboard,
+      ...overrides
+    };
+  }
+
+  function resolveLocalKey(overrides = {}) {
+    return overrides.localKey || LOCAL_BOARD_KEY;
+  }
+
+  function hasSharedLeaderboard(overrides = {}) {
+    const options = resolveOptions(overrides);
     return Boolean(
       options.provider === "supabase" &&
         options.supabaseUrl &&
@@ -30,7 +41,7 @@
   function normalizeBoard(entries) {
     return entries
       .map((entry) => ({
-        player: sanitizeNickname(entry.player || "參訪者"),
+        player: sanitizeNickname(entry.player || "玩家"),
         score: Number(entry.score || 0),
         talent: entry.talent || "未分類",
         playedAt:
@@ -44,16 +55,16 @@
       .slice(0, MAX_LEADERBOARD);
   }
 
-  function getLocalLeaderboard() {
+  function getLocalLeaderboard(overrides = {}) {
     try {
-      return JSON.parse(global.localStorage.getItem(LOCAL_BOARD_KEY) || "[]");
+      return JSON.parse(global.localStorage.getItem(resolveLocalKey(overrides)) || "[]");
     } catch (error) {
       return [];
     }
   }
 
-  async function fetchSharedLeaderboard() {
-    const options = APP_CONFIG.leaderboard;
+  async function fetchSharedLeaderboard(overrides = {}) {
+    const options = resolveOptions(overrides);
     const endpoint =
       `${options.supabaseUrl}/rest/v1/${options.table}` +
       `?select=player,score,talent,played_at&event_code=eq.${encodeURIComponent(options.eventCode)}` +
@@ -81,8 +92,8 @@
     );
   }
 
-  async function clearSharedLeaderboard() {
-    const options = APP_CONFIG.leaderboard;
+  async function clearSharedLeaderboard(overrides = {}) {
+    const options = resolveOptions(overrides);
     const endpoint =
       `${options.supabaseUrl}/rest/v1/${options.table}` +
       `?event_code=eq.${encodeURIComponent(options.eventCode)}`;
@@ -102,19 +113,19 @@
     return [];
   }
 
-  async function getLeaderboardEntries() {
-    if (hasSharedLeaderboard()) {
-      return fetchSharedLeaderboard();
+  async function getLeaderboardEntries(overrides = {}) {
+    if (hasSharedLeaderboard(overrides)) {
+      return fetchSharedLeaderboard(overrides);
     }
-    return normalizeBoard(getLocalLeaderboard());
+    return normalizeBoard(getLocalLeaderboard(overrides));
   }
 
-  async function clearLeaderboardEntries() {
-    if (hasSharedLeaderboard()) {
-      return clearSharedLeaderboard();
+  async function clearLeaderboardEntries(overrides = {}) {
+    if (hasSharedLeaderboard(overrides)) {
+      return clearSharedLeaderboard(overrides);
     }
 
-    global.localStorage.removeItem(LOCAL_BOARD_KEY);
+    global.localStorage.removeItem(resolveLocalKey(overrides));
     return [];
   }
 

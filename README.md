@@ -18,6 +18,9 @@ Repository:
 
 ## Current Features
 
+- Visual scene selection panel
+- Scene registry / multi-scene-ready architecture
+- Current playable scene: `晶片獵人`
 - Landing page for participant onboarding
 - Timed quiz flow with scoring
 - Result card based on answer traits
@@ -94,5 +97,5 @@ When new content is added, update these files first:
 
 ## Latest Recorded Update
 
-- Date: 2026-04-18
-- Summary: enabled front-end leaderboard reset and refreshed service worker cache version
+- Date: 2026-04-19
+- Summary: implemented scene registry, front-end scene panel, and migrated the existing Chip Hunter content into the new scene structure

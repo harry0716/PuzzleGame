@@ -6,7 +6,7 @@
     <title>AI Lab Talent Sprint</title>
     <meta
       name="description"
-      content="慈幼工商參訪正修電子系 AI 人工智慧實驗室互動小遊戲"
+      content="可切換多場景的互動式 Puzzle Game，適合 AI Lab 與參訪活動的現場體驗。"
     />
     <meta name="theme-color" content="#0a7f6f" />
     <link rel="manifest" href="./manifest.webmanifest" />
@@ -17,10 +17,10 @@
   <body>
     <div class="app-shell">
       <header class="hero">
-        <p class="eyebrow">CHIP HUNTER LITE</p>
-        <h1>AI Lab Talent Sprint</h1>
-        <p class="hero-copy">
-          5 題快問快答，2 分鐘認識 AI、晶片、智慧製造與你的未來角色。
+        <p id="hero-eyebrow" class="eyebrow">MULTI SCENE PUZZLE GAME</p>
+        <h1 id="hero-title">AI Lab Talent Sprint</h1>
+        <p id="hero-copy" class="hero-copy">
+          從前端切換不同活動場景，讓同一套互動遊戲可以對應不同參訪主題與展示需求。
         </p>
         <div class="hero-meta">
           <span id="deploy-status" class="meta-chip">靜態部署就緒</span>
@@ -31,40 +31,50 @@
       <main id="app" class="screen-card" aria-live="polite"></main>
     </div>
 
+    <template id="scene-select-template">
+      <section class="screen screen-scene-select">
+        <div class="screen-copy">
+          <span class="pill">選擇活動場景</span>
+          <h2>先選一個要進行的內容主題</h2>
+          <p>
+            之後可以在同一個專案中持續新增更多場景。這一版先完成多場景面板與既有內容搬移，後續再擴充題型。
+          </p>
+        </div>
+
+        <div id="scene-grid" class="scene-grid"></div>
+      </section>
+    </template>
+
     <template id="landing-template">
       <section class="screen screen-landing">
         <div class="screen-copy">
-          <span class="pill">手機掃碼即可開始</span>
-          <h2>歡迎來到正修電子系 AI 實驗室</h2>
-          <p>
-            這是一場專為參訪設計的輕量互動。答完題，你會知道自己更像哪一種
-            AI / 電子人才。
-          </p>
+          <span id="scene-pill" class="pill">場景載入中</span>
+          <h2 id="landing-title">準備開始挑戰</h2>
+          <p id="landing-copy"></p>
         </div>
 
         <form id="player-form" class="stack-lg">
           <label class="field">
-            <span>你的暱稱</span>
+            <span>玩家暱稱</span>
             <input
               id="nickname"
               name="nickname"
               type="text"
               maxlength="12"
-              placeholder="例如：小宇"
+              placeholder="輸入你的名字"
               autocomplete="nickname"
             />
           </label>
 
           <div class="rules-box">
-            <h3>玩法很簡單</h3>
-            <ul class="rules-list">
-              <li>共 5 題，每題 12 秒。</li>
-              <li>答對加分，越快作答分數越高。</li>
-              <li>最後會得到你的 AI 人才結果卡。</li>
-            </ul>
+            <h3>玩法說明</h3>
+            <ul id="scene-rules" class="rules-list"></ul>
           </div>
 
-          <button class="cta-button" type="submit">開始挑戰</button>
+          <div class="button-row button-row-landing">
+            <button class="ghost-button" id="back-to-scenes" type="button">返回場景列表</button>
+            <button class="cta-button" type="submit">開始挑戰</button>
+          </div>
         </form>
       </section>
     </template>
@@ -97,10 +107,7 @@
         <h2 id="feedback-title"></h2>
         <p id="feedback-copy" class="feedback-copy"></p>
         <div class="feedback-panel">
-          <p>
-            目前分數
-            <strong id="score-total"></strong>
-          </p>
+          <p>目前總分 <strong id="score-total"></strong></p>
           <p id="feedback-tag" class="feedback-tag"></p>
         </div>
       </section>
@@ -124,57 +131,51 @@
         </div>
 
         <div class="result-block">
-          <h3>你適合的方向</h3>
+          <h3>適合發展方向</h3>
           <p id="result-fit"></p>
         </div>
 
         <div class="result-block">
-          <h3>下一步可以學什麼</h3>
+          <h3>你可能喜歡的能力</h3>
           <ul id="result-skills" class="bullet-list"></ul>
         </div>
 
         <div class="result-block">
-          <h3>現場加深印象</h3>
+          <h3>現場延伸亮點</h3>
           <p id="result-hook"></p>
         </div>
 
         <section class="leaderboard leaderboard-highlight">
           <div class="leaderboard-head">
             <div>
-              <h3 id="leaderboard-title">本機排行榜</h3>
+              <h3 id="leaderboard-title">排行榜</h3>
               <p id="leaderboard-copy" class="leaderboard-copy">
-                目前使用瀏覽器本機紀錄。
+                目前顯示的是此場景對應的排行榜資料。
               </p>
             </div>
             <div class="leaderboard-actions">
-              <button id="refresh-board" class="ghost-button" type="button">
-                重新整理
-              </button>
-              <button id="clear-board" class="ghost-button" type="button">
-                清除
-              </button>
+              <button id="refresh-board" class="ghost-button" type="button">重新整理</button>
+              <button id="clear-board" class="ghost-button" type="button">重置排行榜</button>
             </div>
           </div>
           <div class="leaderboard-banner">
-            <strong>全班共用排行榜</strong>
-            <span>現場每個人都可能看到你的名字衝上榜單。</span>
+            <strong>場景專屬排行榜</strong>
+            <span>同一個場景可以用自己的 event code 管理排名與重置範圍。</span>
           </div>
           <ol id="leaderboard-list" class="leaderboard-list"></ol>
         </section>
 
         <div class="button-row">
-          <button id="restart-game" class="cta-button" type="button">
-            再玩一次
-          </button>
-          <button id="share-result" class="ghost-button" type="button">
-            複製結果文字
-          </button>
+          <button id="restart-game" class="cta-button" type="button">再玩一次</button>
+          <button id="choose-another-scene" class="ghost-button" type="button">切換其他場景</button>
+          <button id="share-result" class="ghost-button" type="button">複製分享文字</button>
         </div>
       </section>
     </template>
 
     <script src="./config.js"></script>
     <script src="./leaderboard-shared.js"></script>
+    <script src="./scene-registry.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>
