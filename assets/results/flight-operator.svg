@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="飛控任務操控手">
+  <defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#16325c"/><stop offset="100%" stop-color="#ff8b3d"/></linearGradient></defs>
+  <rect width="200" height="200" rx="30" fill="url(#bg)"/>
+  <circle cx="100" cy="94" r="28" fill="#fff2e4"/>
+  <circle cx="100" cy="94" r="10" fill="#16325c"/>
+  <rect x="72" y="90" width="56" height="8" rx="4" fill="#16325c"/>
+  <rect x="96" y="62" width="8" height="64" rx="4" fill="#16325c"/>
+  <circle cx="100" cy="136" r="36" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="10"/>
+</svg>

@@ -239,7 +239,7 @@ function showSceneSelect() {
     const card = document.createElement("article");
     card.className = "scene-card";
     card.innerHTML = `
-      <div class="scene-card-media" style="--scene-accent: ${scene.theme.accent}; --scene-surface: ${scene.theme.surface};">
+      <div class="scene-card-media" style="--scene-accent: ${scene.theme.accent}; --scene-surface: ${scene.theme.surface}; ${scene.previewImage ? `background-image: linear-gradient(rgba(9, 20, 32, 0.18), rgba(9, 20, 32, 0.18)), url('${scene.previewImage}'); background-size: cover; background-position: center;` : ""}">
         <span class="scene-card-chip">${scene.panel.badge}</span>
         <h3>${scene.title}</h3>
         <p>${scene.subtitle}</p>
@@ -731,6 +731,10 @@ function getNextQuestionId(question, selectedValue) {
     }
   }
 
+  if (question.next) {
+    return question.next;
+  }
+
   const questions = getSceneQuestions();
   const currentIndex = questions.findIndex((item) => item.id === question.id);
   return questions[currentIndex + 1]?.id || null;
@@ -924,6 +928,21 @@ async function showResult() {
   app.appendChild(renderTemplate("#result-template"));
 
   document.querySelector("#result-name").textContent = `${state.player}，你是「${talent.name}」`;
+  const styleNode = document.querySelector("#result-style");
+  if (styleNode) {
+    styleNode.textContent = talent.styleLabel ? `體驗風格：${talent.styleLabel}` : "";
+    styleNode.hidden = !talent.styleLabel;
+  }
+  const iconNode = document.querySelector("#result-icon");
+  if (iconNode) {
+    if (talent.resultIcon) {
+      iconNode.src = talent.resultIcon;
+      iconNode.alt = talent.name;
+      iconNode.hidden = false;
+    } else {
+      iconNode.hidden = true;
+    }
+  }
   document.querySelector("#result-summary").textContent = talent.summary;
   document.querySelector("#final-score").textContent = `${state.score}`;
   document.querySelector("#correct-count").textContent = `${state.correct} / ${state.index}`;

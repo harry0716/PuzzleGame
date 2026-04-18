@@ -1,5 +1,25 @@
 # Version Record
 
+## v1.7.0
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Add second playable scene for carnival booth
+
+### Changes
+
+- added `電子工程雙體驗` as the second playable scene
+- implemented two route branches so players can choose AI-first or drone-first before returning to a shared ending
+- added repository-native SVG assets for the scene cover, branch image questions, and four role result icons
+- extended result cards with an optional secondary style label and icon support
+- bumped the service worker cache version to `v7`
+
+### Notes
+
+- the project now has two playable scenes in the same repository
+- the multi-scene architecture is now validated beyond the original `晶片獵人` scene
+- the next sensible step is a full content demo review and any copy tuning based on your playthrough feedback
+
 ## v1.6.0
 
 - Date: 2026-04-19
@@ -109,8 +129,8 @@
 ### Notes
 
 - this batch completes the planned scene-system phase 1 and phase 2
-- only one playable scene exists right now, but the project is ready to add more
-- advanced question types remain scheduled for later phases
+- only one playable scene existed at that point, but the project was prepared for more
+- advanced question types remained scheduled for later phases
 
 ## v1.0.1
 

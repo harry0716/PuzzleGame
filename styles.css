@@ -441,6 +441,20 @@ input {
   font-weight: 700;
 }
 
+.result-icon {
+  width: 92px;
+  height: 92px;
+  border-radius: 22px;
+  border: 1px solid rgba(24, 33, 39, 0.08);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.result-style {
+  margin: -6px 0 0;
+  color: var(--primary-strong);
+  font-weight: 700;
+}
+
 .talent-card {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="訊號整合工程師">
+  <defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#294f87"/><stop offset="100%" stop-color="#0a7f6f"/></linearGradient></defs>
+  <rect width="200" height="200" rx="30" fill="url(#bg)"/>
+  <circle cx="64" cy="74" r="14" fill="#fff1df"/><circle cx="136" cy="74" r="14" fill="#fff1df"/><circle cx="64" cy="126" r="14" fill="#fff1df"/><circle cx="136" cy="126" r="14" fill="#fff1df"/>
+  <path d="M78 74h44M64 88v24M136 88v24M78 126h44" stroke="#fff1df" stroke-width="10" stroke-linecap="round"/>
+</svg>

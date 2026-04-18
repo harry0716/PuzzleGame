@@ -1,4 +1,4 @@
-const CACHE_NAME = "ai-lab-talent-sprint-v6";
+const CACHE_NAME = "ai-lab-talent-sprint-v7";
 const ASSETS = [
   "./",
   "./index.html",
@@ -12,7 +12,14 @@ const ASSETS = [
   "./leaderboard-page.js",
   "./presenter.js",
   "./manifest.webmanifest",
-  "./icon.svg"
+  "./icon.svg",
+  "./assets/scenes/electronics-dual-experience/cover.svg",
+  "./assets/scenes/electronics-dual-experience/ai-zone.svg",
+  "./assets/scenes/electronics-dual-experience/drone-zone.svg",
+  "./assets/results/ai-chip-explorer.svg",
+  "./assets/results/flight-operator.svg",
+  "./assets/results/signal-integrator.svg",
+  "./assets/results/immersive-maker.svg"
 ];
 
 self.addEventListener("install", (event) => {

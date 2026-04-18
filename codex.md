@@ -81,6 +81,28 @@ For new scene creation:
 This means scene generation is part of the development workflow, not a public
 runtime feature of the website.
 
+## Confirmed Second Scene Direction (2026-04-19)
+
+The next content expansion will be a second playable scene in the same
+repository.
+
+Confirmed decisions:
+
+- scene name: `電子工程雙體驗`
+- scene style: mission-driven flow plus career-role result design (`B + C` hybrid)
+- the drone / FPV / VR experience must be part of the playable question content
+- result design should use career-role cards as the main outcome
+- experience-style labels may be used as a secondary layer under the main career result
+- keep the four proposed career-role names unless a later content review changes the copy
+- use two short route branches inside the scene so students can choose AI-first or drone-first without confusing the event flow
+- prefer project-native visual assets created as SVG files stored inside the repository instead of relying on external generated image hosting
+
+Planning intent:
+
+- keep this scene clearly distinct from `晶片獵人`
+- make the booth's two areas feel like one connected electronics-engineering story
+- keep the content suitable for junior-high students in an on-site carnival setting
+
 ## Planned Design Phase
 
 Before implementation, prepare a specification covering:
@@ -233,6 +255,27 @@ Current design-prep artifacts:
 - richer timed-type variations if a future scene needs more specialized timer rules
 
 ## Future Update Reminder
+
+## Completed On 2026-04-19 (Second Scene First Implementation)
+
+### Implemented Progress
+
+- added a second playable scene: `電子工程雙體驗`
+- implemented a two-route branch structure so players can choose AI-first or drone-first and still merge back into one shared ending
+- added repository-native SVG assets for the scene cover, AI zone, drone zone, and result-role icons
+- extended result cards so a scene can show both a main career-role outcome and a secondary experience-style label
+- kept the existing GitHub Pages and leaderboard architecture unchanged while adding the new content
+
+### Practical Result
+
+- the scene system is now validated by more than one playable scene
+- `電子工程雙體驗` is the first content set to use the planned branch structure for real scene flow
+- the project now supports scene-specific art assets stored directly in the repository
+
+### Current Scene Status
+
+- `晶片獵人`: baseline AI / chip / system exploration scene
+- `電子工程雙體驗`: carnival booth dual-mission scene with AI and drone content
 
 After adding new project content, update:
 

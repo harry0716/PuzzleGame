@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" role="img" aria-label="AI 區核心設備">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a7f6f" />
+      <stop offset="100%" stop-color="#16325c" />
+    </linearGradient>
+  </defs>
+  <rect width="480" height="320" rx="28" fill="url(#bg)" />
+  <rect x="62" y="62" width="148" height="196" rx="20" fill="rgba(255,255,255,0.16)" stroke="rgba(255,255,255,0.28)" />
+  <rect x="238" y="62" width="180" height="196" rx="20" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.24)" />
+  <rect x="88" y="92" width="96" height="20" rx="10" fill="#83f6dd" />
+  <rect x="88" y="126" width="96" height="20" rx="10" fill="#83f6dd" opacity="0.84" />
+  <rect x="88" y="160" width="96" height="20" rx="10" fill="#83f6dd" opacity="0.72" />
+  <rect x="88" y="194" width="96" height="20" rx="10" fill="#83f6dd" opacity="0.58" />
+  <rect x="274" y="104" width="108" height="108" rx="18" fill="#ffe0a5" />
+  <rect x="294" y="124" width="68" height="68" rx="12" fill="#102640" />
+  <g fill="rgba(255,255,255,0.7)">
+    <rect x="264" y="86" width="12" height="18" rx="4" />
+    <rect x="282" y="86" width="12" height="18" rx="4" />
+    <rect x="300" y="86" width="12" height="18" rx="4" />
+    <rect x="318" y="86" width="12" height="18" rx="4" />
+    <rect x="336" y="86" width="12" height="18" rx="4" />
+    <rect x="354" y="86" width="12" height="18" rx="4" />
+    <rect x="372" y="86" width="12" height="18" rx="4" />
+    <rect x="390" y="86" width="12" height="18" rx="4" />
+  </g>
+  <text x="54" y="42" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="22" fill="rgba(255,255,255,0.88)">AI 區核心設備</text>
+  <text x="64" y="286" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="28" fill="#fff6ee">AI 伺服器 + 晶片運算</text>
+</svg>

@@ -31,11 +31,14 @@ Build a lightweight interactive event website for visiting students that can:
 - trait-based result mapping
 - share / copy result text
 - type-aware question rendering foundation
-- explicit timed-choice question support in the current scene
-- ordering question support in the current scene
-- image-based question support in the current scene
-- matching question support in the current scene
-- branching question support in the current scene
+- explicit timed-choice question support
+- ordering question support
+- image-based question support
+- matching question support
+- branching question support
+- second playable scene with AI-zone / drone-zone booth flow
+- scene-native SVG visual assets stored in the repository
+- career-role result card with secondary style label support
 
 ### Leaderboard
 
@@ -63,6 +66,7 @@ Build a lightweight interactive event website for visiting students that can:
 
 - `index.html`
 - `app.js`
+- `scene-registry.js`
 - `styles.css`
 - `leaderboard.html`
 - `leaderboard-page.js`
@@ -71,6 +75,8 @@ Build a lightweight interactive event website for visiting students that can:
 - `presenter.js`
 - `config.js`
 - `service-worker.js`
+- `assets/scenes/`
+- `assets/results/`
 
 ## Backend / Shared Data Setup
 
@@ -102,20 +108,22 @@ This delivery baseline now additionally includes:
 - a dedicated scene registry file
 - migration of the existing `晶片獵人` content into scene-driven data
 - scene-specific leaderboard event code handling in the main game flow
-- the first question-engine refactor pass
 - one working timed question type: `timed-choice`
-- one working non-single-choice question type: `ordering`
+- one working ordering question type: `ordering`
 - one working image-based question type: `image-choice`
 - one working matching question type: `matching`
 - one working branching question type: `branching`
+- a second playable scene: `電子工程雙體驗`
+- two-route mission flow that merges back into one shared ending
+- built-in SVG assets for the second scene and its role cards
 
 ## Recommended Next Additions
 
 If the project continues to grow, the next safe expansion areas are:
 
-- new question sets
-- multiple event profiles
-- better result card copy and design
+- demo review and copy tuning based on playthrough feedback
+- additional event scenes
+- richer result card visuals
 - admin-safe leaderboard reset flow
 - analytics or event logging
 - multilingual content

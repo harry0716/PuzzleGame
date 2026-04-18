@@ -20,12 +20,13 @@ Repository:
 
 - Visual scene selection panel
 - Scene registry / multi-scene-ready architecture
-- Current playable scene: `晶片獵人`
+- Current playable scenes: `晶片獵人`, `電子工程雙體驗`
 - Landing page for participant onboarding
 - Timed quiz flow with scoring
 - Type-aware question rendering foundation
 - Current supported question types: `single-choice`, `timed-choice`, `ordering`, `image-choice`, `matching`, `branching`
 - Result card based on answer traits
+- Career-role card with optional secondary style label and scene icon
 - Local leaderboard via `localStorage`
 - Shared leaderboard via Supabase
 - Front-end leaderboard reset button
@@ -37,6 +38,7 @@ Repository:
 
 - `index.html`: main game entry
 - `app.js`: quiz flow, scoring, results, leaderboard integration
+- `scene-registry.js`: all playable scene definitions
 - `styles.css`: page styling
 - `config.js`: runtime leaderboard configuration
 - `leaderboard-shared.js`: shared leaderboard read / clear helpers
@@ -45,6 +47,8 @@ Repository:
 - `presenter.html`: presenter display page
 - `presenter.js`: presenter QR and live ranking refresh
 - `service-worker.js`: static asset cache
+- `assets/scenes/`: scene-specific visual assets
+- `assets/results/`: role-card icons and related assets
 
 ## Leaderboard Modes
 
@@ -100,4 +104,4 @@ When new content is added, update these files first:
 ## Latest Recorded Update
 
 - Date: 2026-04-19
-- Summary: implemented scene registry, front-end scene panel, and phase-3 question engine progress with ordering, timed-choice, image-choice, matching, and branching support
+- Summary: added the second playable scene `電子工程雙體驗`, including dual-route booth flow, SVG assets, and career-role result cards with secondary style labels
