@@ -10,6 +10,10 @@ create table if not exists leaderboard_entries (
 
 alter table leaderboard_entries enable row level security;
 
+drop policy if exists "public read leaderboard" on leaderboard_entries;
+drop policy if exists "public insert leaderboard" on leaderboard_entries;
+drop policy if exists "public delete leaderboard" on leaderboard_entries;
+
 create policy "public read leaderboard"
 on leaderboard_entries
 for select

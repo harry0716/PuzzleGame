@@ -1,20 +1,33 @@
-# 共用排行榜設定說明
+# Leaderboard Setup
 
-## 1. 目前設計
-- 這個專案已支援兩種排行榜模式：
-- `local`：每支手機只看自己的瀏覽器本機排行榜。
-- `supabase`：所有手機共用同一份雲端排行榜。
+## Modes
 
-## 2. 啟用步驟
+The project supports two leaderboard modes.
 
-### 建立 Supabase 專案
-1. 到 Supabase 建立一個新專案。
-2. 取得：
-   - Project URL
-   - anon public key
+### Local Mode
 
-### 建立資料表
-在 Supabase SQL Editor 執行：
+- stored in browser `localStorage`
+- useful for offline demos or single-device testing
+- no backend setup required
+
+### Supabase Mode
+
+- shared across devices
+- filtered by `eventCode`
+- suitable for live events and presenter ranking
+
+## Required Supabase Information
+
+You need:
+
+- Project URL
+- anon public key
+- table name
+- event code for the current activity
+
+## SQL Setup
+
+Run this in the Supabase SQL Editor:
 
 ```sql
 create table if not exists leaderboard_entries (
@@ -28,6 +41,10 @@ create table if not exists leaderboard_entries (
 );
 
 alter table leaderboard_entries enable row level security;
+
+drop policy if exists "public read leaderboard" on leaderboard_entries;
+drop policy if exists "public insert leaderboard" on leaderboard_entries;
+drop policy if exists "public delete leaderboard" on leaderboard_entries;
 
 create policy "public read leaderboard"
 on leaderboard_entries
@@ -48,9 +65,12 @@ to anon
 using (true);
 ```
 
-## 3. 修改 `config.js`
+Notes:
 
-將 [config.js](C:/Users/harry/.codex/Interactive_puzzle_game/config.js) 改成：
+- `delete` permission is required for the front-end reset button
+- rerunning the script is safe because policies are dropped first
+
+## `config.js` Example
 
 ```js
 window.APP_CONFIG = {
@@ -60,24 +80,58 @@ window.APP_CONFIG = {
     supabaseUrl: "https://your-project.supabase.co",
     supabaseAnonKey: "your-anon-key",
     table: "leaderboard_entries",
-    eventCode: "ai-lab-visit-2026-04-07"
+    eventCode: "your-event-code"
   }
 };
 ```
 
-如果你不想手動重打，也可以直接把 [config.supabase.example.js](C:/Users/harry/.codex/Interactive_puzzle_game/config.supabase.example.js) 的內容複製到 [config.js](C:/Users/harry/.codex/Interactive_puzzle_game/config.js)，再把裡面的 4 個值換成正式值。
+## Current Project Values
 
-## 3.1 可直接貼進 Supabase 的 SQL 檔
-- 我已經另外放好一份 [supabase-leaderboard.sql](C:/Users/harry/.codex/Interactive_puzzle_game/supabase-leaderboard.sql)。
-- 你可以直接把這個檔案內容貼進 Supabase SQL Editor 執行。
+Current repository configuration uses:
 
-## 4. 建議做法
-- 每一場活動用不同 `eventCode`，避免不同場次資料混在一起。
-- 若只是校內單場體驗，匿名寫入就夠用了。
-- 若未來要做教師控制台，再加上主持端登入和刪除權限。
+- provider: `supabase`
+- table: `leaderboard_entries`
+- event code: `puzzlegame-visit-2026-04-08`
 
-## 5. 備註
-- 前端目前只會讀取前 8 名。
-- 雲端模式下，前端不提供清空排行榜，避免任何學生誤刪。
-- 如果雲端服務不可用，程式會自動退回本機模式。
-- GitHub Pages 與 Supabase 可以同時使用：前端頁面放 GitHub Pages，排行榜資料放 Supabase。
+Check the live value directly in `config.js` before each event.
+
+## Front-End Reset Behavior
+
+The reset button clears only rows matching the active `eventCode`.
+
+That means:
+
+- one event can be reset without deleting every historical event
+- using a new `eventCode` is the safest way to start a fresh activity
+
+## Recommended Event Workflow
+
+Before a new event:
+
+1. choose a new `eventCode`
+2. update `config.js`
+3. deploy the site
+4. test ranking insert and reset once
+
+## Troubleshooting
+
+### Reset button fails
+
+Likely causes:
+
+- delete policy not enabled
+- wrong Supabase URL or anon key
+- deployed site still using an old cached version
+
+### Rankings do not appear
+
+Check:
+
+- `provider` is set to `supabase`
+- `eventCode` matches the inserted rows
+- network request to Supabase succeeds
+
+### Local mode is being used unexpectedly
+
+If Supabase fetch fails, the app may fall back to local mode.
+Confirm the live site has valid values in `config.js`.
