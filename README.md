@@ -24,7 +24,7 @@ Repository:
 - Landing page for participant onboarding
 - Timed quiz flow with scoring
 - Type-aware question rendering foundation
-- Current supported question types: `single-choice`, `ordering`, `image-choice`
+- Current supported question types: `single-choice`, `ordering`, `image-choice`, `matching`
 - Result card based on answer traits
 - Local leaderboard via `localStorage`
 - Shared leaderboard via Supabase
@@ -100,4 +100,4 @@ When new content is added, update these files first:
 ## Latest Recorded Update
 
 - Date: 2026-04-19
-- Summary: implemented scene registry, front-end scene panel, and phase-3 question engine progress with ordering and image-choice support
+- Summary: implemented scene registry, front-end scene panel, and phase-3 question engine progress with ordering, image-choice, and matching support

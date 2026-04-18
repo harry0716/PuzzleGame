@@ -1,5 +1,23 @@
 # Version Record
 
+## v1.4.0
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Add matching question type support
+
+### Changes
+
+- added `matching` support to the type-aware question engine
+- implemented a select-based matching interaction pattern
+- updated the current `晶片獵人` scene to include a matching question
+- added matching interaction styles in `styles.css`
+
+### Notes
+
+- the main game now supports `single-choice`, `ordering`, `image-choice`, and `matching`
+- branching and richer timed variants are still pending
+
 ## v1.3.0
 
 - Date: 2026-04-19

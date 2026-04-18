@@ -18,6 +18,7 @@ decisions should be recorded here before and after major work.
 - scene-system phase 1 and phase 2 are now implemented in the main game entry
 - scene-system phase 3 first pass is now implemented with type-aware rendering hooks
 - scene-system phase 3 second pass is now implemented with image-based question support
+- scene-system phase 3 third pass is now implemented with matching question support
 
 ## Confirmed Maintenance Rules
 
@@ -160,6 +161,27 @@ Current design-prep artifacts:
 ### Still Pending After This Pass
 
 - matching
+- branching
+- richer timed-type variations
+
+## Completed On 2026-04-19 (Phase 3 Third Pass)
+
+### Implemented Progress
+
+- added `matching` question support to the type-aware rendering flow
+- implemented a stable select-based matching interaction suitable for GitHub Pages static hosting
+- updated `晶片獵人` so it now includes a working matching question
+
+### Practical Result
+
+- the current project now supports four active interaction patterns in the main game:
+  - `single-choice`
+  - `ordering`
+  - `image-choice`
+  - `matching`
+
+### Still Pending After This Pass
+
 - branching
 - richer timed-type variations
 

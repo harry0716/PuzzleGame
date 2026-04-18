@@ -39,7 +39,7 @@
     panel: {
       badge: "現行活動場景",
       level: "入門探索",
-      tags: ["單選題", "排序題", "圖片題", "限時", "AI", "系統整合"]
+      tags: ["單選題", "排序題", "圖片題", "配對題", "限時", "AI", "系統整合"]
     },
     theme: {
       accent: "#0a7f6f",
@@ -50,7 +50,7 @@
       copy: "你將在 5 題限時互動中，認識 AI 實驗室設備、智慧工廠與 AIoT 系統整合。",
       rules: [
         "共 5 題，每題預設 12 秒。",
-        "目前支援單選題、排序題、圖片題。",
+        "目前支援單選題、排序題、圖片題、配對題。",
         "答對可得分，越快作答分數越高。",
         "結果卡會依照你的選擇傾向給出適合方向。"
       ]
@@ -162,16 +162,26 @@
       },
       {
         id: "q5",
-        type: "single-choice",
-        prompt: "如果把 AI 放進電子系的學習脈絡，最適合搭配的是哪一種發展方向？",
-        description: "這題在看你能不能把硬體、系統和 AI 聯想到一起。",
-        correctId: "d",
-        topic: "系統應用",
-        answers: [
-          { id: "a", label: "只做平面美編設計", detail: "不是這次活動的發展主軸。", trait: "maker" },
-          { id: "b", label: "只研究剪輯與影音", detail: "和電子系核心展示不符。", trait: "maker" },
-          { id: "c", label: "單純記背理論名詞", detail: "不是實驗室強調的實作方向。", trait: "system" },
-          { id: "d", label: "AIoT 系統整合應用", detail: "這是 AI 與電子工程結合最有代表性的方向之一。", trait: "system" }
+        type: "matching",
+        prompt: "把展示主題和最接近的對應說明配對起來。",
+        description: "這題用來驗證新的配對題型。",
+        topic: "概念配對",
+        trait: "system",
+        instructions: "左邊是場景中的主題，右邊是它最接近的說明。",
+        leftItems: [
+          { id: "ai-server", label: "AI 伺服器", detail: "與高效推理和模型訓練有關。" },
+          { id: "factory-io", label: "Factory IO", detail: "和智慧工廠展示連得上。" },
+          { id: "aiot", label: "AIoT", detail: "把 AI 和設備整合起來。" }
+        ],
+        rightItems: [
+          { id: "compute", label: "高效運算與模型訓練" },
+          { id: "factory", label: "智慧產線與工業模擬" },
+          { id: "integration", label: "感測器、控制與系統整合" }
+        ],
+        pairs: [
+          { leftId: "ai-server", rightId: "compute" },
+          { leftId: "factory-io", rightId: "factory" },
+          { leftId: "aiot", rightId: "integration" }
         ]
       }
     ],

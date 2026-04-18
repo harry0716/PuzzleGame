@@ -33,6 +33,7 @@ Build a lightweight interactive event website for visiting students that can:
 - type-aware question rendering foundation
 - ordering question support in the current scene
 - image-based question support in the current scene
+- matching question support in the current scene
 
 ### Leaderboard
 
@@ -102,6 +103,7 @@ This delivery baseline now additionally includes:
 - the first question-engine refactor pass
 - one working non-single-choice question type: `ordering`
 - one working image-based question type: `image-choice`
+- one working matching question type: `matching`
 
 ## Recommended Next Additions
 

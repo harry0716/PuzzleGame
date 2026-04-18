@@ -35,6 +35,7 @@ const state = {
   questionLocked: false,
   traitCount: {},
   orderingDraft: [],
+  matchingDraft: {},
   currentQuestionType: null
 };
 
@@ -161,6 +162,7 @@ function resetState() {
   state.questionLocked = false;
   state.traitCount = getDefaultTraitCount();
   state.orderingDraft = [];
+  state.matchingDraft = {};
   state.currentQuestionType = null;
   clearTimer();
 }
@@ -298,6 +300,7 @@ function showQuestion() {
   clearTimer();
   state.questionLocked = false;
   state.orderingDraft = [];
+  state.matchingDraft = {};
 
   const scene = getCurrentScene();
   const questions = getSceneQuestions();
@@ -340,6 +343,9 @@ function renderQuestionByType(question) {
   switch (question.type) {
     case "ordering":
       renderOrderingQuestion(question);
+      break;
+    case "matching":
+      renderMatchingQuestion(question);
       break;
     case "image-choice":
       renderImageChoiceQuestion(question);
@@ -419,6 +425,68 @@ function renderOrderingQuestion(question) {
   renderOrderingDraft(orderingList);
 }
 
+function renderMatchingQuestion(question) {
+  const list = document.querySelector("#answer-list");
+  list.innerHTML = "";
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "matching-question";
+
+  const help = document.createElement("p");
+  help.className = "ordering-help";
+  help.textContent = question.instructions || "請將左側概念配對到右側正確說明，再按送出。";
+  wrapper.appendChild(help);
+
+  const board = document.createElement("div");
+  board.className = "matching-board";
+
+  question.leftItems.forEach((leftItem) => {
+    const row = document.createElement("div");
+    row.className = "matching-row";
+
+    const left = document.createElement("div");
+    left.className = "matching-left";
+    left.innerHTML = `<strong>${leftItem.label}</strong><small>${leftItem.detail || ""}</small>`;
+
+    const selector = document.createElement("select");
+    selector.className = "matching-select";
+    selector.innerHTML = `
+      <option value="">請選擇對應項目</option>
+      ${question.rightItems
+        .map((rightItem) => `<option value="${rightItem.id}">${rightItem.label}</option>`)
+        .join("")}
+    `;
+    selector.addEventListener("change", (event) => {
+      state.matchingDraft[leftItem.id] = event.target.value;
+    });
+
+    const right = document.createElement("div");
+    right.className = "matching-right";
+    right.appendChild(selector);
+
+    row.appendChild(left);
+    row.appendChild(right);
+    board.appendChild(row);
+  });
+
+  wrapper.appendChild(board);
+
+  const actions = document.createElement("div");
+  actions.className = "ordering-actions";
+
+  const submitButton = document.createElement("button");
+  submitButton.className = "cta-button";
+  submitButton.type = "button";
+  submitButton.textContent = "送出配對";
+  submitButton.addEventListener("click", () => {
+    handleAnswer({ ...state.matchingDraft });
+  });
+
+  actions.appendChild(submitButton);
+  wrapper.appendChild(actions);
+  list.appendChild(wrapper);
+}
+
 function renderOrderingDraft(container) {
   container.innerHTML = "";
 
@@ -465,6 +533,17 @@ function scheduleAutoPlay(question) {
     return;
   }
 
+  if (question.type === "matching") {
+    autoPlayAnswerTimer = window.setTimeout(() => {
+      const autoPairs = question.pairs.reduce((accumulator, pair) => {
+        accumulator[pair.leftId] = pair.rightId;
+        return accumulator;
+      }, {});
+      handleAnswer(autoPairs);
+    }, 380);
+    return;
+  }
+
   if (question.type === "image-choice") {
     autoPlayAnswerTimer = window.setTimeout(() => {
       handleAnswer(question.correctId);
@@ -505,11 +584,23 @@ function isAnswerCorrect(question, selectedValue) {
     return question.correctOrder.every((id, index) => selectedValue[index] === id);
   }
 
+  if (question.type === "matching") {
+    if (!selectedValue || typeof selectedValue !== "object") {
+      return false;
+    }
+
+    return question.pairs.every((pair) => selectedValue[pair.leftId] === pair.rightId);
+  }
+
   return selectedValue === question.correctId;
 }
 
 function getAwardedTrait(question, selectedValue, correct) {
   if (question.type === "ordering") {
+    return correct ? question.trait : null;
+  }
+
+  if (question.type === "matching") {
     return correct ? question.trait : null;
   }
 
@@ -529,6 +620,16 @@ function formatCorrectAnswer(question) {
       .join(" → ");
   }
 
+  if (question.type === "matching") {
+    return question.pairs
+      .map((pair) => {
+        const left = question.leftItems.find((item) => item.id === pair.leftId)?.label || pair.leftId;
+        const right = question.rightItems.find((item) => item.id === pair.rightId)?.label || pair.rightId;
+        return `${left} → ${right}`;
+      })
+      .join("；");
+  }
+
   if (question.type === "image-choice") {
     return question.options.find((item) => item.id === question.correctId)?.label || "";
   }
@@ -537,7 +638,7 @@ function formatCorrectAnswer(question) {
 }
 
 function decorateQuestionResult(question, selectedValue, correct) {
-  if (question.type === "ordering") {
+  if (question.type === "ordering" || question.type === "matching") {
     return;
   }
 
