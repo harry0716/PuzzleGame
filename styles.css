@@ -265,6 +265,68 @@ input {
   margin-top: 18px;
 }
 
+.ordering-question {
+  display: grid;
+  gap: 14px;
+}
+
+.ordering-help {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.ordering-list {
+  display: grid;
+  gap: 12px;
+}
+
+.ordering-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid rgba(24, 33, 39, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.ordering-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  background: #112841;
+  color: #fff8f1;
+  font-weight: 800;
+}
+
+.ordering-content {
+  display: grid;
+  gap: 4px;
+}
+
+.ordering-content small {
+  color: var(--muted);
+}
+
+.ordering-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.ordering-move {
+  min-height: 42px;
+}
+
+.ordering-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .answer-button {
   width: 100%;
   padding: 16px 18px;

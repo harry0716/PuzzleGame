@@ -33,7 +33,9 @@ const state = {
   answers: [],
   player: "玩家",
   questionLocked: false,
-  traitCount: {}
+  traitCount: {},
+  orderingDraft: [],
+  currentQuestionType: null
 };
 
 let timerId = null;
@@ -58,12 +60,15 @@ function getActiveEventCode() {
 }
 
 function getDefaultTraitCount() {
-  const scene = getCurrentScene();
-  const results = scene?.results || {};
+  const results = getSceneTalents();
   return Object.keys(results).reduce((accumulator, key) => {
     accumulator[key] = 0;
     return accumulator;
   }, {});
+}
+
+function getLocalLeaderboardKey() {
+  return `${LOCAL_BOARD_KEY}:${getCurrentScene()?.id || "default"}`;
 }
 
 function hasSharedLeaderboard() {
@@ -148,10 +153,6 @@ function sanitizeNickname(value) {
   return trimmed ? trimmed.slice(0, 12) : "玩家";
 }
 
-function getLocalLeaderboardKey() {
-  return `${LOCAL_BOARD_KEY}:${getCurrentScene()?.id || "default"}`;
-}
-
 function resetState() {
   state.index = 0;
   state.score = 0;
@@ -159,6 +160,8 @@ function resetState() {
   state.answers = [];
   state.questionLocked = false;
   state.traitCount = getDefaultTraitCount();
+  state.orderingDraft = [];
+  state.currentQuestionType = null;
   clearTimer();
 }
 
@@ -294,6 +297,7 @@ function showLanding() {
 function showQuestion() {
   clearTimer();
   state.questionLocked = false;
+  state.orderingDraft = [];
 
   const scene = getCurrentScene();
   const questions = getSceneQuestions();
@@ -304,6 +308,7 @@ function showQuestion() {
     return;
   }
 
+  state.currentQuestionType = question.type;
   app.innerHTML = "";
   app.appendChild(renderTemplate("#question-template"));
 
@@ -311,22 +316,12 @@ function showQuestion() {
   document.querySelector("#question-title").textContent = question.prompt;
   document.querySelector("#question-description").textContent = question.description;
 
-  const list = document.querySelector("#answer-list");
-  question.answers.forEach((answer) => {
-    const button = document.createElement("button");
-    button.className = "answer-button";
-    button.type = "button";
-    button.innerHTML = `<strong>${answer.label}</strong><small>${answer.detail}</small>`;
-    button.addEventListener("click", () => handleAnswer(answer.id));
-    list.appendChild(button);
-  });
+  renderQuestionByType(question);
 
   const timeLimit = question.timeLimit || scene.settings.defaultTimeLimit || GAME_DURATION;
 
   if (AUTO_PLAY) {
-    autoPlayAnswerTimer = window.setTimeout(() => {
-      handleAnswer(question.correctId);
-    }, 300);
+    scheduleAutoPlay(question);
   }
 
   questionStart = Date.now();
@@ -336,9 +331,128 @@ function showQuestion() {
     timeLeft -= 1;
     updateTimerUI(timeLimit);
     if (timeLeft <= 0) {
-      handleAnswer(null);
+      handleAnswer(getTimeoutPayload(question));
     }
   }, 1000);
+}
+
+function renderQuestionByType(question) {
+  switch (question.type) {
+    case "ordering":
+      renderOrderingQuestion(question);
+      break;
+    case "single-choice":
+    default:
+      renderSingleChoiceQuestion(question);
+      break;
+  }
+}
+
+function renderSingleChoiceQuestion(question) {
+  const list = document.querySelector("#answer-list");
+  list.innerHTML = "";
+
+  question.answers.forEach((answer) => {
+    const button = document.createElement("button");
+    button.className = "answer-button";
+    button.type = "button";
+    button.innerHTML = `<strong>${answer.label}</strong><small>${answer.detail}</small>`;
+    button.addEventListener("click", () => handleAnswer(answer.id));
+    list.appendChild(button);
+  });
+}
+
+function renderOrderingQuestion(question) {
+  const list = document.querySelector("#answer-list");
+  state.orderingDraft = [...question.items];
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "ordering-question";
+
+  const help = document.createElement("p");
+  help.className = "ordering-help";
+  help.textContent = question.instructions || "請用上下移動按鈕排出你認為正確的順序，再按送出。";
+  wrapper.appendChild(help);
+
+  const orderingList = document.createElement("div");
+  orderingList.className = "ordering-list";
+  wrapper.appendChild(orderingList);
+
+  const actions = document.createElement("div");
+  actions.className = "ordering-actions";
+
+  const submitButton = document.createElement("button");
+  submitButton.className = "cta-button";
+  submitButton.type = "button";
+  submitButton.textContent = "送出排序";
+  submitButton.addEventListener("click", () => {
+    handleAnswer(state.orderingDraft.map((item) => item.id));
+  });
+
+  actions.appendChild(submitButton);
+  wrapper.appendChild(actions);
+  list.appendChild(wrapper);
+
+  renderOrderingDraft(orderingList);
+}
+
+function renderOrderingDraft(container) {
+  container.innerHTML = "";
+
+  state.orderingDraft.forEach((item, index) => {
+    const row = document.createElement("div");
+    row.className = "ordering-row";
+    row.innerHTML = `
+      <span class="ordering-index">${index + 1}</span>
+      <div class="ordering-content">
+        <strong>${item.label}</strong>
+        <small>${item.detail || ""}</small>
+      </div>
+      <div class="ordering-controls">
+        <button class="ghost-button ordering-move" type="button" ${index === 0 ? "disabled" : ""}>上移</button>
+        <button class="ghost-button ordering-move" type="button" ${index === state.orderingDraft.length - 1 ? "disabled" : ""}>下移</button>
+      </div>
+    `;
+
+    const [upButton, downButton] = row.querySelectorAll(".ordering-move");
+    upButton.addEventListener("click", () => moveOrderingItem(index, -1, container));
+    downButton.addEventListener("click", () => moveOrderingItem(index, 1, container));
+
+    container.appendChild(row);
+  });
+}
+
+function moveOrderingItem(index, delta, container) {
+  const nextIndex = index + delta;
+  if (nextIndex < 0 || nextIndex >= state.orderingDraft.length) {
+    return;
+  }
+
+  const nextDraft = [...state.orderingDraft];
+  [nextDraft[index], nextDraft[nextIndex]] = [nextDraft[nextIndex], nextDraft[index]];
+  state.orderingDraft = nextDraft;
+  renderOrderingDraft(container);
+}
+
+function scheduleAutoPlay(question) {
+  if (question.type === "ordering") {
+    autoPlayAnswerTimer = window.setTimeout(() => {
+      handleAnswer([...question.correctOrder]);
+    }, 350);
+    return;
+  }
+
+  autoPlayAnswerTimer = window.setTimeout(() => {
+    handleAnswer(question.correctId);
+  }, 300);
+}
+
+function getTimeoutPayload(question) {
+  if (question.type === "ordering") {
+    return null;
+  }
+
+  return null;
 }
 
 function updateTimerUI(timeLimit) {
@@ -352,7 +466,56 @@ function updateTimerUI(timeLimit) {
   progressBar.style.transform = `scaleX(${Math.max(timeLeft, 0) / timeLimit})`;
 }
 
-function handleAnswer(selectedId) {
+function isAnswerCorrect(question, selectedValue) {
+  if (question.type === "ordering") {
+    if (!Array.isArray(selectedValue)) {
+      return false;
+    }
+
+    return question.correctOrder.every((id, index) => selectedValue[index] === id);
+  }
+
+  return selectedValue === question.correctId;
+}
+
+function getAwardedTrait(question, selectedValue, correct) {
+  if (question.type === "ordering") {
+    return correct ? question.trait : null;
+  }
+
+  const chosen = question.answers.find((answer) => answer.id === selectedValue);
+  return chosen?.trait || null;
+}
+
+function formatCorrectAnswer(question) {
+  if (question.type === "ordering") {
+    return question.correctOrder
+      .map((id) => question.items.find((item) => item.id === id)?.label || id)
+      .join(" → ");
+  }
+
+  return question.answers.find((item) => item.id === question.correctId)?.label || "";
+}
+
+function decorateQuestionResult(question, selectedValue, correct) {
+  if (question.type !== "single-choice") {
+    return;
+  }
+
+  const buttons = Array.from(document.querySelectorAll(".answer-button"));
+  buttons.forEach((button, index) => {
+    const answer = question.answers[index];
+    button.disabled = true;
+    if (answer.id === question.correctId) {
+      button.classList.add("is-correct");
+    }
+    if (selectedValue && answer.id === selectedValue && !correct) {
+      button.classList.add("is-wrong");
+    }
+  });
+}
+
+function handleAnswer(selectedValue) {
   if (state.questionLocked) {
     return;
   }
@@ -361,27 +524,16 @@ function handleAnswer(selectedId) {
   clearTimer();
 
   const scene = getCurrentScene();
-  const questions = getSceneQuestions();
-  const question = questions[state.index];
-  const buttons = Array.from(document.querySelectorAll(".answer-button"));
+  const question = getSceneQuestions()[state.index];
   const timeLimit = question.timeLimit || scene.settings.defaultTimeLimit || GAME_DURATION;
   const elapsed = Math.min(timeLimit, Math.round((Date.now() - questionStart) / 1000));
-  const chosen = question.answers.find((answer) => answer.id === selectedId);
-  const correct = selectedId === question.correctId;
+  const correct = isAnswerCorrect(question, selectedValue);
+  const awardedTrait = getAwardedTrait(question, selectedValue, correct);
 
-  buttons.forEach((button, index) => {
-    const answer = question.answers[index];
-    button.disabled = true;
-    if (answer.id === question.correctId) {
-      button.classList.add("is-correct");
-    }
-    if (selectedId && answer.id === selectedId && !correct) {
-      button.classList.add("is-wrong");
-    }
-  });
+  decorateQuestionResult(question, selectedValue, correct);
 
-  if (chosen && state.traitCount[chosen.trait] !== undefined) {
-    state.traitCount[chosen.trait] += 1;
+  if (awardedTrait && state.traitCount[awardedTrait] !== undefined) {
+    state.traitCount[awardedTrait] += 1;
   }
 
   let earned = 0;
@@ -391,13 +543,14 @@ function handleAnswer(selectedId) {
     state.score += earned;
     state.correct += 1;
     tag = `答對！本題獲得 ${earned} 分。`;
-  } else if (!selectedId) {
+  } else if (!selectedValue) {
     tag = "時間到，這題沒有得分。";
   }
 
   state.answers.push({
     questionId: question.id,
-    selectedId,
+    type: question.type,
+    selectedValue,
     correct,
     earned,
     topic: question.topic
@@ -405,7 +558,7 @@ function handleAnswer(selectedId) {
 
   window.setTimeout(() => {
     showFeedback(correct, tag, question);
-  }, 450);
+  }, 300);
 }
 
 function showFeedback(correct, tag, question) {
@@ -415,7 +568,7 @@ function showFeedback(correct, tag, question) {
   document.querySelector("#feedback-title").textContent = correct ? "答對了" : "再挑戰一次";
   document.querySelector("#feedback-copy").textContent = correct
     ? `${question.topic} 這一題你掌握得很好。`
-    : `正確答案是「${question.answers.find((item) => item.id === question.correctId).label}」。`;
+    : `正確答案是「${formatCorrectAnswer(question)}」。`;
   document.querySelector("#score-total").textContent = `${state.score} 分`;
   document.querySelector("#feedback-tag").textContent = tag;
 

@@ -16,6 +16,7 @@ decisions should be recorded here before and after major work.
 - documentation baseline was refreshed on 2026-04-18
 - this file is `codex.md` and is the preferred internal project record
 - scene-system phase 1 and phase 2 are now implemented in the main game entry
+- scene-system phase 3 first pass is now implemented with type-aware rendering hooks
 
 ## Confirmed Maintenance Rules
 
@@ -119,6 +120,26 @@ Current design-prep artifacts:
 - phase 3: question engine refactor and first batch of new question types
 - phase 4: matching and branching support
 - more scenes generated through the Codex authoring workflow
+
+## Completed On 2026-04-19 (Phase 3 First Pass)
+
+### Implemented Progress
+
+- refactored the question flow so rendering is based on `question.type`
+- kept `single-choice` as the default supported type
+- added the first working `ordering` question type
+- updated the existing `晶片獵人` scene to include one ordering question
+
+### Practical Result
+
+- the current game is no longer locked to a single hardcoded question interaction pattern
+- future question types can now be added through the same engine entry point instead of rewriting the whole flow
+
+### Still Pending Inside Phase 3
+
+- image-based questions
+- explicit timed-type variations beyond the shared timer
+- deeper renderer separation if needed
 
 ## Future Update Reminder
 

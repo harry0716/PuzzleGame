@@ -23,6 +23,8 @@ Repository:
 - Current playable scene: `晶片獵人`
 - Landing page for participant onboarding
 - Timed quiz flow with scoring
+- Type-aware question rendering foundation
+- Current supported question types: `single-choice`, `ordering`
 - Result card based on answer traits
 - Local leaderboard via `localStorage`
 - Shared leaderboard via Supabase
@@ -98,4 +100,4 @@ When new content is added, update these files first:
 ## Latest Recorded Update
 
 - Date: 2026-04-19
-- Summary: implemented scene registry, front-end scene panel, and migrated the existing Chip Hunter content into the new scene structure
+- Summary: implemented scene registry, front-end scene panel, and the first type-aware question engine pass with ordering support

@@ -30,6 +30,8 @@ Build a lightweight interactive event website for visiting students that can:
 - cumulative score
 - trait-based result mapping
 - share / copy result text
+- type-aware question rendering foundation
+- ordering question support in the current scene
 
 ### Leaderboard
 
@@ -96,6 +98,8 @@ This delivery baseline now additionally includes:
 - a dedicated scene registry file
 - migration of the existing `晶片獵人` content into scene-driven data
 - scene-specific leaderboard event code handling in the main game flow
+- the first question-engine refactor pass
+- one working non-single-choice question type: `ordering`
 
 ## Recommended Next Additions
 

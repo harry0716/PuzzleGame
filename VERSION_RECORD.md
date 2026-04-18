@@ -1,5 +1,23 @@
 # Version Record
 
+## v1.2.0
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Add first type-aware question engine pass
+
+### Changes
+
+- refactored main question rendering to switch on `question.type`
+- added the first supported non-single-choice type: `ordering`
+- updated the existing `晶片獵人` scene to include an ordering question
+- added ordering interaction styles in `styles.css`
+
+### Notes
+
+- this is the first implementation step inside the planned phase 3
+- image-based, matching, and branching question types are still pending
+
 ## v1.1.0
 
 - Date: 2026-04-19

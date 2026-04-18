@@ -12,7 +12,7 @@
     panel: {
       badge: "現行活動場景",
       level: "入門探索",
-      tags: ["單選題", "限時", "AI", "晶片", "系統整合"]
+      tags: ["單選題", "排序題", "限時", "AI", "系統整合"]
     },
     theme: {
       accent: "#0a7f6f",
@@ -20,9 +20,10 @@
     },
     landing: {
       title: "開始晶片獵人挑戰",
-      copy: "你將在 5 題限時問答裡，認識 AI 實驗室設備、智慧工廠與 AIoT 系統整合。",
+      copy: "你將在 5 題限時互動中，認識 AI 實驗室設備、智慧工廠與 AIoT 系統整合。",
       rules: [
         "共 5 題，每題預設 12 秒。",
+        "目前支援單選題與排序題。",
         "答對可得分，越快作答分數越高。",
         "結果卡會依照你的選擇傾向給出適合方向。"
       ]
@@ -66,17 +67,19 @@
       },
       {
         id: "q3",
-        type: "single-choice",
-        prompt: "Factory IO 展示最接近哪一種能力？",
-        description: "它對應的是智慧工廠與產線模擬的概念。",
-        correctId: "b",
-        topic: "智慧製造",
-        answers: [
-          { id: "a", label: "手繪海報設計", detail: "跟工業模擬沒有直接關聯。", trait: "maker" },
-          { id: "b", label: "產線控制與智慧製造模擬", detail: "這就是 Factory IO 的展示重點。", trait: "industry" },
-          { id: "c", label: "社群直播拍攝", detail: "不是本場景的主題能力。", trait: "ai" },
-          { id: "d", label: "文書整理報告", detail: "不屬於工業控制主軸。", trait: "system" }
-        ]
+        type: "ordering",
+        prompt: "請把這個參訪理解流程排出較合理的順序。",
+        description: "這題先用排序題試跑新的題型引擎。",
+        topic: "場景流程",
+        trait: "industry",
+        instructions: "把體驗順序從先接觸到最後整合理解排出來。",
+        items: [
+          { id: "observe", label: "先觀察展示設備", detail: "先看見具體設備與展示物件。" },
+          { id: "understand", label: "理解設備用途", detail: "知道這些設備在做什麼。" },
+          { id: "connect", label: "連結到 AI / 系統應用", detail: "把設備與應用場景對起來。" },
+          { id: "reflect", label: "推回自己的興趣方向", detail: "思考自己適合的學習方向。" }
+        ],
+        correctOrder: ["observe", "understand", "connect", "reflect"]
       },
       {
         id: "q4",
