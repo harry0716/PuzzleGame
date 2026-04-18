@@ -277,6 +277,19 @@ Current design-prep artifacts:
 - `晶片獵人`: baseline AI / chip / system exploration scene
 - `電子工程雙體驗`: carnival booth dual-mission scene with AI and drone content
 
+## Completed On 2026-04-19 (Timer Preset Control)
+
+### Implemented Progress
+
+- added a front-end timer preset selector before gameplay starts
+- made the selected preset affect both normal questions and short timed questions
+- stored the selected preset locally so the same browser keeps the chosen pacing
+
+### Practical Result
+
+- on-site staff can slow down or speed up the game without editing source files
+- the project now has a safer way to adapt scene pacing for different audiences
+
 After adding new project content, update:
 
 - `codex.md`

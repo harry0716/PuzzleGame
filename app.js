@@ -1,6 +1,12 @@
 const GAME_DURATION = 12;
 const MAX_LEADERBOARD = 8;
 const LOCAL_BOARD_KEY = "ai-lab-board";
+const TIMER_PRESET_KEY = "ai-lab-timer-preset";
+const TIMER_PRESETS = {
+  relaxed: { label: "從容模式", multiplier: 1.6, description: "每題時間延長，適合導覽或首次體驗。" },
+  standard: { label: "標準模式", multiplier: 1, description: "維持目前預設節奏。" },
+  challenge: { label: "挑戰模式", multiplier: 0.8, description: "節奏較快，適合熟悉流程後使用。" }
+};
 
 const APP_CONFIG = window.APP_CONFIG || {
   appName: "AI Lab Talent Sprint",
@@ -38,7 +44,8 @@ const state = {
   matchingDraft: {},
   currentQuestionId: null,
   pendingNextQuestionId: null,
-  currentQuestionType: null
+  currentQuestionType: null,
+  timerPresetKey: window.localStorage.getItem(TIMER_PRESET_KEY) || "standard"
 };
 
 let timerId = null;
@@ -68,6 +75,16 @@ function getCurrentQuestion() {
 
 function getSceneTalents() {
   return getCurrentScene()?.results || {};
+}
+
+function getTimerPreset() {
+  return TIMER_PRESETS[state.timerPresetKey] || TIMER_PRESETS.standard;
+}
+
+function getEffectiveTimeLimit(question) {
+  const scene = getCurrentScene();
+  const baseTimeLimit = question.timeLimit || scene?.settings?.defaultTimeLimit || GAME_DURATION;
+  return Math.max(6, Math.round(baseTimeLimit * getTimerPreset().multiplier));
 }
 
 function getActiveEventCode() {
@@ -282,6 +299,23 @@ function showLanding() {
   document.querySelector("#landing-title").textContent = scene.landing.title;
   document.querySelector("#landing-copy").textContent = scene.landing.copy;
 
+  const timerPresetSelect = document.querySelector("#timer-preset");
+  const timerPresetHint = document.querySelector("#timer-preset-hint");
+  if (timerPresetSelect && timerPresetHint) {
+    timerPresetSelect.innerHTML = Object.entries(TIMER_PRESETS)
+      .map(
+        ([key, preset]) =>
+          `<option value="${key}" ${key === state.timerPresetKey ? "selected" : ""}>${preset.label}</option>`
+      )
+      .join("");
+    timerPresetHint.textContent = getTimerPreset().description;
+    timerPresetSelect.addEventListener("change", (event) => {
+      state.timerPresetKey = event.target.value;
+      window.localStorage.setItem(TIMER_PRESET_KEY, state.timerPresetKey);
+      timerPresetHint.textContent = getTimerPreset().description;
+    });
+  }
+
   const rulesNode = document.querySelector("#scene-rules");
   scene.landing.rules.forEach((rule) => {
     const item = document.createElement("li");
@@ -306,6 +340,7 @@ function showLanding() {
     document.querySelector("#nickname").value = "測試員";
     window.setTimeout(() => {
       state.player = "測試員";
+      state.timerPresetKey = "standard";
       resetState();
       showQuestion();
     }, 120);
@@ -337,7 +372,7 @@ function showQuestion() {
 
   renderQuestionByType(question);
 
-  const timeLimit = question.timeLimit || scene.settings.defaultTimeLimit || GAME_DURATION;
+  const timeLimit = getEffectiveTimeLimit(question);
 
   if (AUTO_PLAY) {
     scheduleAutoPlay(question);
@@ -750,7 +785,7 @@ function handleAnswer(selectedValue) {
 
   const scene = getCurrentScene();
   const question = getCurrentQuestion();
-  const timeLimit = question.timeLimit || scene.settings.defaultTimeLimit || GAME_DURATION;
+  const timeLimit = getEffectiveTimeLimit(question);
   const elapsed = Math.min(timeLimit, Math.round((Date.now() - questionStart) / 1000));
   const correct = isAnswerCorrect(question, selectedValue);
   const awardedTrait = getAwardedTrait(question, selectedValue, correct);
