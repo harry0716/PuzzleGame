@@ -444,3 +444,64 @@ If shared leaderboard behavior changes, also update:
 
 - `LEADERBOARD_SETUP.md`
 - `supabase-leaderboard.sql`
+
+## Confirmed Event-Control Upgrade Direction (2026-04-19)
+
+The next confirmed upgrade is an event-control pass that makes the game more
+appropriate for on-site activities, competitions, and single-scene booth
+deployments.
+
+Confirmed decisions:
+
+- implement question randomization across all current answer-based question types
+- keep branching scene structure stable, but allow branch-choice option order to be randomized when appropriate
+- introduce dual scoring modes to support both showcase-style play and fairer competition-style play
+- add a locked scene mode so a specific event can expose only one scene to players
+- disable cross-scene navigation while locked scene mode is active
+- preserve the current free multi-scene flow for normal testing and open exploration
+
+Confirmed randomization intent:
+
+- `single-choice`: randomize option order
+- `timed-choice`: randomize option order when the question uses standard selectable choices
+- `image-choice`: randomize displayed choice order / positions
+- `ordering`: randomize initial item order on each attempt
+- `matching`: randomize left-column order and right-side option order on each attempt
+- `branching`: keep route logic stable, but support randomized visible option order where it does not break the scene narrative
+
+Confirmed scoring intent:
+
+- use dual scoring modes instead of one global formula
+- keep a faster, more arcade-like mode for showcase / demo situations
+- add a competition-oriented mode where correctness is primary and speed remains a smaller secondary factor
+- preferred competition scoring direction: base score plus reduced speed bonus rather than removing speed entirely
+
+Confirmed access-control intent:
+
+- support locked scene URLs using a query pattern such as `?scene=<scene-id>&locked=1`
+- when locked mode is active, skip the global scene-selection view
+- when locked mode is active, do not allow the player to return to scene selection
+- when locked mode is active, do not allow the player to choose another scene after finishing
+- presenter / QR routing should later align with locked scene URLs for event use
+
+Planning artifact:
+
+- `EVENT_MODE_SPEC.md`
+
+## Completed On 2026-04-19 (Event-Control Upgrade Phase 1)
+
+### Implemented Progress
+
+- added a reusable question-choice shuffle helper in the main game flow
+- randomized visible option order for `single-choice` questions
+- randomized visible option order for `timed-choice` questions
+- randomized visible option order / positions for `image-choice` questions
+- randomized starting order for `ordering` questions on each attempt
+- randomized both left-column and right-side option order for `matching` questions
+- randomized visible branch option order while keeping branch route logic unchanged
+
+### Practical Result
+
+- players can no longer rely on fixed answer positions across repeated attempts
+- ordering and matching questions now start from a less predictable layout
+- the system now has the first core layer needed to reduce answer-sharing advantages during on-site events

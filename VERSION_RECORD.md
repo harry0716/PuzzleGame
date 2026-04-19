@@ -1,5 +1,25 @@
 # Version Record
 
+## v1.9.1
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Add question randomization foundation
+
+### Changes
+
+- added a shared shuffle helper in `app.js`
+- randomized answer order for `single-choice`, `timed-choice`, and `image-choice` questions
+- randomized initial item order for `ordering` questions
+- randomized both left-side prompts and right-side options for `matching` questions
+- randomized visible branch-choice order while preserving branch routing logic
+
+### Notes
+
+- this is phase 1 of the planned event-control upgrade
+- scoring-mode changes and scene-locking changes are intentionally left for later phases
+- the main goal of this batch is to reduce fixed-position memorization during repeated play
+
 ## v1.9.0
 
 - Date: 2026-04-19

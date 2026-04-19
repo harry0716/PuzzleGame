@@ -76,6 +76,15 @@ function getCurrentQuestion() {
   return getSceneQuestions()[0] || null;
 }
 
+function shuffleArray(items) {
+  const nextItems = [...items];
+  for (let index = nextItems.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [nextItems[index], nextItems[swapIndex]] = [nextItems[swapIndex], nextItems[index]];
+  }
+  return nextItems;
+}
+
 function getSceneTalents() {
   return getCurrentScene()?.results || {};
 }
@@ -487,7 +496,7 @@ function renderTimedChoiceQuestion(question) {
   `;
   list.appendChild(intro);
 
-  question.answers.forEach((answer) => {
+  shuffleArray(question.answers).forEach((answer) => {
     const button = document.createElement("button");
     button.className = "answer-button";
     button.type = "button";
@@ -501,7 +510,7 @@ function renderSingleChoiceQuestion(question) {
   const list = document.querySelector("#answer-list");
   list.innerHTML = "";
 
-  question.answers.forEach((answer) => {
+  shuffleArray(question.answers).forEach((answer) => {
     const button = document.createElement("button");
     button.className = "answer-button";
     button.type = "button";
@@ -515,7 +524,7 @@ function renderBranchingQuestion(question) {
   const list = document.querySelector("#answer-list");
   list.innerHTML = "";
 
-  question.choices.forEach((choice) => {
+  shuffleArray(question.choices).forEach((choice) => {
     const button = document.createElement("button");
     button.className = "answer-button";
     button.type = "button";
@@ -530,7 +539,7 @@ function renderImageChoiceQuestion(question) {
   list.innerHTML = "";
   list.classList.add("image-answer-list");
 
-  question.options.forEach((option) => {
+  shuffleArray(question.options).forEach((option) => {
     const button = document.createElement("button");
     button.className = "answer-button image-answer-button";
     button.type = "button";
@@ -547,7 +556,7 @@ function renderImageChoiceQuestion(question) {
 function renderOrderingQuestion(question) {
   const list = document.querySelector("#answer-list");
   list.innerHTML = "";
-  state.orderingDraft = [...question.items];
+  state.orderingDraft = shuffleArray(question.items);
 
   const wrapper = document.createElement("div");
   wrapper.className = "ordering-question";
@@ -620,6 +629,9 @@ function moveOrderingItem(index, delta, container) {
 function renderMatchingQuestion(question) {
   const list = document.querySelector("#answer-list");
   list.innerHTML = "";
+  state.matchingDraft = {};
+  const shuffledLeftItems = shuffleArray(question.leftItems);
+  const shuffledRightItems = shuffleArray(question.rightItems);
 
   const wrapper = document.createElement("div");
   wrapper.className = "matching-question";
@@ -632,7 +644,7 @@ function renderMatchingQuestion(question) {
   const board = document.createElement("div");
   board.className = "matching-board";
 
-  question.leftItems.forEach((leftItem) => {
+  shuffledLeftItems.forEach((leftItem) => {
     const row = document.createElement("div");
     row.className = "matching-row";
 
@@ -644,7 +656,7 @@ function renderMatchingQuestion(question) {
     selector.className = "matching-select";
     selector.innerHTML = `
       <option value="">請選擇對應項目</option>
-      ${question.rightItems.map((rightItem) => `<option value="${rightItem.id}">${rightItem.label}</option>`).join("")}
+      ${shuffledRightItems.map((rightItem) => `<option value="${rightItem.id}">${rightItem.label}</option>`).join("")}
     `;
     selector.addEventListener("change", (event) => {
       state.matchingDraft[leftItem.id] = event.target.value;

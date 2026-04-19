@@ -28,6 +28,7 @@ Build a lightweight interactive event website for visiting students that can:
 - timed rounds
 - per-question feedback
 - cumulative score
+- randomized visible answer order across current interactive question types
 - trait-based result mapping
 - share / copy result text
 - type-aware question rendering foundation

@@ -24,6 +24,7 @@ Repository:
 - Landing page for participant onboarding
 - Adjustable pacing before gameplay starts, including presets and manual seconds input
 - Timed quiz flow with scoring
+- Randomized answer presentation to reduce fixed-position memorization during repeated play
 - Type-aware question rendering foundation
 - Current supported question types: `single-choice`, `timed-choice`, `ordering`, `image-choice`, `matching`, `branching`
 - Result card based on answer traits
