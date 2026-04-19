@@ -383,6 +383,26 @@ Current draft status:
   - smart factory / automation
 - the multi-scene structure is now validated across three different styles of educational experience
 
+## Confirmed Fourth Scene Direction (2026-04-19)
+
+The fourth planned scene is now confirmed as:
+
+- scene name: `智慧照護任務站`
+- scene scope: smart healthcare plus long-term care support
+- player role: a smart-care mission assistant
+- design goal: make technology feel human-centered, warm, and socially relevant in the Taiwan context
+
+Confirmed emphasis:
+
+- bring in long-term care concepts as a core element, not a side note
+- use longer question descriptions and richer human situations
+- increase question count for more variety than the previous scenes
+- focus on how technology supports care, safety, dignity, and reassurance rather than replacing people
+
+Planning artifact:
+
+- `FOURTH_SCENE_DRAFT.md`
+
 After adding new project content, update:
 
 - `codex.md`
