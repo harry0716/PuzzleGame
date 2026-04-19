@@ -2,10 +2,12 @@ const GAME_DURATION = 12;
 const MAX_LEADERBOARD = 8;
 const LOCAL_BOARD_KEY = "ai-lab-board";
 const TIMER_PRESET_KEY = "ai-lab-timer-preset";
+const TIMER_CUSTOM_SECONDS_KEY = "ai-lab-custom-timer-seconds";
 const TIMER_PRESETS = {
   relaxed: { label: "從容模式", multiplier: 1.6, description: "每題時間延長，適合導覽或首次體驗。" },
   standard: { label: "標準模式", multiplier: 1, description: "維持目前預設節奏。" },
-  challenge: { label: "挑戰模式", multiplier: 0.8, description: "節奏較快，適合熟悉流程後使用。" }
+  challenge: { label: "挑戰模式", multiplier: 0.8, description: "節奏較快，適合熟悉流程後使用。" },
+  custom: { label: "自訂秒數", multiplier: 1, description: "手動輸入每題秒數，適合依現場狀況調整。" }
 };
 
 const APP_CONFIG = window.APP_CONFIG || {
@@ -45,7 +47,8 @@ const state = {
   currentQuestionId: null,
   pendingNextQuestionId: null,
   currentQuestionType: null,
-  timerPresetKey: window.localStorage.getItem(TIMER_PRESET_KEY) || "standard"
+  timerPresetKey: window.localStorage.getItem(TIMER_PRESET_KEY) || "standard",
+  customTimerSeconds: window.localStorage.getItem(TIMER_CUSTOM_SECONDS_KEY) || "15"
 };
 
 let timerId = null;
@@ -81,9 +84,20 @@ function getTimerPreset() {
   return TIMER_PRESETS[state.timerPresetKey] || TIMER_PRESETS.standard;
 }
 
+function getCustomTimerSeconds() {
+  const parsed = Number.parseInt(state.customTimerSeconds, 10);
+  if (Number.isFinite(parsed)) {
+    return Math.min(60, Math.max(6, parsed));
+  }
+  return 15;
+}
+
 function getEffectiveTimeLimit(question) {
   const scene = getCurrentScene();
   const baseTimeLimit = question.timeLimit || scene?.settings?.defaultTimeLimit || GAME_DURATION;
+  if (state.timerPresetKey === "custom") {
+    return getCustomTimerSeconds();
+  }
   return Math.max(6, Math.round(baseTimeLimit * getTimerPreset().multiplier));
 }
 
@@ -301,19 +315,65 @@ function showLanding() {
 
   const timerPresetSelect = document.querySelector("#timer-preset");
   const timerPresetHint = document.querySelector("#timer-preset-hint");
+  const customTimerWrap = document.querySelector("#custom-timer-wrap");
+  const customTimerInput = document.querySelector("#custom-timer-seconds");
   if (timerPresetSelect && timerPresetHint) {
+    const syncTimerUi = () => {
+      if (customTimerInput) {
+        customTimerInput.value = `${getCustomTimerSeconds()}`;
+      }
+      if (customTimerWrap) {
+        customTimerWrap.hidden = state.timerPresetKey !== "custom";
+      }
+      timerPresetHint.textContent =
+        state.timerPresetKey === "custom"
+          ? `${getTimerPreset().description} 目前設定：${getCustomTimerSeconds()} 秒。`
+          : getTimerPreset().description;
+    };
+
     timerPresetSelect.innerHTML = Object.entries(TIMER_PRESETS)
       .map(
-        ([key, preset]) =>
-          `<option value="${key}" ${key === state.timerPresetKey ? "selected" : ""}>${preset.label}</option>`
+        ([key, preset]) => `
+          <button
+            class="preset-option ${key === state.timerPresetKey ? "is-active" : ""}"
+            type="button"
+            data-preset="${key}"
+            aria-pressed="${key === state.timerPresetKey ? "true" : "false"}"
+          >
+            ${preset.label}
+          </button>
+        `
       )
       .join("");
-    timerPresetHint.textContent = getTimerPreset().description;
-    timerPresetSelect.addEventListener("change", (event) => {
-      state.timerPresetKey = event.target.value;
-      window.localStorage.setItem(TIMER_PRESET_KEY, state.timerPresetKey);
-      timerPresetHint.textContent = getTimerPreset().description;
+    syncTimerUi();
+    timerPresetSelect.querySelectorAll(".preset-option").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.timerPresetKey = button.dataset.preset;
+        window.localStorage.setItem(TIMER_PRESET_KEY, state.timerPresetKey);
+        timerPresetSelect.querySelectorAll(".preset-option").forEach((item) => {
+          const active = item.dataset.preset === state.timerPresetKey;
+          item.classList.toggle("is-active", active);
+          item.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+        syncTimerUi();
+      });
     });
+
+    if (customTimerInput) {
+      customTimerInput.value = `${getCustomTimerSeconds()}`;
+      customTimerInput.addEventListener("input", (event) => {
+        state.customTimerSeconds = event.target.value;
+        window.localStorage.setItem(TIMER_CUSTOM_SECONDS_KEY, state.customTimerSeconds);
+        if (state.timerPresetKey === "custom") {
+          syncTimerUi();
+        }
+      });
+      customTimerInput.addEventListener("blur", () => {
+        state.customTimerSeconds = `${getCustomTimerSeconds()}`;
+        window.localStorage.setItem(TIMER_CUSTOM_SECONDS_KEY, state.customTimerSeconds);
+        syncTimerUi();
+      });
+    }
   }
 
   const rulesNode = document.querySelector("#scene-rules");
@@ -341,6 +401,7 @@ function showLanding() {
     window.setTimeout(() => {
       state.player = "測試員";
       state.timerPresetKey = "standard";
+      state.customTimerSeconds = "15";
       resetState();
       showQuestion();
     }, 120);

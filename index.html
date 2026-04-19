@@ -68,8 +68,14 @@
 
           <label class="field">
             <span>答題節奏</span>
-            <select id="timer-preset" name="timer-preset"></select>
+            <div id="timer-preset" class="preset-toggle" role="group" aria-label="答題節奏"></div>
             <small id="timer-preset-hint" class="field-hint"></small>
+          </label>
+
+          <label id="custom-timer-wrap" class="field" hidden>
+            <span>自訂每題秒數</span>
+            <input id="custom-timer-seconds" name="custom-timer-seconds" type="number" min="6" max="60" step="1" />
+            <small class="field-hint">建議範圍 6 到 60 秒，會套用到一般題目與限時題。</small>
           </label>
 
           <div class="rules-box">

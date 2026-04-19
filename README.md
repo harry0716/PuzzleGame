@@ -22,6 +22,7 @@ Repository:
 - Scene registry / multi-scene-ready architecture
 - Current playable scenes: `晶片獵人`, `電子工程雙體驗`
 - Landing page for participant onboarding
+- Adjustable pacing before gameplay starts, including presets and manual seconds input
 - Timed quiz flow with scoring
 - Type-aware question rendering foundation
 - Current supported question types: `single-choice`, `timed-choice`, `ordering`, `image-choice`, `matching`, `branching`
@@ -31,7 +32,7 @@ Repository:
 - Shared leaderboard via Supabase
 - Front-end leaderboard reset button
 - Standalone leaderboard page
-- Presenter page with QR code and auto-refresh leaderboard
+- Presenter page with scene-specific QR code, public URL input, and auto-refresh leaderboard
 - PWA basics via `manifest.webmanifest` and `service-worker.js`
 
 ## Project Structure

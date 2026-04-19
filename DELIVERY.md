@@ -127,3 +127,12 @@ If the project continues to grow, the next safe expansion areas are:
 - admin-safe leaderboard reset flow
 - analytics or event logging
 - multilingual content
+
+## 2026-04-19 Additional Update
+
+This delivery baseline now additionally includes:
+
+- manual seconds input on the landing page, alongside the existing pacing presets
+- browser-side persistence for the custom timer value
+- presenter-side scene selection for QR routing
+- presenter-side public base URL input so students can scan into GitHub Pages instead of localhost

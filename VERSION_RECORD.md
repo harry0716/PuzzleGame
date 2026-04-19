@@ -20,6 +20,25 @@
 - the multi-scene architecture is now validated beyond the original `晶片獵人` scene
 - the next sensible step is a full content demo review and any copy tuning based on your playthrough feedback
 
+## v1.7.0
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Add custom timer input and scene QR routing
+
+### Changes
+
+- added a custom timer mode so staff can manually enter per-question seconds on the landing page
+- kept the preset-based pacing controls and made both modes persist in the browser
+- upgraded `presenter.html` and `presenter.js` so staff can choose a scene for the QR code
+- added a presenter-side public base URL field for phone-friendly event entry links
+- bumped the service worker cache version to `v9`
+
+### Notes
+
+- QR codes for participant phones should use a public site URL such as GitHub Pages, not `127.0.0.1`
+- the landing page now supports both quick presets and on-site manual pacing adjustment
+
 ## v1.6.0
 
 - Date: 2026-04-19

@@ -290,6 +290,22 @@ Current design-prep artifacts:
 - on-site staff can slow down or speed up the game without editing source files
 - the project now has a safer way to adapt scene pacing for different audiences
 
+## Completed On 2026-04-19 (Custom Timer Input And QR Scene Routing)
+
+### Implemented Progress
+
+- extended the landing-page pacing controls so staff can keep presets or switch to a manual seconds value
+- added a `custom` timer mode with browser-side persistence for the entered seconds
+- updated the presenter page so staff can choose which scene the QR code should open
+- added a public base-url input on the presenter page so the QR code can point to GitHub Pages instead of localhost when students use their own phones
+- bumped the service worker cache version again to reduce stale local assets during on-site testing
+
+### Practical Result
+
+- event staff can fine-tune question timing on site without editing source files
+- the same booth laptop can generate a scene-specific QR code for participant self-entry
+- the presenter flow is now better aligned with real event traffic management, especially when device count is limited
+
 After adding new project content, update:
 
 - `codex.md`
