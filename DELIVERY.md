@@ -54,7 +54,7 @@ Build a lightweight interactive event website for visiting students that can:
 ### Presenter Support
 
 - dedicated presenter page
-- QR code for quick entry
+- QR code for quick entry, including locked single-scene activity routing
 - auto-refresh ranking display
 
 ### Deployment Readiness

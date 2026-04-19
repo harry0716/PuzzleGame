@@ -1339,7 +1339,7 @@ function registerServiceWorker() {
   }
 
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js?v=20260419f").catch((error) => {
+    navigator.serviceWorker.register("./service-worker.js?v=20260419g").catch((error) => {
       console.error("Service worker registration failed.", error);
     });
   });

@@ -76,6 +76,25 @@
 - this is phase 3 of the planned event-control upgrade
 - presenter / QR routing can now be aligned to locked scene URLs in the next step
 
+## v1.10.2
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Align presenter QR routing with locked scene mode
+
+### Changes
+
+- updated the presenter page to support explicit `鎖定入口` and `一般入口` routing modes
+- made locked QR routing the default presenter behavior for single-scene activities
+- added presenter-side copy that shows both the selected scene and the selected entry mode
+- rewrote `presenter.js` into a clean scene-aware UTF-8 implementation
+- bumped asset version to `20260419g` and service worker cache version to `v18`
+
+### Notes
+
+- this is phase 4 of the planned event-control upgrade
+- the presenter flow can now generate QR codes that match the locked single-scene activity model
+
 ## v1.9.0
 
 - Date: 2026-04-19

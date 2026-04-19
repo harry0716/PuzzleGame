@@ -36,6 +36,7 @@ Repository:
 - Front-end leaderboard reset button
 - Standalone leaderboard page
 - Presenter page with scene-specific QR code, public URL input, and auto-refresh leaderboard
+- Presenter QR routing supports locked single-scene event URLs by default
 - Cache-resilient asset loading for GitHub Pages updates
 - PWA basics via `manifest.webmanifest` and `service-worker.js`
 

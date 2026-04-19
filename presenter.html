@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PuzzleGame Presenter</title>
     <meta name="theme-color" content="#0a7f6f" />
-    <link rel="stylesheet" href="./styles.css?v=20260419f" />
+    <link rel="stylesheet" href="./styles.css?v=20260419g" />
   </head>
   <body class="presenter-body">
     <div class="presenter-shell">
@@ -40,6 +40,11 @@
               <input id="presenter-base-url" type="url" />
               <small class="field-hint">請填可讓學生手機連線的公開網址，不要使用 127.0.0.1。</small>
             </label>
+            <label class="field">
+              <span>導流模式</span>
+              <div id="presenter-entry-mode" class="preset-toggle presenter-scene-toggle" role="group" aria-label="導流模式"></div>
+              <small id="presenter-entry-mode-hint" class="field-hint"></small>
+            </label>
           </div>
           <img id="presenter-qr" class="presenter-qr" alt="活動 QR Code" />
           <p id="presenter-url" class="presenter-url"></p>
@@ -62,9 +67,9 @@
       </section>
     </div>
 
-    <script src="./config.js?v=20260419f"></script>
-    <script src="./leaderboard-shared.js?v=20260419f"></script>
-    <script src="./scene-registry.js?v=20260419f"></script>
-    <script src="./presenter.js?v=20260419f"></script>
+    <script src="./config.js?v=20260419g"></script>
+    <script src="./leaderboard-shared.js?v=20260419g"></script>
+    <script src="./scene-registry.js?v=20260419g"></script>
+    <script src="./presenter.js?v=20260419g"></script>
   </body>
 </html>

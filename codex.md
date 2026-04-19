@@ -543,3 +543,18 @@ Planning artifact:
 
 - a single event can now route participants into one specific scene without exposing the full scene panel
 - locked sessions no longer allow participants to leave the intended activity flow and browse other scenes
+
+## Completed On 2026-04-19 (Event-Control Upgrade Phase 4)
+
+### Implemented Progress
+
+- updated the presenter page so QR routing can explicitly choose between locked scene entry and open scene entry
+- made presenter QR generation include `locked=1` by default for event use
+- surfaced the current entry mode directly in the presenter scene status label
+- rewrote `presenter.js` into a clean UTF-8 baseline while preserving scene-aware leaderboard refresh behavior
+- bumped asset version and service worker cache again after the presenter routing update
+
+### Practical Result
+
+- event staff can now generate QR codes that send participants straight into a single locked scene without exposing the multi-scene homepage
+- presenter routing is now aligned with the new event-control model end to end
