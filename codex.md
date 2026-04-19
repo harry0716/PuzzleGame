@@ -306,6 +306,20 @@ Current design-prep artifacts:
 - the same booth laptop can generate a scene-specific QR code for participant self-entry
 - the presenter flow is now better aligned with real event traffic management, especially when device count is limited
 
+## Completed On 2026-04-19 (Presenter Routing Feedback Pass)
+
+### Implemented Progress
+
+- replaced the fragile presenter scene dropdown with button-based scene switching and direct fallback links
+- added explicit visual feedback showing the currently routed scene in the QR panel
+- updated the presenter-side leaderboard title and helper copy so scene switches are visible at a glance
+- bumped the service worker cache version again to reduce stale presenter assets during real-device testing
+
+### Practical Result
+
+- the presenter page is now easier to validate during GitHub Pages testing
+- on-site staff can tell which scene the QR code and leaderboard are currently bound to without guessing
+
 After adding new project content, update:
 
 - `codex.md`

@@ -655,6 +655,12 @@ select {
   line-height: 1.6;
 }
 
+.presenter-scene-label {
+  margin: 6px 0 18px;
+  color: var(--primary-strong);
+  font-weight: 700;
+}
+
 .presenter-grid {
   display: grid;
   gap: 18px;
@@ -670,6 +676,22 @@ select {
 
 .presenter-qr-card {
   text-align: center;
+}
+
+.presenter-scene-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.presenter-scene-toggle {
+  justify-content: center;
+}
+
+.presenter-scene-toggle .preset-option {
+  flex: 1 1 180px;
 }
 
 .presenter-qr {

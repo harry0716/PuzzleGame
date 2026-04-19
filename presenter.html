@@ -12,7 +12,9 @@
       <section class="presenter-hero">
         <p class="eyebrow">HOST MODE</p>
         <h1>AI Lab Talent Sprint</h1>
-        <p class="presenter-copy">用一個主持端畫面管理掃碼入口與現場排行榜，讓學生可以直接用自己的手機加入指定場景。</p>
+        <p class="presenter-copy">
+          用一個主持端畫面管理掃碼入口與現場排行榜，讓學生可以直接用自己的手機加入指定場景。
+        </p>
         <div class="presenter-meta">
           <span id="presenter-mode" class="meta-chip">排行榜模式載入中</span>
           <span class="meta-chip">QR 導流模式</span>
@@ -23,10 +25,15 @@
         <div class="presenter-card presenter-qr-card">
           <p class="mini-label">SCAN TO PLAY</p>
           <h2>掃碼加入活動</h2>
+          <p id="presenter-scene-label" class="presenter-scene-label"></p>
           <div class="stack-lg presenter-config">
             <label class="field">
               <span>導流場景</span>
-              <select id="presenter-scene"></select>
+              <div class="presenter-scene-links" aria-label="導流場景快速切換">
+                <a class="ghost-button link-button" href="./presenter.html?refresh=qrscene5&scene=chip-hunter">晶片獵人</a>
+                <a class="ghost-button link-button" href="./presenter.html?refresh=qrscene5&scene=electronics-dual-experience">電子工程雙體驗</a>
+              </div>
+              <div id="presenter-scene" class="preset-toggle presenter-scene-toggle" role="group" aria-label="導流場景"></div>
             </label>
             <label class="field">
               <span>公開活動網址</span>
@@ -42,7 +49,8 @@
           <div class="leaderboard-page-head">
             <div>
               <p class="mini-label">LIVE RANKING</p>
-              <h2>現場排行榜</h2>
+              <h2 id="presenter-board-title">現場排行榜</h2>
+              <p id="presenter-board-copy" class="presenter-url"></p>
             </div>
             <div class="leaderboard-actions">
               <button id="refresh-presenter" class="ghost-button" type="button">重新整理</button>

@@ -1,5 +1,23 @@
 # Version Record
 
+## v1.7.1
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Improve presenter scene routing feedback
+
+### Changes
+
+- replaced the presenter scene dropdown with button-based scene switching and direct fallback links
+- added a visible current-scene label in the QR routing area
+- updated the presenter leaderboard heading and helper copy to reflect the selected scene
+- bumped the service worker cache version to `v12`
+
+### Notes
+
+- this batch is aimed at real-device and GitHub Pages validation rather than local-only testing
+- the presenter page now gives clearer confirmation that QR routing has changed scenes
+
 ## v1.7.0
 
 - Date: 2026-04-19
