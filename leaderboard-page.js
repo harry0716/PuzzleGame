@@ -69,7 +69,7 @@ function registerLeaderboardServiceWorker() {
   }
 
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js?v=20260419d").catch(() => {});
+    navigator.serviceWorker.register("./service-worker.js?v=20260419e").catch(() => {});
   });
 }
 
