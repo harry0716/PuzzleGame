@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="智慧照護任務站">
+  <defs>
+    <linearGradient id="care-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#7aa9ad" />
+      <stop offset="60%" stop-color="#b8d5d1" />
+      <stop offset="100%" stop-color="#f2c993" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" rx="30" fill="url(#care-bg)" />
+  <rect x="54" y="86" width="212" height="190" rx="24" fill="rgba(255,255,255,0.18)" />
+  <rect x="294" y="86" width="294" height="190" rx="24" fill="rgba(255,255,255,0.16)" />
+  <rect x="94" y="132" width="132" height="92" rx="18" fill="#f9f4ea" opacity="0.92" />
+  <circle cx="160" cy="162" r="22" fill="#ee8f75" />
+  <path d="M160 146v32M144 162h32" stroke="#fffaf2" stroke-width="8" stroke-linecap="round" />
+  <rect x="332" y="122" width="202" height="28" rx="14" fill="#f8f1e6" opacity="0.88" />
+  <rect x="332" y="166" width="142" height="18" rx="9" fill="#f8f1e6" opacity="0.74" />
+  <rect x="332" y="198" width="174" height="18" rx="9" fill="#f8f1e6" opacity="0.74" />
+  <path d="M82 304h468" stroke="rgba(255,255,255,0.56)" stroke-width="10" stroke-linecap="round" />
+  <circle cx="408" cy="246" r="26" fill="rgba(255,255,255,0.18)" />
+  <path d="M396 246h24M408 234v24" stroke="#fff8ef" stroke-width="8" stroke-linecap="round" />
+  <text x="48" y="54" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="28" fill="rgba(255,255,255,0.9)">科技支持照護，不取代陪伴</text>
+  <text x="92" y="310" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="26" fill="#fff7ef">生命徵象與安全提醒</text>
+  <text x="188" y="356" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="52" fill="rgba(255,255,255,0.95)">照護 × 安心</text>
+</svg>

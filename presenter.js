@@ -135,7 +135,7 @@ function registerPresenterServiceWorker() {
   }
 
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js?v=20260419c").catch(() => {});
+    navigator.serviceWorker.register("./service-worker.js?v=20260419d").catch(() => {});
   });
 }
 

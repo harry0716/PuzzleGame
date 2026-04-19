@@ -917,7 +917,366 @@
     }
   };
 
-  const scenes = [CHIP_HUNTER_SCENE, DUAL_EXPERIENCE_SCENE, SMART_FACTORY_SCENE];
+  const SMART_CARE_SCENE = {
+    id: "smart-care-mission-station",
+    title: "智慧照護任務站",
+    subtitle: "Smart Care Mission Station",
+    description: "把智慧醫療與長照照護情境帶進互動任務，理解科技如何幫助安全、陪伴與照護判斷。",
+    hero: {
+      eyebrow: "SMART CARE",
+      title: "智慧照護任務站",
+      copy: "你將走進一個結合智慧醫療與長照支持的照護空間，從生命徵象、離床提醒到遠距關懷，體驗電子工程如何讓照護更即時也更有溫度。"
+    },
+    panel: {
+      badge: "第四場景",
+      level: "照護任務",
+      tags: ["智慧醫療", "長照", "生命徵象", "安全提醒", "遠距照護", "10 題", "情境題", "關懷科技"]
+    },
+    theme: {
+      accent: "#6e9e9b",
+      surface: "#f3ede4"
+    },
+    cover: "./assets/scenes/smart-care-mission-station/cover.svg",
+    previewImage: "./assets/scenes/smart-care-mission-station/cover.svg",
+    landing: {
+      title: "開始智慧照護任務站",
+      copy: "今天你要協助一個智慧照護中心判讀提醒、理解裝置功能，並從長者、照護者與家屬三個角度思考科技真正想幫助的是什麼。",
+      rules: [
+        "共 10 個互動節點，會先選擇一條短分支，再回到共同主線。",
+        "題目敘述更長，會帶入長者、照護現場與家屬情境。",
+        "限時題會模擬提醒出現時的快速判斷壓力。",
+        "完成後可得到一張屬於你的智慧照護角色卡。"
+      ]
+    },
+    leaderboard: {
+      eventCode: "smart-care-mission-station-2026"
+    },
+    settings: {
+      questionCount: 10,
+      defaultTimeLimit: 14
+    },
+    resultOutro: "當科技能幫助照護者更早看見風險、讓家屬更安心、也讓長者保有更多安全與尊嚴時，電子工程就不只是技術，而是更貼近人的照護支持。",
+    questions: [
+      {
+        id: "care-q1",
+        type: "single-choice",
+        prompt: "林奶奶剛入住智慧照護中心。照護團隊希望在不頻繁打擾她休息的情況下，仍能更早注意到身體狀況與安全風險。從這個情境來看，智慧照護最核心想幫助的是什麼？",
+        description: "這一題先建立場景的價值觀：科技不是為了炫耀，而是為了更細緻地支持照護。",
+        correctId: "care-support",
+        topic: "智慧照護核心",
+        answers: [
+          { id: "look-high-tech", label: "讓照護空間看起來更高科技", detail: "有科技感不等於真正幫到照護。", trait: "systems" },
+          { id: "care-support", label: "讓提醒、感測與照護判斷更即時，幫助安全與陪伴", detail: "這才是智慧照護真正的核心。", trait: "care" },
+          { id: "replace-people", label: "讓所有照護工作都完全交給機器", detail: "科技應該協助人，而不是完全取代人。", trait: "support" },
+          { id: "family-ignore", label: "讓家屬完全不用再關心長者狀況", detail: "智慧照護反而能讓家屬更安心、更有連結。", trait: "vitals" }
+        ]
+      },
+      {
+        id: "care-q2",
+        type: "branching",
+        prompt: "今天早上系統同時出現兩種提醒：一個是生命徵象面板有波動，另一個是房間環境出現離床警示。你想先從哪裡開始看？",
+        description: "你可以先看生命徵象，也可以先看環境警示，兩條線最後都會回到同一個照護任務主線。",
+        topic: "任務入口",
+        correctId: "vitals-first",
+        choices: [
+          {
+            id: "vitals-first",
+            label: "先看生命徵象與感測資料",
+            detail: "從血氧、心率等變化切入，先判斷身體狀況是否值得優先處理。",
+            trait: "vitals",
+            next: "care-q3-vitals"
+          },
+          {
+            id: "room-first",
+            label: "先看環境與離床提醒",
+            detail: "從安全風險與照護空間切入，先確認長者是不是正在面臨跌倒風險。",
+            trait: "care",
+            next: "care-q3-room"
+          }
+        ]
+      },
+      {
+        id: "care-q3-vitals",
+        type: "timed-choice",
+        prompt: "陳伯伯剛做完復健回房，系統突然顯示血氧下降、心率略快，同時也跳出一則一般活動提醒。你只有 8 秒先做判斷，哪一個資訊最值得先關注？",
+        description: "當多個提醒一起出現時，先找最能代表身體狀況風險的那一項。",
+        topic: "生命徵象快判",
+        correctId: "oxygen-first",
+        timeLimit: 8,
+        countdownLabel: "8 秒快判",
+        urgencyText: "先抓出真正代表身體風險的訊號，再決定下一步。",
+        answers: [
+          { id: "oxygen-first", label: "血氧下降與生命徵象波動", detail: "這是最直接反映身體狀況的警訊。", trait: "vitals" },
+          { id: "tv-program", label: "房內電視目前正在播放哪個節目", detail: "和照護判斷沒有直接關係。", trait: "support" },
+          { id: "poster-straight", label: "牆上海報是否放正", detail: "不是照護風險重點。", trait: "systems" },
+          { id: "hall-busy", label: "今天大廳是不是比較熱鬧", detail: "無法直接幫助身體狀況判斷。", trait: "care" }
+        ],
+        next: "care-q4-vitals"
+      },
+      {
+        id: "care-q4-vitals",
+        type: "image-choice",
+        prompt: "如果照護團隊想在不一直打擾長者休息的情況下，持續掌握基本生理變化，哪種設備最符合這個需求？",
+        description: "找出最接近生命徵象監測用途的智慧照護設備。",
+        topic: "生命徵象設備辨識",
+        correctId: "vitals-monitor",
+        options: [
+          {
+            id: "vitals-monitor",
+            label: "智慧生命徵象監測設備",
+            detail: "能在較低干擾下持續協助掌握生理狀況。",
+            alt: "智慧生命徵象監測設備示意圖",
+            image: "./assets/scenes/smart-care-mission-station/vitals-monitor.svg",
+            trait: "vitals"
+          },
+          {
+            id: "office-printer",
+            label: "辦公室印表設備",
+            detail: "和生命徵象追蹤沒有直接關係。",
+            alt: "辦公室印表設備示意圖",
+            image: buildSceneIllustration({
+              title: "Office Printer",
+              subtitle: "Admin Device",
+              accent: "#907962",
+              highlight: "#d5b695",
+              symbol: "□"
+            }),
+            trait: "support"
+          },
+          {
+            id: "display-wall",
+            label: "宣傳展示螢幕",
+            detail: "能呈現資訊，但不是主要監測設備。",
+            alt: "宣傳展示螢幕示意圖",
+            image: buildSceneIllustration({
+              title: "Display Wall",
+              subtitle: "Info Screen",
+              accent: "#5f7e8f",
+              highlight: "#b5d1d8",
+              symbol: "△"
+            }),
+            trait: "systems"
+          }
+        ],
+        next: "care-q5"
+      },
+      {
+        id: "care-q3-room",
+        type: "timed-choice",
+        prompt: "黃奶奶半夜常會自己起身找水喝。今晚系統突然跳出離床提醒，而她最近又有跌倒風險紀錄。你只有 8 秒先做判斷，最值得先注意的是哪個面向？",
+        description: "當安全提醒出現時，要先找對真正和風險相關的線索。",
+        topic: "安全提醒快判",
+        correctId: "leave-bed-risk",
+        timeLimit: 8,
+        countdownLabel: "8 秒快判",
+        urgencyText: "先看最可能和跌倒風險直接相關的訊號。",
+        answers: [
+          { id: "leave-bed-risk", label: "是否有離床與跌倒風險需要立刻確認", detail: "這是最直接的安全風險。", trait: "care" },
+          { id: "curtain-color", label: "她房間窗簾顏色是否太深", detail: "和風險判斷沒有直接關聯。", trait: "systems" },
+          { id: "family-sticker", label: "家屬傳來的貼圖是不是很可愛", detail: "可以帶來關心，但不是當下優先資訊。", trait: "support" },
+          { id: "dinner-menu", label: "今天晚餐菜色是不是清淡", detail: "不是這一刻最關鍵的判斷。", trait: "vitals" }
+        ],
+        next: "care-q4-room"
+      },
+      {
+        id: "care-q4-room",
+        type: "image-choice",
+        prompt: "如果想在長者夜間起身時更早注意到風險，哪種設備最符合智慧照護的用途？",
+        description: "辨識最接近離床或床邊安全提醒用途的設備。",
+        topic: "床邊安全設備辨識",
+        correctId: "bedside-sensor",
+        options: [
+          {
+            id: "bedside-sensor",
+            label: "床邊感測 / 離床提醒設備",
+            detail: "能更早幫助照護團隊注意夜間安全風險。",
+            alt: "床邊感測與離床提醒設備示意圖",
+            image: "./assets/scenes/smart-care-mission-station/bedside-sensor.svg",
+            trait: "care"
+          },
+          {
+            id: "meeting-monitor",
+            label: "會議室投影設備",
+            detail: "和夜間長者安全監測沒有直接關係。",
+            alt: "會議室投影設備示意圖",
+            image: buildSceneIllustration({
+              title: "Meeting Display",
+              subtitle: "Conference Use",
+              accent: "#667383",
+              highlight: "#c2c9d4",
+              symbol: "○"
+            }),
+            trait: "support"
+          },
+          {
+            id: "poster-rack",
+            label: "展示立牌",
+            detail: "不負責夜間安全監測。",
+            alt: "展示立牌示意圖",
+            image: buildSceneIllustration({
+              title: "Poster Rack",
+              subtitle: "Display Only",
+              accent: "#8c7b67",
+              highlight: "#dbc5a8",
+              symbol: "◇"
+            }),
+            trait: "systems"
+          }
+        ],
+        next: "care-q5"
+      },
+      {
+        id: "care-q5",
+        type: "single-choice",
+        prompt: "一位長者在照護中心內行走比較不穩，但又不希望被過度打擾。從照護角度來看，跌倒偵測或離床提醒設備最大的價值是什麼？",
+        description: "這題要把科技和長者感受一起放進判斷，不只是看功能而已。",
+        topic: "安全提醒價值",
+        correctId: "safety-first",
+        answers: [
+          { id: "safety-first", label: "讓照護者能更早注意風險，必要時即時協助", detail: "這是安全提醒最重要的價值。", trait: "care" },
+          { id: "more-tech", label: "讓照護空間看起來更像科技展", detail: "有科技感不代表真正幫到照護。", trait: "systems" },
+          { id: "no-rounds", label: "讓照護者完全不用再巡房", detail: "科技可以輔助，但不能把照護責任完全拿掉。", trait: "support" },
+          { id: "no-move", label: "讓長者永遠不要自己活動", detail: "照護目標是安全與尊嚴，不是完全限制。", trait: "vitals" }
+        ]
+      },
+      {
+        id: "care-q6",
+        type: "matching",
+        prompt: "請把智慧照護裝置和最接近的功能配對起來。",
+        description: "看懂不同裝置在照護現場各自幫助的是哪一種需求。",
+        topic: "裝置功能配對",
+        trait: "systems",
+        instructions: "把左邊的裝置，配到最適合的功能說明。",
+        leftItems: [
+          { id: "oxygen-sensor", label: "血氧 / 生命徵象感測", detail: "協助掌握基本生理狀況。" },
+          { id: "bed-alert", label: "離床提醒設備", detail: "協助照護團隊留意安全風險。" },
+          { id: "med-reminder", label: "用藥提醒設備", detail: "協助長者規律照護。" },
+          { id: "remote-platform", label: "遠距照護平台", detail: "協助家屬與照護團隊掌握狀況。" }
+        ],
+        rightItems: [
+          { id: "track-vitals", label: "監測生理狀況" },
+          { id: "notice-safety", label: "協助注意安全風險" },
+          { id: "support-med", label: "協助規律照護" },
+          { id: "share-status", label: "讓家屬或團隊掌握狀況" }
+        ],
+        pairs: [
+          { leftId: "oxygen-sensor", rightId: "track-vitals" },
+          { leftId: "bed-alert", rightId: "notice-safety" },
+          { leftId: "med-reminder", rightId: "support-med" },
+          { leftId: "remote-platform", rightId: "share-status" }
+        ]
+      },
+      {
+        id: "care-q7",
+        type: "branching",
+        prompt: "下午同時出現兩件事：一位長者的提醒燈亮起，另一邊家屬也透過遠距平台查詢今天的狀況。你會先處理哪一件？",
+        description: "這題不是要否定任何一方，而是看你會先怎麼安排照護現場優先順序。",
+        topic: "現場優先順序",
+        correctId: "resident-first",
+        choices: [
+          {
+            id: "resident-first",
+            label: "先確認現場長者目前是否安全",
+            detail: "先確保現場安全，再回應其他查詢會比較合理。",
+            trait: "care",
+            next: "care-q8"
+          },
+          {
+            id: "family-first",
+            label: "先回覆家屬查詢，讓對方安心",
+            detail: "家屬安心很重要，但通常仍要先確認現場狀況。",
+            trait: "support",
+            next: "care-q8"
+          }
+        ]
+      },
+      {
+        id: "care-q8",
+        type: "ordering",
+        prompt: "當照護系統發出異常提醒後，哪一個處理順序最合理？",
+        description: "科技給的是提醒，但好的照護還需要合理的處理流程。",
+        topic: "異常處理流程",
+        trait: "support",
+        instructions: "把照護異常事件的處理順序排成最合理的流程。",
+        items: [
+          { id: "check-alert", label: "先確認警示內容", detail: "先看系統提醒代表的是哪一種狀況。" },
+          { id: "check-person", label: "判斷長者當下狀況", detail: "把提醒和現場實際情況對起來。" },
+          { id: "assist", label: "必要時通知照護者或前往協助", detail: "根據判斷結果做出實際支援。" },
+          { id: "record", label: "記錄與回報狀況", detail: "讓資訊回到照護團隊流程中。" },
+          { id: "follow-up", label: "持續追蹤後續變化", detail: "確認狀況是否穩定，不只處理當下。" }
+        ],
+        correctOrder: ["check-alert", "check-person", "assist", "record", "follow-up"]
+      },
+      {
+        id: "care-q9",
+        type: "single-choice",
+        prompt: "智慧照護系統可以協助提醒、判讀與追蹤，但在長照現場，哪一件事仍然最不能被科技取代？",
+        description: "這題是整個場景很重要的情緒核心，提醒我們科技價值在於支持人，而不是讓人消失。",
+        topic: "科技與陪伴",
+        correctId: "human-care",
+        answers: [
+          { id: "human-care", label: "人的陪伴、關心與實際互動", detail: "科技能協助，但無法取代真正的陪伴與照護關係。", trait: "care" },
+          { id: "numbers-only", label: "所有決策都只看儀器數值", detail: "數據重要，但不能取代現場照護判斷。", trait: "systems" },
+          { id: "no-talk", label: "完全不用再和長者說話", detail: "這會讓照護失去溫度。", trait: "support" },
+          { id: "no-experience", label: "只要有數據就不需要照護經驗", detail: "照護經驗仍然很重要。", trait: "vitals" }
+        ]
+      },
+      {
+        id: "care-q10",
+        type: "single-choice",
+        prompt: "為什麼智慧醫療與長照照護也屬於電子工程的重要舞台？",
+        description: "最後一題把感測、警示、資料傳輸、裝置設計與系統整合收束回電子工程的核心。",
+        correctId: "engineering-care",
+        topic: "核心收束",
+        answers: [
+          { id: "everything-ai", label: "因為只要出現在醫療場域的設備都一定是 AI", detail: "太過簡化，不是重點。", trait: "vitals" },
+          { id: "engineering-care", label: "因為感測、警示、資料傳輸、裝置設計與系統整合都需要電子工程能力", detail: "這正是智慧照護成為電子工程舞台的原因。", trait: "systems" },
+          { id: "doctor-only", label: "因為醫療設備只和醫師有關，和工程沒有關係", detail: "這忽略了設備與系統背後的工程支撐。", trait: "support" },
+          { id: "software-only", label: "因為照護問題只靠軟體畫面就能解決", detail: "真正的照護還需要設備、感測、流程與人。", trait: "care" }
+        ]
+      }
+    ],
+    results: {
+      vitals: {
+        name: "生命訊號觀察員",
+        styleLabel: "細膩判讀型",
+        summary: "你很容易注意到生理數據與身體狀況的細微變化，會自然去觀察哪些訊號值得更早被看見。",
+        fit: "很適合往生命徵象監測、感測資料判讀、智慧醫療設備理解與健康科技應用方向發展。",
+        skills: ["生命徵象觀察", "感測資料判讀", "異常早期辨識", "狀態變化敏感度"],
+        hook: "如果你總會先注意到身體狀況是否出現細微波動，這張卡會很像你。",
+        resultIcon: "./assets/results/vitals-signal-observer.svg"
+      },
+      care: {
+        name: "智慧照護協調員",
+        styleLabel: "安心守護型",
+        summary: "你最在意的不只是系統有沒有提醒，而是長者是否真的被好好照顧、是否感受到安全與陪伴。",
+        fit: "很適合往智慧照護、長照支持、照護安全與人本科技應用方向發展。",
+        skills: ["照護敏感度", "安全關懷", "人本判斷", "照護需求整合"],
+        hook: "如果你關心的是長者當下有沒有安心，而不只是設備有沒有發聲，這張卡很有你的味道。",
+        resultIcon: "./assets/results/smart-care-coordinator.svg"
+      },
+      systems: {
+        name: "醫療系統整合師",
+        styleLabel: "訊號串接型",
+        summary: "你最容易看見裝置、平台、訊號與資料之間的關係，很像把整套智慧照護系統串起來的人。",
+        fit: "很適合往醫療資訊系統、照護平台整合、智慧感測設備與跨系統應用方向發展。",
+        skills: ["系統整合", "訊號與資料串接", "平台思維", "裝置協同理解"],
+        hook: "如果你會自然去想不同裝置和平台怎麼合作，代表你很像整合整套系統的人。",
+        resultIcon: "./assets/results/medical-systems-integrator.svg"
+      },
+      support: {
+        name: "長照科技守護員",
+        styleLabel: "流程陪伴型",
+        summary: "你重視的不只是科技功能，而是它能不能真的幫到照護現場、減輕壓力、讓家屬更放心。",
+        fit: "很適合往長照科技、智慧照護支援、照護流程優化與現場協作方向發展。",
+        skills: ["照護流程理解", "現場支援", "協作思維", "家屬安心導向"],
+        hook: "如果你很在意科技到底有沒有真的幫上人，而不是只停在功能展示，這張卡就很適合你。",
+        resultIcon: "./assets/results/long-term-care-guardian.svg"
+      }
+    }
+  };
+
+  const scenes = [CHIP_HUNTER_SCENE, DUAL_EXPERIENCE_SCENE, SMART_FACTORY_SCENE, SMART_CARE_SCENE];
 
   global.SceneRegistry = {
     getAllScenes() {

@@ -403,6 +403,35 @@ Planning artifact:
 
 - `FOURTH_SCENE_DRAFT.md`
 
+Current draft status:
+
+- `Fourth Scene Draft v0.2` now includes a 10-question,
+  long-form, human-centered smart-care concept with long-term care as a core
+  element rather than a side topic
+
+## Completed On 2026-04-19 (Fourth Scene Implementation)
+
+### Implemented Progress
+
+- added the fourth playable scene: `智慧照護任務站`
+- implemented a longer 10-question smart-care flow with one early branch pair and a human-centered long-term-care theme
+- added repository-native SVG assets for the care scene cover, vitals monitor, bedside sensor, and four result-role icons
+- introduced four new scene traits:
+  - `vitals`
+  - `care`
+  - `systems`
+  - `support`
+- bumped the asset version and service worker cache again so the new scene appears more reliably on GitHub Pages
+
+### Practical Result
+
+- the project now covers four distinct electronic-engineering application directions:
+  - AI / chips
+  - immersive interaction
+  - smart factory automation
+  - smart healthcare and long-term care support
+- the fourth scene adds more narrative warmth and social relevance than the earlier scenes
+
 After adding new project content, update:
 
 - `codex.md`

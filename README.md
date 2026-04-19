@@ -20,7 +20,7 @@ Repository:
 
 - Visual scene selection panel
 - Scene registry / multi-scene-ready architecture
-- Current playable scenes: `晶片獵人`, `電子工程雙體驗`, `智慧工廠任務站`
+- Current playable scenes: `晶片獵人`, `電子工程雙體驗`, `智慧工廠任務站`, `智慧照護任務站`
 - Landing page for participant onboarding
 - Adjustable pacing before gameplay starts, including presets and manual seconds input
 - Timed quiz flow with scoring
@@ -106,7 +106,7 @@ When new content is added, update these files first:
 ## Latest Recorded Update
 
 - Date: 2026-04-19
-- Summary: added the third playable scene `智慧工廠任務站` and expanded the multi-scene project into a three-scene structure covering AI, immersive interaction, and smart factory automation
+- Summary: added the fourth playable scene `智慧照護任務站`, expanding the project into a four-scene structure that now also covers smart healthcare and long-term care support
 
 ## Additional 2026-04-19 Update
 

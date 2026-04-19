@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="醫療系統整合師">
+  <defs>
+    <linearGradient id="vc3" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#6f9da4" />
+      <stop offset="100%" stop-color="#9ed2ca" />
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="30" fill="url(#vc3)" />
+  <circle cx="62" cy="72" r="16" fill="#fff8ef" />
+  <circle cx="138" cy="72" r="16" fill="#fff8ef" />
+  <circle cx="62" cy="128" r="16" fill="#fff8ef" />
+  <circle cx="138" cy="128" r="16" fill="#fff8ef" />
+  <path d="M78 72h44M62 88v24M138 88v24M78 128h44" stroke="#f0bd88" stroke-width="8" stroke-linecap="round" />
+</svg>

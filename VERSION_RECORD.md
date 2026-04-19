@@ -1,5 +1,24 @@
 # Version Record
 
+## v1.9.0
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Add smart care fourth scene
+
+### Changes
+
+- added `智慧照護任務站` as the fourth playable scene
+- implemented a 10-question care-centered mission flow with long-term care as a core element
+- added scene-native SVG assets for the care cover, vitals monitor, bedside sensor, and four role result icons
+- introduced four new scene traits: `vitals`, `care`, `systems`, and `support`
+- bumped the asset version to `20260419d` and the service worker cache version to `v15`
+
+### Notes
+
+- the project now has four playable scenes in the same repository
+- this scene emphasizes smart healthcare, long-term care, safety, reassurance, and human-centered technology
+
 ## v1.8.0
 
 - Date: 2026-04-19

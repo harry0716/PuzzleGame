@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" role="img" aria-label="生命徵象監測設備">
+  <defs>
+    <linearGradient id="vitals-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#6d9ba0" />
+      <stop offset="100%" stop-color="#f3c892" />
+    </linearGradient>
+  </defs>
+  <rect width="480" height="320" rx="28" fill="url(#vitals-bg)" />
+  <rect x="72" y="74" width="336" height="182" rx="24" fill="rgba(255,255,255,0.2)" />
+  <rect x="112" y="112" width="256" height="104" rx="18" fill="#f8f3ea" opacity="0.92" />
+  <path d="M134 170h36l18-28 24 52 24-32h24l14-20h38" fill="none" stroke="#e98a73" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="166" cy="134" r="12" fill="#7ae1cf" />
+  <circle cx="204" cy="134" r="12" fill="#ffd06c" />
+  <circle cx="242" cy="134" r="12" fill="#7ae1cf" />
+  <text x="84" y="48" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="26" fill="rgba(255,255,255,0.92)">Vitals Monitor</text>
+  <text x="84" y="288" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="28" fill="#fff7ee">智慧生命徵象監測設備</text>
+</svg>

@@ -154,3 +154,12 @@ This delivery baseline now additionally includes:
 - a smart-factory mission flow covering sensing, control, inspection, and production-line logic
 - repository-native SVG assets for the factory cover, sensor station, inspection line, and four result-role icons
 - four new result traits for the factory scene: `control`, `inspection`, `automation`, and `operations`
+
+## 2026-04-19 Fourth Scene Update
+
+This delivery baseline now additionally includes:
+
+- a fourth playable scene: `智慧照護任務站`
+- a 10-question smart-care mission flow centered on healthcare support and long-term care
+- repository-native SVG assets for the care cover, vitals monitor, bedside sensor, and four result-role icons
+- four new result traits for the care scene: `vitals`, `care`, `systems`, and `support`

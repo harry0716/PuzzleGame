@@ -1,5 +1,5 @@
-const CACHE_NAME = "ai-lab-talent-sprint-v14";
-const ASSET_VERSION = "20260419c";
+const CACHE_NAME = "ai-lab-talent-sprint-v15";
+const ASSET_VERSION = "20260419d";
 const PRECACHE_URLS = [
   "./",
   "./index.html",
@@ -20,6 +20,9 @@ const PRECACHE_URLS = [
   "./assets/scenes/smart-factory-mission-station/cover.svg",
   "./assets/scenes/smart-factory-mission-station/sensor-line.svg",
   "./assets/scenes/smart-factory-mission-station/inspection-station.svg",
+  "./assets/scenes/smart-care-mission-station/cover.svg",
+  "./assets/scenes/smart-care-mission-station/vitals-monitor.svg",
+  "./assets/scenes/smart-care-mission-station/bedside-sensor.svg",
   "./assets/results/ai-chip-explorer.svg",
   "./assets/results/flight-operator.svg",
   "./assets/results/signal-integrator.svg",
@@ -27,7 +30,11 @@ const PRECACHE_URLS = [
   "./assets/results/line-control-director.svg",
   "./assets/results/quality-inspection-observer.svg",
   "./assets/results/automation-integration-engineer.svg",
-  "./assets/results/smart-operations-coordinator.svg"
+  "./assets/results/smart-operations-coordinator.svg",
+  "./assets/results/vitals-signal-observer.svg",
+  "./assets/results/smart-care-coordinator.svg",
+  "./assets/results/medical-systems-integrator.svg",
+  "./assets/results/long-term-care-guardian.svg"
 ];
 
 function isSameOrigin(requestUrl) {
