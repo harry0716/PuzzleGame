@@ -334,6 +334,55 @@ Current design-prep artifacts:
 - GitHub Pages updates should now be more visible on real devices without repeated manual cache clearing
 - presenter, leaderboard, and main gameplay pages now share a more reliable update path instead of depending on the main game alone
 
+## Confirmed Third Scene Direction (2026-04-19)
+
+The third planned scene is now confirmed as:
+
+- scene name: `智慧工廠任務站`
+- scene intent: introduce automation, sensors, quality inspection, and production-line control through a mission-driven factory scenario
+- player role: a smart-factory mission assistant helping stabilize a production line
+- design goal: keep the scene clearly different from both `晶片獵人` and `電子工程雙體驗`
+
+Planned emphasis:
+
+- factory sensors and status signals
+- equipment state judgment
+- quality inspection and anomaly detection
+- automation flow and production-line order
+- the idea that electronic engineering supports stable, intelligent manufacturing systems
+
+Planning artifact:
+
+- `THIRD_SCENE_DRAFT.md`
+
+Current draft status:
+
+- `Third Scene Draft v0.2` now includes the proposed 7-question flow,
+  branch mapping, trait plan, and result-card directions for
+  `智慧工廠任務站`
+
+## Completed On 2026-04-19 (Third Scene Implementation)
+
+### Implemented Progress
+
+- added the third playable scene: `智慧工廠任務站`
+- implemented a short two-route branch that merges back into a shared factory mission flow
+- added repository-native SVG assets for the scene cover, sensor station, inspection line, and four role-card icons
+- introduced four new scene traits:
+  - `control`
+  - `inspection`
+  - `automation`
+  - `operations`
+- bumped the asset version and service worker cache again so the new scene appears more reliably on GitHub Pages
+
+### Practical Result
+
+- the project now covers three distinct electronic-engineering content directions:
+  - AI / chips
+  - immersive booth interaction
+  - smart factory / automation
+- the multi-scene structure is now validated across three different styles of educational experience
+
 After adding new project content, update:
 
 - `codex.md`

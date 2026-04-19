@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" role="img" aria-label="感測器監測站">
+  <defs>
+    <linearGradient id="sensor-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#345b68" />
+      <stop offset="100%" stop-color="#d6aa59" />
+    </linearGradient>
+  </defs>
+  <rect width="480" height="320" rx="28" fill="url(#sensor-bg)" />
+  <rect x="48" y="76" width="132" height="148" rx="20" fill="rgba(255,255,255,0.18)" />
+  <rect x="204" y="76" width="228" height="148" rx="20" fill="rgba(255,255,255,0.14)" />
+  <circle cx="114" cy="126" r="18" fill="#f6eddc" />
+  <circle cx="114" cy="174" r="18" fill="#7af0cf" />
+  <circle cx="114" cy="222" r="18" fill="#ff8358" />
+  <rect x="236" y="110" width="164" height="22" rx="11" fill="#f6eddc" opacity="0.92" />
+  <rect x="236" y="150" width="126" height="18" rx="9" fill="#f6eddc" opacity="0.78" />
+  <rect x="236" y="186" width="140" height="18" rx="9" fill="#f6eddc" opacity="0.78" />
+  <path d="M52 252h376" stroke="rgba(255,255,255,0.65)" stroke-width="10" stroke-linecap="round" />
+  <text x="44" y="48" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="26" fill="rgba(255,255,255,0.92)">Sensor Station</text>
+  <text x="44" y="288" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="28" fill="#fff3de">感測器監測站</text>
+</svg>

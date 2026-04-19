@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="智慧工廠任務站">
+  <defs>
+    <linearGradient id="factory-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#274654" />
+      <stop offset="55%" stop-color="#4a6b74" />
+      <stop offset="100%" stop-color="#d49b42" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" rx="30" fill="url(#factory-bg)" />
+  <rect x="46" y="92" width="214" height="176" rx="22" fill="rgba(255,255,255,0.14)" />
+  <rect x="286" y="92" width="308" height="176" rx="22" fill="rgba(255,255,255,0.12)" />
+  <rect x="72" y="128" width="160" height="104" rx="16" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.34)" />
+  <circle cx="120" cy="154" r="13" fill="#ffcc5f" />
+  <circle cx="156" cy="154" r="13" fill="#75f0d0" />
+  <circle cx="192" cy="154" r="13" fill="#ff7d57" />
+  <rect x="96" y="184" width="112" height="16" rx="8" fill="#f3eadb" opacity="0.9" />
+  <rect x="318" y="126" width="224" height="20" rx="10" fill="rgba(255,255,255,0.2)" />
+  <rect x="348" y="180" width="176" height="28" rx="14" fill="#102640" opacity="0.82" />
+  <rect x="358" y="188" width="48" height="12" rx="6" fill="#f4efe7" />
+  <rect x="418" y="188" width="48" height="12" rx="6" fill="#f4efe7" />
+  <rect x="478" y="188" width="32" height="12" rx="6" fill="#f4efe7" />
+  <path d="M270 220h36v-20h40v20h38" fill="none" stroke="rgba(255,255,255,0.58)" stroke-width="8" stroke-linecap="round" />
+  <path d="M386 220h48" stroke="rgba(255,255,255,0.52)" stroke-width="8" stroke-linecap="round" />
+  <text x="46" y="56" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="28" fill="rgba(255,255,255,0.88)">產線警示任務啟動</text>
+  <text x="80" y="290" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="24" fill="#fff4e6">感測與檢測</text>
+  <text x="360" y="290" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="24" fill="#fff4e6">控制與流程</text>
+  <text x="160" y="342" font-family="Segoe UI, Noto Sans TC, sans-serif" font-size="54" fill="rgba(255,255,255,0.94)">智慧 × 產線</text>
+</svg>

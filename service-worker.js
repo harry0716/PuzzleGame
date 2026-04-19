@@ -1,5 +1,5 @@
-const CACHE_NAME = "ai-lab-talent-sprint-v13";
-const ASSET_VERSION = "20260419b";
+const CACHE_NAME = "ai-lab-talent-sprint-v14";
+const ASSET_VERSION = "20260419c";
 const PRECACHE_URLS = [
   "./",
   "./index.html",
@@ -17,10 +17,17 @@ const PRECACHE_URLS = [
   "./assets/scenes/electronics-dual-experience/cover.svg",
   "./assets/scenes/electronics-dual-experience/ai-zone.svg",
   "./assets/scenes/electronics-dual-experience/drone-zone.svg",
+  "./assets/scenes/smart-factory-mission-station/cover.svg",
+  "./assets/scenes/smart-factory-mission-station/sensor-line.svg",
+  "./assets/scenes/smart-factory-mission-station/inspection-station.svg",
   "./assets/results/ai-chip-explorer.svg",
   "./assets/results/flight-operator.svg",
   "./assets/results/signal-integrator.svg",
-  "./assets/results/immersive-maker.svg"
+  "./assets/results/immersive-maker.svg",
+  "./assets/results/line-control-director.svg",
+  "./assets/results/quality-inspection-observer.svg",
+  "./assets/results/automation-integration-engineer.svg",
+  "./assets/results/smart-operations-coordinator.svg"
 ];
 
 function isSameOrigin(requestUrl) {

@@ -145,3 +145,12 @@ This delivery baseline now additionally includes:
 - service worker registration from the game, presenter, and leaderboard entry pages
 - a network-first update strategy for HTML and versioned core assets when online
 - a more reliable GitHub Pages refresh path for real-device testing
+
+## 2026-04-19 Third Scene Update
+
+This delivery baseline now additionally includes:
+
+- a third playable scene: `智慧工廠任務站`
+- a smart-factory mission flow covering sensing, control, inspection, and production-line logic
+- repository-native SVG assets for the factory cover, sensor station, inspection line, and four result-role icons
+- four new result traits for the factory scene: `control`, `inspection`, `automation`, and `operations`

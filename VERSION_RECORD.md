@@ -1,5 +1,24 @@
 # Version Record
 
+## v1.8.0
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Add smart factory third scene
+
+### Changes
+
+- added `智慧工廠任務站` as the third playable scene
+- implemented a factory-mission flow with one branch pair, then a shared main line
+- added scene-native SVG assets for the factory cover, sensor station, inspection line, and four result-role icons
+- introduced four new scene traits: `control`, `inspection`, `automation`, and `operations`
+- bumped the asset version to `20260419c` and the service worker cache version to `v14`
+
+### Notes
+
+- the project now has three playable scenes in the same repository
+- the new scene emphasizes smart factory sensing, control, quality inspection, and automation logic
+
 ## v1.7.2
 
 - Date: 2026-04-19

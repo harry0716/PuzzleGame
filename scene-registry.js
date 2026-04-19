@@ -610,7 +610,314 @@
     }
   };
 
-  const scenes = [CHIP_HUNTER_SCENE, DUAL_EXPERIENCE_SCENE];
+  const SMART_FACTORY_SCENE = {
+    id: "smart-factory-mission-station",
+    title: "智慧工廠任務站",
+    subtitle: "Smart Factory Mission Station",
+    description: "透過感測、控制、檢測與產線判斷任務，理解電子工程如何讓智慧工廠穩定運作。",
+    hero: {
+      eyebrow: "SMART FACTORY",
+      title: "智慧工廠任務站",
+      copy: "你將進入一條出現異常訊號的示範產線，從感測、控制、檢測到流程判斷，體驗電子工程如何讓智慧工廠恢復穩定。"
+    },
+    panel: {
+      badge: "第三場景",
+      level: "工廠任務",
+      tags: ["感測器", "自動化", "品質檢測", "控制邏輯", "排序題", "配對題", "智慧工廠", "產線"]
+    },
+    theme: {
+      accent: "#355f6f",
+      surface: "#efe3d1"
+    },
+    cover: "./assets/scenes/smart-factory-mission-station/cover.svg",
+    previewImage: "./assets/scenes/smart-factory-mission-station/cover.svg",
+    landing: {
+      title: "開始智慧工廠任務站",
+      copy: "一條示範產線亮起警示，你要幫忙判斷哪個訊號最重要、設備扮演什麼角色，以及正確的處理流程。",
+      rules: [
+        "共 7 個互動節點，會先選一條短分支再回到主線。",
+        "你會接觸感測器、檢測站、控制器與產線流程判斷。",
+        "限時題會模擬異常發生時的快速決策壓力。",
+        "完成後可得到一張屬於你的智慧工廠職涯角色卡。"
+      ]
+    },
+    leaderboard: {
+      eventCode: "smart-factory-mission-station-2026"
+    },
+    settings: {
+      questionCount: 7,
+      defaultTimeLimit: 12
+    },
+    resultOutro: "當你能把感測、控制、檢測和流程整合成一套穩定系統時，就正在接近智慧工廠背後真正的電子工程能力。",
+    questions: [
+      {
+        id: "factory-q1",
+        type: "single-choice",
+        prompt: "智慧工廠和傳統工廠最大的差別是什麼？",
+        description: "先抓住核心觀念：智慧工廠不是只有機器，而是感測、控制、資料與設備一起協作。",
+        correctId: "smart-system",
+        topic: "智慧工廠概念",
+        answers: [
+          { id: "fresh-paint", label: "機器設備看起來比較新", detail: "外觀更新不等於具備智慧能力。", trait: "operations" },
+          { id: "smart-system", label: "感測、控制、資料與設備可以協作判斷", detail: "這才是智慧工廠真正的核心。", trait: "automation" },
+          { id: "no-human", label: "工廠裡一定完全沒有人", detail: "智慧工廠不代表完全無人，而是更聰明地協作。", trait: "control" },
+          { id: "robot-only", label: "只要有機械手臂就算智慧工廠", detail: "單一設備不等於完整的智慧系統。", trait: "maker" }
+        ]
+      },
+      {
+        id: "factory-q2",
+        type: "branching",
+        prompt: "警示燈亮起後，你想先從哪裡開始檢查？",
+        description: "你可以先看感測器警示，也可以先看產線節奏，兩條線最後都會回到同一個工廠任務結論。",
+        topic: "任務入口",
+        correctId: "sensor-first",
+        choices: [
+          {
+            id: "sensor-first",
+            label: "先看感測器和警示訊號",
+            detail: "從數據和異常訊號切入，先抓出最可能的問題來源。",
+            trait: "inspection",
+            next: "factory-q3-sensor"
+          },
+          {
+            id: "line-first",
+            label: "先看產線流程和機台動作",
+            detail: "從流程節奏切入，先找出哪個動作卡住了整條線。",
+            trait: "operations",
+            next: "factory-q3-line"
+          }
+        ]
+      },
+      {
+        id: "factory-q3-sensor",
+        type: "timed-choice",
+        prompt: "你只有 8 秒判斷，哪個訊號最值得先處理？",
+        description: "當警示同時出現時，要先抓最能代表異常風險的訊號。",
+        topic: "感測器快判",
+        correctId: "temp-alert",
+        timeLimit: 8,
+        countdownLabel: "8 秒快判",
+        urgencyText: "先找出真正代表設備異常的訊號，時間到就要立刻決定。",
+        answers: [
+          { id: "temp-alert", label: "溫度持續超標且警示燈轉紅", detail: "這通常代表設備狀態已經不穩定。", trait: "inspection" },
+          { id: "poster-crooked", label: "牆上海報有點歪", detail: "和產線異常沒有直接關係。", trait: "maker" },
+          { id: "staff-chat", label: "工作人員剛好在聊天", detail: "不一定和設備警示有關。", trait: "operations" },
+          { id: "music-loud", label: "背景音樂突然變大聲", detail: "和產線控制無關。", trait: "maker" }
+        ],
+        next: "factory-q4-sensor"
+      },
+      {
+        id: "factory-q4-sensor",
+        type: "image-choice",
+        prompt: "哪個最像是在智慧工廠中負責蒐集狀態資料的區域？",
+        description: "用圖片辨識最接近感測器監測站的設備區塊。",
+        topic: "感測區辨識",
+        correctId: "sensor-station",
+        options: [
+          {
+            id: "sensor-station",
+            label: "感測器監測站",
+            detail: "負責蒐集溫度、狀態與異常訊號等資料。",
+            alt: "感測器監測站示意圖",
+            image: "./assets/scenes/smart-factory-mission-station/sensor-line.svg",
+            trait: "inspection"
+          },
+          {
+            id: "office-desk",
+            label: "一般辦公桌區",
+            detail: "不是工廠現場蒐集資料的核心區域。",
+            alt: "辦公桌區示意圖",
+            image: buildSceneIllustration({
+              title: "Office Desk",
+              subtitle: "Support Area",
+              accent: "#8a7a62",
+              highlight: "#cbb597",
+              symbol: "□"
+            }),
+            trait: "operations"
+          },
+          {
+            id: "billboard",
+            label: "展示看板區",
+            detail: "可以說明內容，但不直接蒐集狀態資料。",
+            alt: "展示看板區示意圖",
+            image: buildSceneIllustration({
+              title: "Info Board",
+              subtitle: "Display Only",
+              accent: "#526b7a",
+              highlight: "#9ec0cf",
+              symbol: "△"
+            }),
+            trait: "maker"
+          }
+        ],
+        next: "factory-q5"
+      },
+      {
+        id: "factory-q3-line",
+        type: "timed-choice",
+        prompt: "如果產線節奏突然變慢，你最先該注意什麼？",
+        description: "流程卡住時，先找最可能影響整條線節奏的原因。",
+        topic: "流程快判",
+        correctId: "belt-sync",
+        timeLimit: 8,
+        countdownLabel: "8 秒快判",
+        urgencyText: "先找出讓整條線變慢的關鍵環節，別被旁邊資訊分心。",
+        answers: [
+          { id: "belt-sync", label: "輸送帶和機台動作是否不同步", detail: "節奏不同步常常會直接拖慢整條產線。", trait: "operations" },
+          { id: "wall-color", label: "工廠牆面是不是太暗", detail: "和產線節奏無關。", trait: "maker" },
+          { id: "visitor-photo", label: "參觀者有沒有在拍照", detail: "不會直接造成流程變慢。", trait: "inspection" },
+          { id: "poster-font", label: "海報字體夠不夠大", detail: "和機台節奏沒有直接關係。", trait: "maker" }
+        ],
+        next: "factory-q4-line"
+      },
+      {
+        id: "factory-q4-line",
+        type: "image-choice",
+        prompt: "哪個最像是在智慧工廠中執行搬運或流程動作的設備？",
+        description: "辨識最接近產線執行設備的圖像。",
+        topic: "產線設備辨識",
+        correctId: "inspection-line",
+        options: [
+          {
+            id: "inspection-line",
+            label: "輸送帶與檢測 / 執行站",
+            detail: "最接近產線節奏與動作執行的現場設備。",
+            alt: "輸送帶與檢測站示意圖",
+            image: "./assets/scenes/smart-factory-mission-station/inspection-station.svg",
+            trait: "control"
+          },
+          {
+            id: "meeting-room",
+            label: "會議桌區",
+            detail: "不是現場執行產線動作的設備。",
+            alt: "會議桌區示意圖",
+            image: buildSceneIllustration({
+              title: "Meeting Room",
+              subtitle: "Discussion",
+              accent: "#6a6f79",
+              highlight: "#b1bac6",
+              symbol: "○"
+            }),
+            trait: "operations"
+          },
+          {
+            id: "poster-area",
+            label: "宣傳海報區",
+            detail: "用來說明，不是執行產線動作的核心站點。",
+            alt: "宣傳海報區示意圖",
+            image: buildSceneIllustration({
+              title: "Poster Area",
+              subtitle: "Visual Guide",
+              accent: "#7e6749",
+              highlight: "#d0ae82",
+              symbol: "◇"
+            }),
+            trait: "maker"
+          }
+        ],
+        next: "factory-q5"
+      },
+      {
+        id: "factory-q5",
+        type: "matching",
+        prompt: "請把工廠設備和最接近的功能配對起來。",
+        description: "看懂感測、檢測、控制與執行設備在智慧工廠中的不同角色。",
+        topic: "設備功能配對",
+        trait: "automation",
+        instructions: "把左邊的設備，配到右邊最適合的功能說明。",
+        leftItems: [
+          { id: "sensor", label: "感測器", detail: "負責讀取溫度、狀態與異常資料。" },
+          { id: "camera", label: "檢測相機", detail: "負責觀察瑕疵、偏差與品質問題。" },
+          { id: "controller", label: "控制器", detail: "負責協調設備反應與流程調整。" },
+          { id: "conveyor", label: "輸送帶 / 執行站", detail: "負責搬運、動作與實際流程執行。" }
+        ],
+        rightItems: [
+          { id: "collect", label: "蒐集狀態資料" },
+          { id: "inspect", label: "找出瑕疵或異常" },
+          { id: "coordinate", label: "協調機台反應" },
+          { id: "execute", label: "執行搬運或動作" }
+        ],
+        pairs: [
+          { leftId: "sensor", rightId: "collect" },
+          { leftId: "camera", rightId: "inspect" },
+          { leftId: "controller", rightId: "coordinate" },
+          { leftId: "conveyor", rightId: "execute" }
+        ]
+      },
+      {
+        id: "factory-q6",
+        type: "ordering",
+        prompt: "如果產線出現異常，哪個處理順序最合理？",
+        description: "當產線不穩時，先做哪一步，後做哪一步，決定了整個恢復效率。",
+        topic: "異常處理流程",
+        trait: "operations",
+        instructions: "把異常處理流程排成最合理的順序。",
+        items: [
+          { id: "detect", label: "先偵測異常", detail: "從警示、數據或檢測結果發現問題。" },
+          { id: "judge", label: "判斷是哪個環節出問題", detail: "確認問題來源與影響範圍。" },
+          { id: "adjust", label: "調整設備或流程", detail: "依照判斷結果做出調整。" },
+          { id: "verify", label: "再次檢查結果", detail: "確認異常是否真的解除。" },
+          { id: "resume", label: "恢復正常運作", detail: "在確認穩定後讓產線回到原本節奏。" }
+        ],
+        correctOrder: ["detect", "judge", "adjust", "verify", "resume"]
+      },
+      {
+        id: "factory-q7",
+        type: "single-choice",
+        prompt: "為什麼智慧工廠也是電子工程師的重要舞台？",
+        description: "最後一題把感測、控制、檢測與自動化整合拉回電子工程的核心價值。",
+        correctId: "engineering-stage",
+        topic: "核心訊息",
+        answers: [
+          { id: "machine-only", label: "因為只要有機器就一定和電子工程有關", detail: "太過簡化，沒有說到真正的整合能力。", trait: "control" },
+          { id: "engineering-stage", label: "因為感測、控制、檢測與自動化整合都需要電子工程能力", detail: "這正是智慧工廠成為電子工程舞台的原因。", trait: "automation" },
+          { id: "more-fun", label: "因為工廠比實驗室更熱鬧", detail: "熱鬧與否不是這個場景想表達的重點。", trait: "maker" },
+          { id: "all-ai", label: "因為工廠裡每台設備都一定是 AI", detail: "智慧工廠不等於所有設備都只是 AI。", trait: "inspection" }
+        ]
+      }
+    ],
+    results: {
+      control: {
+        name: "產線控制指揮員",
+        styleLabel: "穩定判斷型",
+        summary: "你很擅長看懂機台節奏與控制邏輯，遇到異常時會優先思考怎麼讓設備恢復穩定、正確地運作。",
+        fit: "很適合往設備控制、控制系統、智慧產線協調與現場控制應用方向發展。",
+        skills: ["控制邏輯", "機台節奏判讀", "設備狀態分析", "穩定運作思維"],
+        hook: "如果你看到產線卡住時第一個想到的是怎麼讓節奏重新穩下來，這張卡很像你。",
+        resultIcon: "./assets/results/line-control-director.svg"
+      },
+      inspection: {
+        name: "品質檢測觀察員",
+        styleLabel: "細節敏感型",
+        summary: "你很容易注意到細節差異與異常訊號，適合站在品質檢查與狀態判讀的第一線，提早發現問題。",
+        fit: "可往品質檢測、影像檢查、感測判讀與異常辨識方向發展。",
+        skills: ["異常辨識", "品質觀察", "感測資料判讀", "細節追蹤"],
+        hook: "如果你會被警示燈號、數據變化和檢測結果吸引，代表你有很強的檢測敏感度。",
+        resultIcon: "./assets/results/quality-inspection-observer.svg"
+      },
+      automation: {
+        name: "自動化整合工程師",
+        styleLabel: "系統串接型",
+        summary: "你最擅長看見不同設備與資料如何合作成一套流程，會自然去想感測、控制與執行該怎麼整合在一起。",
+        fit: "很適合往智慧工廠、自動化系統、AIoT 整合與工業控制應用方向發展。",
+        skills: ["系統整合", "流程協作", "自動化概念", "跨設備串接"],
+        hook: "如果你會不自覺地把感測器、控制器和產線流程想成一整套系統，那你很像真正的整合者。",
+        resultIcon: "./assets/results/automation-integration-engineer.svg"
+      },
+      operations: {
+        name: "智慧維運調度員",
+        styleLabel: "流程推進型",
+        summary: "你擅長從現場流程和節奏出發，判斷先後順序與實際應變方式，會優先思考怎麼讓整條線順利恢復。",
+        fit: "很適合往智慧維運、現場調度、流程優化與生產協調方向發展。",
+        skills: ["流程判斷", "現場應變", "產線調度", "恢復運作規劃"],
+        hook: "如果你最在意的是整條產線怎麼重新順起來，代表你很有現場調度與維運思維。",
+        resultIcon: "./assets/results/smart-operations-coordinator.svg"
+      }
+    }
+  };
+
+  const scenes = [CHIP_HUNTER_SCENE, DUAL_EXPERIENCE_SCENE, SMART_FACTORY_SCENE];
 
   global.SceneRegistry = {
     getAllScenes() {

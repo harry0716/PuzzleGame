@@ -20,7 +20,7 @@ Repository:
 
 - Visual scene selection panel
 - Scene registry / multi-scene-ready architecture
-- Current playable scenes: `晶片獵人`, `電子工程雙體驗`
+- Current playable scenes: `晶片獵人`, `電子工程雙體驗`, `智慧工廠任務站`
 - Landing page for participant onboarding
 - Adjustable pacing before gameplay starts, including presets and manual seconds input
 - Timed quiz flow with scoring
@@ -48,7 +48,7 @@ Repository:
 - `leaderboard-page.js`: standalone leaderboard interactions
 - `presenter.html`: presenter display page
 - `presenter.js`: presenter QR and live ranking refresh
-- `service-worker.js`: static asset cache
+- `service-worker.js`: static asset cache and update strategy
 - `assets/scenes/`: scene-specific visual assets
 - `assets/results/`: role-card icons and related assets
 
@@ -66,7 +66,7 @@ The active mode is configured in `config.js`.
 
 ## Leaderboard Reset
 
-The project now supports front-end leaderboard reset in both places below:
+The project supports front-end leaderboard reset in both places below:
 
 - Result page inside the main game
 - `leaderboard.html`
@@ -103,13 +103,13 @@ When new content is added, update these files first:
 - `SLIDES.md` if presentation flow changes
 - `LEADERBOARD_SETUP.md` if backend rules change
 
+## Latest Recorded Update
+
+- Date: 2026-04-19
+- Summary: added the third playable scene `智慧工廠任務站` and expanded the multi-scene project into a three-scene structure covering AI, immersive interaction, and smart factory automation
+
 ## Additional 2026-04-19 Update
 
 - Hardened cache/update behavior with versioned asset URLs on the main entry pages
 - Updated the service worker strategy so online users are more likely to receive the latest HTML, CSS, and JS on GitHub Pages
 - Added service worker registration coverage for the presenter and leaderboard entry pages
-
-## Latest Recorded Update
-
-- Date: 2026-04-19
-- Summary: added the second playable scene `電子工程雙體驗`, including dual-route booth flow, SVG assets, and career-role result cards with secondary style labels
