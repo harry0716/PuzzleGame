@@ -21,6 +21,51 @@ decisions should be recorded here before and after major work.
 - scene-system phase 3 third pass is now implemented with matching question support
 - scene-system phase 3 fourth pass is now implemented with branching question support
 - scene-system phase 3 fifth pass is now implemented with timed-choice question support
+- fifth scene planning baseline is now defined through research, module-spec, and module-outline documents
+- fifth scene first implementation slice is now in progress as a master-scene hub with one pilot module
+
+## Fifth Scene Current Direction (2026-04-20)
+
+The fifth scene is no longer a normal linear scene.
+
+Confirmed direction:
+
+- master scene name: `智慧農場全球任務站`
+- structure: shared intro -> module selector -> one locked module run -> module-specific result
+- current pilot module: `智慧灌溉題組`
+- total planned modules: 7
+- future routing target: `?scene=smart-farm-global-mission&module=<module-id>&locked=1`
+
+Planning / research artifacts:
+
+- `FIFTH_SCENE_RESEARCH.md`
+- `FIFTH_SCENE_MODULE_SPEC.md`
+- `FIFTH_SCENE_MODULE_OUTLINES.md`
+- `FIFTH_SCENE_SMART_IRRIGATION_DRAFT.md`
+- `FIFTH_SCENE_STRUCTURE_SPEC.md`
+
+## Completed On 2026-04-20 (Fifth Scene First Slice)
+
+### Implemented Progress
+
+- added a new master scene: `智慧農場全球任務站`
+- added fifth-scene support for a module-based flow inside the existing scene engine
+- added a shared intro view and a module-selector view in the main game entry
+- kept scenes 1 through 4 on the original linear scene flow
+- wired the first playable pilot module: `智慧灌溉題組`
+- left the other six fifth-scene modules visible as planned cards but not yet playable
+
+### Practical Result
+
+- the project now supports both:
+  - standard scenes with one landing -> quiz -> result flow
+  - master scenes with intro -> module selection -> module landing -> module quiz -> result flow
+
+### Remaining Planned Work
+
+- expand the remaining six smart-agriculture modules
+- add stronger direct module-entry routing through `module=`
+- align presenter routing with module-level locked URLs when needed
 
 ## Confirmed Maintenance Rules
 
@@ -518,6 +563,14 @@ Planning artifact:
 Current next planning artifact:
 
 - `FIFTH_SCENE_MODULE_OUTLINES.md`
+
+Current pilot content draft:
+
+- `FIFTH_SCENE_SMART_IRRIGATION_DRAFT.md`
+
+Current implementation-planning artifact:
+
+- `FIFTH_SCENE_STRUCTURE_SPEC.md`
 
 ## Confirmed Event-Control Upgrade Direction (2026-04-19)
 

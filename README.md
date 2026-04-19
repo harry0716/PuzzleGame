@@ -21,6 +21,8 @@ Repository:
 - Visual scene selection panel
 - Scene registry / multi-scene-ready architecture
 - Current playable scenes: `晶片獵人`, `電子工程雙體驗`, `智慧工廠任務站`, `智慧照護任務站`
+- Module-based fifth-scene hub: `智慧農場全球任務站`
+- Current fifth-scene pilot module: `智慧灌溉題組`
 - Landing page for participant onboarding
 - Adjustable pacing before gameplay starts, including presets and manual seconds input
 - Selectable scoring mode for showcase-style or competition-style activities
@@ -117,3 +119,11 @@ When new content is added, update these files first:
 - Hardened cache/update behavior with versioned asset URLs on the main entry pages
 - Updated the service worker strategy so online users are more likely to receive the latest HTML, CSS, and JS on GitHub Pages
 - Added service worker registration coverage for the presenter and leaderboard entry pages
+
+## Additional 2026-04-20 Update
+
+- added the first implementation slice of the fifth-scene master structure
+- introduced a module-based scene flow for `智慧農場全球任務站`
+- added shared intro and module-selector views to the main game entry
+- wired the first playable fifth-scene pilot module: `智慧灌溉題組`
+- preserved backward compatibility for scenes 1 through 4

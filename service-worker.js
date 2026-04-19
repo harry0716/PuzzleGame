@@ -1,5 +1,5 @@
-const CACHE_NAME = "ai-lab-talent-sprint-v19";
-const ASSET_VERSION = "20260419h";
+const CACHE_NAME = "ai-lab-talent-sprint-v20";
+const ASSET_VERSION = "20260420a";
 const PRECACHE_URLS = [
   "./",
   "./index.html",

@@ -116,6 +116,8 @@ select {
 
 .screen-landing,
 .screen-scene-select,
+.screen-master-intro,
+.screen-module-select,
 .screen-result {
   display: grid;
   gap: 22px;
@@ -740,6 +742,97 @@ select {
 .scene-grid {
   display: grid;
   gap: 16px;
+}
+
+.module-group-list {
+  display: grid;
+  gap: 20px;
+}
+
+.module-group {
+  display: grid;
+  gap: 14px;
+}
+
+.module-group-header {
+  display: grid;
+  gap: 6px;
+}
+
+.module-group-header p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.module-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.module-card {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid rgba(24, 33, 39, 0.08);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.module-card.is-disabled {
+  background: rgba(244, 237, 227, 0.78);
+}
+
+.module-card-top {
+  display: grid;
+  gap: 10px;
+}
+
+.module-card-chip {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 32px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(10, 127, 111, 0.1);
+  color: var(--primary-strong);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.module-card.is-disabled .module-card-chip {
+  background: rgba(22, 50, 92, 0.08);
+  color: var(--accent);
+}
+
+.module-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.module-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.module-meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(22, 50, 92, 0.06);
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.module-card-actions {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .scene-card {

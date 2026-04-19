@@ -1276,7 +1276,400 @@
     }
   };
 
-  const scenes = [CHIP_HUNTER_SCENE, DUAL_EXPERIENCE_SCENE, SMART_FACTORY_SCENE, SMART_CARE_SCENE];
+  const SMART_FARM_GLOBAL_SCENE = {
+    id: "smart-farm-global-mission",
+    title: "智慧農場全球任務站",
+    subtitle: "Smart Farm Global Mission",
+    description: "從田間感測、精準灌溉，到商業導入、能源效率與永續治理，這個主場景讓玩家先選方向，再深入理解智慧農業如何同時面對在地生產與全球挑戰。",
+    hero: {
+      eyebrow: "SMART FARM GLOBAL MISSION",
+      title: "智慧農場全球任務站",
+      copy: "這不是只有設備辨識的農業問答，而是一個結合 AIoT、資源調度、商業現實與全球永續議題的智慧農場任務站。"
+    },
+    panel: {
+      badge: "第五場景",
+      level: "擴充主題型",
+      tags: ["智慧農業", "AIoT", "模組化", "節水", "永續", "全球視角", "商業導入", "農場決策"]
+    },
+    theme: {
+      accent: "#2f7b4f",
+      surface: "#f2efe5"
+    },
+    previewImage: buildSceneIllustration({
+      title: "智慧農場",
+      subtitle: "Global Mission",
+      accent: "#2f7b4f",
+      highlight: "#b8d77f",
+      symbol: "農"
+    }),
+    intro: {
+      title: "先選方向，再深入智慧農業現場",
+      copy: "智慧農業不只是在田裡裝感測器。它還關係到農場用水、用電、投資回收、國際市場、ESG 與水資源治理。這個場景會先帶你進入主題，再由你選擇一個題組深入挑戰。",
+      rules: [
+        "先閱讀主題說明，再從七個題組中選一個方向。",
+        "一旦選定題組，本輪就會鎖定在該題組完成 10 題。",
+        "目前先開放智慧灌溉題組作為第一個 pilot module。",
+        "未來會逐步補上技術、商業、能源、ESG、國際市場與水治理題組。"
+      ]
+    },
+    moduleSelector: {
+      pill: "題組分流",
+      title: "選擇你想先深入的智慧農業方向",
+      copy: "不同題組代表不同觀點。有人從技術切入，有人從商業與市場看問題，也有人從水、能源與永續治理來思考未來農業。",
+      groupDescriptions: {
+        "技術與系統": "從感測、灌溉與農場設備出發，理解智慧農業如何在田間真正運作。",
+        "經營與市場": "從投資、採用門檻到國際市場，理解智慧農業怎麼變成可持續的商業行動。",
+        "永續與治理": "從水資源、能源與 ESG 的角度，思考智慧農業如何在未來面對更大的環境壓力。"
+      }
+    },
+    landing: {
+      title: "智慧農場任務啟動",
+      copy: "這是智慧農業主場景的共用入口。若你是從一般模式進來，下一步請先選擇一個題組。",
+      rules: [
+        "本主場景將逐步擴充成多題組結構。",
+        "目前先開放智慧灌溉題組。"
+      ]
+    },
+    leaderboard: {
+      eventCode: "smart-farm-global-mission"
+    },
+    settings: {
+      questionCount: 10,
+      defaultTimeLimit: 14
+    },
+    resultOutro: "你剛剛完成的是智慧農場主場景中的一個題組切片。接下來，這個主場景還會再延伸到商業、市場、能源與治理等更多方向。",
+    modules: [
+      {
+        id: "smart-irrigation",
+        title: "智慧灌溉題組",
+        group: "技術與系統",
+        description: "從土壤濕度、灌溉時機、設備辨識，到水電取捨與全球水壓力，理解智慧灌溉不是固定澆水，而是用資料做更好的判斷。",
+        focusLabel: "節水與決策",
+        landingPill: "智慧灌溉",
+        questionCountLabel: "10 題 pilot",
+        enabled: true,
+        landing: {
+          title: "智慧灌溉題組啟動",
+          copy: "你將從農場現場的角度，理解土壤、天氣、設備與調度如何影響真正的灌溉決策。這一組不只談技術，也會帶到缺水壓力與水電取捨。",
+          rules: [
+            "共 10 題，題型包含單選、限時、分支、圖片、配對與排序。",
+            "重點不是背設備名稱，而是理解為什麼灌溉不能只靠習慣。",
+            "結果卡會依你的作答傾向，回饋你在智慧灌溉中的判斷風格。"
+          ]
+        },
+        leaderboard: {
+          eventCode: "smart-farm-global-mission-smart-irrigation"
+        },
+        settings: {
+          questionCount: 10,
+          defaultTimeLimit: 14
+        },
+        questions: [
+          {
+            id: "farm-irrigation-q1",
+            type: "single-choice",
+            prompt: "農場管理員說：「我們本來就每天固定澆水，為什麼還需要智慧灌溉？」哪一個回答最能說明兩者的差別？",
+            description: "這一題不是要否定傳統經驗，而是要理解智慧灌溉多了哪些判斷依據。",
+            topic: "智慧灌溉概念",
+            correctId: "data-based",
+            answers: [
+              { id: "data-based", label: "智慧灌溉會結合土壤濕度、天氣與作物狀態調整時機與水量", detail: "它不是只把澆水變自動，而是讓澆水更有根據。", trait: "systems" },
+              { id: "more-water", label: "智慧灌溉就是讓田裡永遠保持比較多的水", detail: "水量多不等於判斷更好，過多反而可能造成浪費。", trait: "moisture" },
+              { id: "same-time", label: "智慧灌溉只是把人工固定排程改成電腦固定排程", detail: "如果沒有依條件調整，本質上還是不夠智慧。", trait: "timing" },
+              { id: "camera-only", label: "智慧灌溉只要裝攝影機看葉子顏色就夠了", detail: "影像有幫助，但灌溉判斷不會只靠單一來源。", trait: "resilience" }
+            ]
+          },
+          {
+            id: "farm-irrigation-q2",
+            type: "single-choice",
+            prompt: "一塊田在正中午看起來表面偏乾，但土壤濕度感測器顯示較深層仍有足夠水分。這時團隊最該先理解什麼？",
+            description: "現場判讀常常會遇到「肉眼看到的」和「數據顯示的」不完全一致。",
+            topic: "土壤濕度判讀",
+            correctId: "surface-vs-depth",
+            answers: [
+              { id: "surface-vs-depth", label: "表面乾不一定代表根系區缺水，還要看感測深度與作物需求", detail: "智慧灌溉強調的是根據有效資訊做判斷。", trait: "moisture" },
+              { id: "always-water", label: "只要表面看起來乾，就先立刻大量灌溉", detail: "這容易造成不必要的用水。", trait: "timing" },
+              { id: "ignore-sensor", label: "感測器數據先不用理，現場經驗永遠最準", detail: "智慧灌溉強調的是經驗與數據一起判讀。", trait: "systems" },
+              { id: "pause-days", label: "表示未來幾天都完全不需要再看這塊田", detail: "一筆數據不代表後續不用持續觀察。", trait: "resilience" }
+            ]
+          },
+          {
+            id: "farm-irrigation-q3",
+            type: "timed-choice",
+            prompt: "你正在看農場儀表板：午前高溫將至、某區土壤濕度接近警戒值、抽水系統可在 30 分鐘內啟動。你必須先做哪個判斷？",
+            description: "限時題模擬的是現場要快速抓重點，而不是盲目地先把水打開。",
+            topic: "灌溉時機判斷",
+            correctId: "threshold-weather",
+            timeLimit: 8,
+            countdownLabel: "8 秒快速判斷",
+            urgencyText: "先抓真正影響灌溉的關鍵，不要只靠直覺下決定。",
+            answers: [
+              { id: "threshold-weather", label: "先確認濕度是否真的跨過門檻，並結合即將到來的天氣條件", detail: "智慧灌溉重點是把時機和條件一起判讀。", trait: "timing" },
+              { id: "water-now", label: "先把所有區域一起灌滿再說", detail: "先灌再說看似安全，實際上可能造成浪費。", trait: "systems" },
+              { id: "ignore-noon", label: "只看現在畫面，不用管中午氣溫和蒸散變化", detail: "天氣是灌溉的重要背景資訊。", trait: "resilience" },
+              { id: "wait-random", label: "今天先完全不處理，等明天再說", detail: "如果真的接近閾值，延後處理可能錯過最佳時機。", trait: "moisture" }
+            ]
+          },
+          {
+            id: "farm-irrigation-q4",
+            type: "branching",
+            prompt: "一位資深工作人員主張每天固定清晨六點灌溉，另一位年輕工程師建議依感測器和作物狀況彈性調整。你會先採哪種方向？",
+            description: "這題想讓你感受「固定排程的安心感」和「精準調整的價值」之間的差異。",
+            topic: "固定排程與精準灌溉",
+            correctId: "precision-first",
+            choices: [
+              {
+                id: "fixed-first",
+                label: "先維持固定排程，因為大家已經習慣這樣做",
+                detail: "這條路代表穩定與熟悉，但不一定是最省水或最準確的做法。",
+                trait: "resilience",
+                next: "farm-irrigation-q5"
+              },
+              {
+                id: "precision-first",
+                label: "先改成依感測資料與作物條件調整灌溉",
+                detail: "這條路更接近智慧灌溉的核心精神。",
+                trait: "systems",
+                next: "farm-irrigation-q5"
+              }
+            ]
+          },
+          {
+            id: "farm-irrigation-q5",
+            type: "single-choice",
+            prompt: "如果某地區進入短期乾旱壓力，智慧灌溉最大的價值是什麼？",
+            description: "乾旱情境下，真正重要的通常不是「有沒有灌」，而是「怎麼分配」。",
+            topic: "乾旱與韌性",
+            correctId: "prioritize",
+            answers: [
+              { id: "prioritize", label: "幫助農場更精準地決定哪裡最需要水、什麼時候最該灌", detail: "有限水量下的優先順序，就是智慧灌溉的重要價值。", trait: "resilience" },
+              { id: "same-all", label: "讓所有地塊用完全一樣的灌溉量，避免麻煩", detail: "看似公平，但不一定符合實際需求。", trait: "timing" },
+              { id: "more-pumps", label: "只要增加抽水設備，就能解決乾旱問題", detail: "設備能幫忙，但乾旱不是只靠多抽水就能解決。", trait: "systems" },
+              { id: "ignore-data", label: "乾旱時不需要看數據，直接照最保守方式全部灌滿", detail: "極端保守也可能帶來新的浪費。", trait: "moisture" }
+            ]
+          },
+          {
+            id: "farm-irrigation-q6",
+            type: "image-choice",
+            prompt: "下面哪一組設備最像是智慧灌溉現場會用來做判斷與控制的組合？",
+            description: "不只是有水管就算智慧灌溉，關鍵在於感測、判讀與控制是否串起來。",
+            topic: "設備辨識",
+            correctId: "smart-station",
+            options: [
+              {
+                id: "smart-station",
+                label: "土壤感測器 + 控制面板 + 灌溉節點",
+                detail: "這類組合能把田間資訊接到決策與執行端。",
+                alt: "智慧灌溉感測與控制站",
+                image: buildSceneIllustration({
+                  title: "Irrigation Station",
+                  subtitle: "Sensor + Control",
+                  accent: "#2f7b4f",
+                  highlight: "#9ed38a",
+                  symbol: "水"
+                }),
+                trait: "systems"
+              },
+              {
+                id: "tractor-only",
+                label: "大型曳引機",
+                detail: "它很重要，但不等於智慧灌溉控制站。",
+                alt: "農用曳引機",
+                image: buildSceneIllustration({
+                  title: "Farm Tractor",
+                  subtitle: "Field Power",
+                  accent: "#9a6a2a",
+                  highlight: "#e5bf73",
+                  symbol: "車"
+                }),
+                trait: "timing"
+              },
+              {
+                id: "warehouse-only",
+                label: "倉儲貨架與包裝區",
+                detail: "這比較接近收成與物流，不是灌溉決策核心。",
+                alt: "農產品倉儲區",
+                image: buildSceneIllustration({
+                  title: "Storage Area",
+                  subtitle: "Postharvest",
+                  accent: "#58636f",
+                  highlight: "#c4ccd6",
+                  symbol: "倉"
+                }),
+                trait: "resilience"
+              }
+            ],
+            next: "farm-irrigation-q7"
+          },
+          {
+            id: "farm-irrigation-q7",
+            type: "matching",
+            prompt: "請把智慧灌溉相關工具和它最貼近的效果配對起來。",
+            description: "理解工具和結果之間的連結，比背設備名稱更重要。",
+            topic: "工具與效果配對",
+            trait: "moisture",
+            instructions: "把左邊的工具對到右邊最適合的用途或效果。",
+            leftItems: [
+              { id: "soil-sensor", label: "土壤濕度感測器", detail: "協助掌握根系區附近的含水狀態" },
+              { id: "weather-station", label: "田間氣象站", detail: "觀察氣溫、日照、風與降雨趨勢" },
+              { id: "valve-control", label: "自動閥門控制", detail: "讓灌溉能依指令啟停或分區" },
+              { id: "dashboard", label: "灌溉儀表板", detail: "把感測與設備資料集中顯示" }
+            ],
+            rightItems: [
+              { id: "see-moisture", label: "知道土壤是否接近缺水門檻" },
+              { id: "watch-weather", label: "把即將到來的天氣變化納入判斷" },
+              { id: "execute-zones", label: "把不同區域的灌溉動作分開控制" },
+              { id: "combine-signals", label: "把多來源資訊整合成決策畫面" }
+            ],
+            pairs: [
+              { leftId: "soil-sensor", rightId: "see-moisture" },
+              { leftId: "weather-station", rightId: "watch-weather" },
+              { leftId: "valve-control", rightId: "execute-zones" },
+              { leftId: "dashboard", rightId: "combine-signals" }
+            ]
+          },
+          {
+            id: "farm-irrigation-q8",
+            type: "ordering",
+            prompt: "如果農場想讓灌溉更有效率，下面哪一個流程順序最合理？",
+            description: "這題要你把智慧灌溉當成一個決策流程，而不是單一設備。",
+            topic: "灌溉決策流程",
+            trait: "timing",
+            instructions: "把這些步驟排成比較合理的智慧灌溉順序。",
+            items: [
+              { id: "collect", label: "先收集土壤、天氣與設備資料", detail: "感測與現場資料是決策起點" },
+              { id: "judge", label: "判斷是否接近灌溉門檻", detail: "不是每次收到數據都一定要灌水" },
+              { id: "decide", label: "決定灌溉區域、時機與水量", detail: "讓行動更符合當下條件" },
+              { id: "review", label: "執行後回看結果再修正下一次策略", detail: "智慧灌溉需要持續調整，不是一勞永逸" }
+            ],
+            correctOrder: ["collect", "judge", "decide", "review"]
+          },
+          {
+            id: "farm-irrigation-q9",
+            type: "single-choice",
+            prompt: "農場希望節水，但抽水、控制系統與感測設備也會用電。哪一個想法最接近智慧灌溉真正想追求的方向？",
+            description: "這題把用水與用電放在同一張桌上思考。",
+            topic: "水電取捨",
+            correctId: "balance-water-energy",
+            answers: [
+              { id: "balance-water-energy", label: "同時考慮節水和能源效率，避免只優化其中一邊", detail: "真正的智慧灌溉不會只看單一資源。", trait: "systems" },
+              { id: "water-only", label: "只要省水就好，用多少電不需要管", detail: "這會忽略農場整體運作成本與永續性。", trait: "moisture" },
+              { id: "energy-only", label: "只要省電就好，水量多一點沒關係", detail: "這同樣只看單一面向。", trait: "timing" },
+              { id: "manual-only", label: "乾脆全部回到人工開關最省事", detail: "人工不一定比較省，也不一定能即時應對。", trait: "resilience" }
+            ]
+          },
+          {
+            id: "farm-irrigation-q10",
+            type: "single-choice",
+            prompt: "如果把眼光放到全球，為什麼智慧灌溉會被視為未來智慧農業的重要方向之一？",
+            description: "最後一題要把你剛剛的田間判斷拉回更大的世界背景。",
+            topic: "全球視角與未來",
+            correctId: "global-pressure",
+            answers: [
+              { id: "global-pressure", label: "因為農業同時面對水壓力、氣候變遷與糧食需求增加，灌溉必須更精準", detail: "這就是智慧灌溉從在地走向全球的重要原因。", trait: "resilience" },
+              { id: "more-machines", label: "因為未來每一塊田都一定會完全自動化，不再需要人判斷", detail: "科技會更進步，但人的判斷不會完全消失。", trait: "systems" },
+              { id: "more-water", label: "因為未來水源會越來越多，所以可以更放心灌溉", detail: "全球現況其實更接近相反方向。", trait: "moisture" },
+              { id: "local-only", label: "智慧灌溉只適合少數地區，和全球農業沒有太大關係", detail: "全球糧食、安全與資源議題都讓它更重要。", trait: "timing" }
+            ]
+          }
+        ],
+        results: {
+          timing: {
+            name: "灌溉節奏觀察員",
+            styleLabel: "時機判讀型",
+            summary: "你會先看時間點、條件變化與灌溉節奏，而不是一遇到乾燥感就立刻下水。這種特質很適合在灌溉決策中抓住真正的先後順序。",
+            fit: "你適合往需要觀察時機、調度流程與快速判斷的智慧農業角色發展。",
+            skills: ["灌溉時機判讀", "流程節奏安排", "條件變化觀察", "現場快速決策"],
+            hook: "你在智慧灌溉裡看到的，不只是要不要澆水，而是什麼時候澆、先處理哪裡、如何避免錯過最佳時機。",
+            resultIcon: buildRoleIconSvg({ title: "灌溉節奏觀察員", accent: "#2f7b4f", symbol: "時" })
+          },
+          moisture: {
+            name: "土壤濕度判讀員",
+            styleLabel: "訊號敏感型",
+            summary: "你很在意資料和現場狀況是否一致，特別會去分辨表面看起來乾與真正缺水之間的差異。這種敏感度是精準灌溉的核心能力之一。",
+            fit: "你適合往田間監測、感測判讀與農場數據分析這類角色發展。",
+            skills: ["濕度訊號判讀", "感測資料理解", "現場與數據比對", "水分狀態觀察"],
+            hook: "你知道智慧灌溉不能只看表面，而要把真正對作物有意義的水分訊號讀懂。",
+            resultIcon: buildRoleIconSvg({ title: "土壤濕度判讀員", accent: "#4d8b59", symbol: "土" })
+          },
+          systems: {
+            name: "精準灌溉整合手",
+            styleLabel: "系統整合型",
+            summary: "你傾向把感測器、儀表板、控制系統與現場操作看成一整套系統，而不是分散的設備。這種整合視角很接近智慧農業真正的工程思維。",
+            fit: "你適合往智慧農業系統整合、IoT 應用與農場自動化規劃等方向發展。",
+            skills: ["系統整合", "設備功能對應", "多來源資訊判讀", "灌溉策略設計"],
+            hook: "你看到的不是一個水閥、一顆感測器，而是一整條從資料到行動的智慧灌溉決策鏈。",
+            resultIcon: buildRoleIconSvg({ title: "精準灌溉整合手", accent: "#227f67", symbol: "整" })
+          },
+          resilience: {
+            name: "智慧用水調度者",
+            styleLabel: "韌性規劃型",
+            summary: "你很自然會把乾旱、水壓力與資源分配放進思考裡。這種特質讓你更像一位會在有限條件下安排優先順序的調度者。",
+            fit: "你適合往資源調度、韌性農業與長期永續規劃相關角色發展。",
+            skills: ["資源優先順序安排", "乾旱情境判斷", "風險與韌性思考", "永續調度視角"],
+            hook: "你關心的不只是今天有沒有灌到，而是在未來壓力更大的情況下，農場如何更聰明地把每一滴水用在最需要的地方。",
+            resultIcon: buildRoleIconSvg({ title: "智慧用水調度者", accent: "#3e6fb1", symbol: "水" })
+          }
+        }
+      },
+      {
+        id: "agri-tech",
+        title: "技術題組",
+        group: "技術與系統",
+        description: "聚焦感測器、影像辨識、無人機巡田與資料平台，從技術角度理解智慧農業。",
+        focusLabel: "感測與平台",
+        questionCountLabel: "10 題規劃中",
+        enabled: false
+      },
+      {
+        id: "farm-energy",
+        title: "能源題組",
+        group: "技術與系統",
+        description: "從抽水、冷鏈、溫室控制到再生能源，理解智慧農業的電力與能源議題。",
+        focusLabel: "能源效率",
+        questionCountLabel: "10 題規劃中",
+        enabled: false
+      },
+      {
+        id: "farm-business",
+        title: "商業題組",
+        group: "經營與市場",
+        description: "從缺工、投資回收、可追溯性到農產品價值，理解智慧農業導入背後的商業現實。",
+        focusLabel: "投資與回收",
+        questionCountLabel: "10 題規劃中",
+        enabled: false
+      },
+      {
+        id: "global-market",
+        title: "國際市場題組",
+        group: "經營與市場",
+        description: "從品質穩定、標準、透明度與出口邏輯，理解全球市場為什麼在意智慧農業。",
+        focusLabel: "市場信任",
+        questionCountLabel: "10 題規劃中",
+        enabled: false
+      },
+      {
+        id: "farm-esg",
+        title: "ESG 題組",
+        group: "永續與治理",
+        description: "從資源效率、數位落差與韌性農業，理解智慧農業和 ESG 之間的關係。",
+        focusLabel: "永續轉型",
+        questionCountLabel: "10 題規劃中",
+        enabled: false
+      },
+      {
+        id: "water-governance",
+        title: "水資源治理題組",
+        group: "永續與治理",
+        description: "從分配、公平、監測與治理角度，理解農業用水為什麼是政策與社會議題。",
+        focusLabel: "治理與公平",
+        questionCountLabel: "10 題規劃中",
+        enabled: false
+      }
+    ]
+  };
+
+  const scenes = [CHIP_HUNTER_SCENE, DUAL_EXPERIENCE_SCENE, SMART_FACTORY_SCENE, SMART_CARE_SCENE, SMART_FARM_GLOBAL_SCENE];
 
   global.SceneRegistry = {
     getAllScenes() {

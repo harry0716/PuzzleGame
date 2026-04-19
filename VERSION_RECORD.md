@@ -1,5 +1,29 @@
 # Version Record
 
+## v1.11.0
+
+- Date: 2026-04-20
+- Branch: `main`
+- Title: Add fifth-scene module hub and smart irrigation pilot
+
+### Changes
+
+- added a new master scene: `智慧農場全球任務站`
+- added module-based scene support to the main game flow
+- added two new fifth-scene views in `index.html`:
+  - shared intro
+  - module selector
+- wired the first playable module: `智慧灌溉題組`
+- kept six additional smart-agriculture modules visible as planned cards for later expansion
+- updated `app.js`, `scene-registry.js`, and `styles.css` to support module-scene rendering
+- bumped asset version to `20260420a` and service worker cache version to `v20`
+
+### Notes
+
+- this is the first implementation slice of the fifth-scene architecture
+- scenes 1 through 4 remain on the existing linear scene flow
+- future work can extend the same structure with direct `module=` routing and additional smart-agriculture modules
+
 ## v1.9.1
 
 - Date: 2026-04-19

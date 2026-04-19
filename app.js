@@ -30,6 +30,7 @@ const APP_CONFIG = window.APP_CONFIG || {
 const SEARCH_PARAMS = new URLSearchParams(window.location.search);
 const AUTO_PLAY = SEARCH_PARAMS.get("autoplay") === "1";
 const INITIAL_SCENE_ID = SEARCH_PARAMS.get("scene");
+const INITIAL_MODULE_ID = SEARCH_PARAMS.get("module");
 const LOCKED_MODE = SEARCH_PARAMS.get("locked") === "1";
 const SCENES = window.SceneRegistry?.getAllScenes?.() || [];
 
@@ -42,6 +43,8 @@ const heroCopyNode = document.querySelector("#hero-copy");
 
 const state = {
   currentSceneId: INITIAL_SCENE_ID || null,
+  currentModuleId: INITIAL_MODULE_ID || null,
+  moduleLocked: false,
   index: 0,
   score: 0,
   correct: 0,
@@ -68,6 +71,26 @@ function getCurrentScene() {
   return SCENES.find((scene) => scene.id === state.currentSceneId) || null;
 }
 
+function isModuleScene(scene = getCurrentScene()) {
+  return Boolean(scene?.modules?.length);
+}
+
+function getSceneModules() {
+  return getCurrentScene()?.modules || [];
+}
+
+function getCurrentModule() {
+  if (!isModuleScene()) {
+    return null;
+  }
+
+  return getSceneModules().find((module) => module.id === state.currentModuleId) || null;
+}
+
+function getEnabledSceneModules() {
+  return getSceneModules().filter((module) => module.enabled !== false);
+}
+
 function isLockedSceneMode() {
   return LOCKED_MODE;
 }
@@ -84,11 +107,20 @@ function syncLockedModeUrl() {
 
   const url = new URL(window.location.href);
   url.searchParams.set("scene", scene.id);
+  if (state.currentModuleId && getCurrentModule()) {
+    url.searchParams.set("module", state.currentModuleId);
+  } else {
+    url.searchParams.delete("module");
+  }
   url.searchParams.set("locked", "1");
-  window.history.replaceState({ lockedScene: scene.id }, "", url.toString());
+  window.history.replaceState({ lockedScene: scene.id, lockedModule: state.currentModuleId || null }, "", url.toString());
 }
 
 function getSceneQuestions() {
+  if (isModuleScene()) {
+    return getCurrentModule()?.questions || [];
+  }
+
   return getCurrentScene()?.questions || [];
 }
 
@@ -159,6 +191,10 @@ function shuffleArray(items, options = {}) {
 }
 
 function getSceneTalents() {
+  if (isModuleScene()) {
+    return getCurrentModule()?.results || {};
+  }
+
   return getCurrentScene()?.results || {};
 }
 
@@ -180,7 +216,12 @@ function getCustomTimerSeconds() {
 
 function getEffectiveTimeLimit(question) {
   const scene = getCurrentScene();
-  const baseTimeLimit = question.timeLimit || scene?.settings?.defaultTimeLimit || GAME_DURATION;
+  const module = getCurrentModule();
+  const baseTimeLimit =
+    question.timeLimit ||
+    module?.settings?.defaultTimeLimit ||
+    scene?.settings?.defaultTimeLimit ||
+    GAME_DURATION;
   if (state.timerPresetKey === "custom") {
     return getCustomTimerSeconds();
   }
@@ -199,7 +240,9 @@ function calculateEarnedScore(timeLimit, elapsed) {
 }
 
 function getActiveEventCode() {
-  return getCurrentScene()?.leaderboard?.eventCode || APP_CONFIG.leaderboard.eventCode;
+  const scene = getCurrentScene();
+  const module = getCurrentModule();
+  return module?.leaderboard?.eventCode || scene?.leaderboard?.eventCode || APP_CONFIG.leaderboard.eventCode;
 }
 
 function getDefaultTraitCount() {
@@ -210,8 +253,18 @@ function getDefaultTraitCount() {
   }, {});
 }
 
+function getActiveLandingContent() {
+  if (isModuleScene() && getCurrentModule()) {
+    return getCurrentModule().landing || getCurrentScene().landing;
+  }
+
+  return getCurrentScene()?.landing || null;
+}
+
 function getLocalLeaderboardKey() {
-  return `${LOCAL_BOARD_KEY}:${getCurrentScene()?.id || "default"}`;
+  const sceneId = getCurrentScene()?.id || "default";
+  const moduleId = getCurrentModule()?.id;
+  return moduleId ? `${LOCAL_BOARD_KEY}:${sceneId}:${moduleId}` : `${LOCAL_BOARD_KEY}:${sceneId}`;
 }
 
 function hasSharedLeaderboard() {
@@ -313,6 +366,8 @@ function resetState() {
 
 function setCurrentScene(sceneId) {
   state.currentSceneId = sceneId;
+  state.currentModuleId = null;
+  state.moduleLocked = false;
   resetState();
   leaderboardStore.syncMode();
   updateHero();
@@ -366,7 +421,11 @@ function showLockedSceneUnavailable() {
 function showSceneSelect() {
   if (isLockedSceneMode()) {
     if (getCurrentScene()) {
-      showLanding();
+      if (isModuleScene() && !getCurrentModule()) {
+        showMasterIntro();
+      } else {
+        showLanding();
+      }
     } else {
       showLockedSceneUnavailable();
     }
@@ -375,6 +434,8 @@ function showSceneSelect() {
 
   clearTimer();
   state.currentSceneId = null;
+  state.currentModuleId = null;
+  state.moduleLocked = false;
   updateHero();
 
   app.innerHTML = "";
@@ -382,6 +443,7 @@ function showSceneSelect() {
 
   const grid = document.querySelector("#scene-grid");
   SCENES.forEach((scene) => {
+    const sceneCountLabel = scene.modules?.length ? `${scene.modules.length} 題組` : `${scene.questions.length} 題`;
     const card = document.createElement("article");
     card.className = "scene-card";
     card.innerHTML = `
@@ -396,7 +458,7 @@ function showSceneSelect() {
           ${scene.panel.tags.map((tag) => `<span class="scene-tag">${tag}</span>`).join("")}
         </div>
         <div class="scene-card-meta">
-          <span>${scene.questions.length} 題</span>
+          <span>${sceneCountLabel}</span>
           <span>${scene.panel.level}</span>
         </div>
         <button class="cta-button scene-start-button" type="button">進入場景</button>
@@ -405,11 +467,141 @@ function showSceneSelect() {
 
     card.querySelector(".scene-start-button").addEventListener("click", () => {
       setCurrentScene(scene.id);
-      showLanding();
+      if (isModuleScene(scene)) {
+        showMasterIntro();
+      } else {
+        showLanding();
+      }
     });
 
     grid.appendChild(card);
   });
+}
+
+function showMasterIntro() {
+  const scene = getCurrentScene();
+  if (!scene) {
+    showSceneSelect();
+    return;
+  }
+
+  if (!isModuleScene(scene)) {
+    showLanding();
+    return;
+  }
+
+  clearTimer();
+  syncLockedModeUrl();
+  updateHero();
+  app.innerHTML = "";
+  app.appendChild(renderTemplate("#master-intro-template"));
+
+  document.querySelector("#master-intro-pill").textContent = scene.panel.badge;
+  document.querySelector("#master-intro-title").textContent = scene.intro?.title || scene.title;
+  document.querySelector("#master-intro-copy").textContent = scene.intro?.copy || scene.description;
+
+  const rulesNode = document.querySelector("#master-intro-rules");
+  (scene.intro?.rules || []).forEach((rule) => {
+    const item = document.createElement("li");
+    item.textContent = rule;
+    rulesNode.appendChild(item);
+  });
+
+  const backButton = document.querySelector("#master-intro-back");
+  backButton.hidden = isLockedSceneMode();
+  if (!isLockedSceneMode()) {
+    backButton.addEventListener("click", () => {
+      showSceneSelect();
+    });
+  }
+
+  document.querySelector("#to-module-select").addEventListener("click", () => {
+    showModuleSelect();
+  });
+}
+
+function showModuleSelect() {
+  const scene = getCurrentScene();
+  if (!scene || !isModuleScene(scene)) {
+    showLanding();
+    return;
+  }
+
+  clearTimer();
+  syncLockedModeUrl();
+  updateHero();
+  app.innerHTML = "";
+  app.appendChild(renderTemplate("#module-select-template"));
+
+  document.querySelector("#module-select-pill").textContent = scene.moduleSelector?.pill || "題組選擇";
+  document.querySelector("#module-select-title").textContent = scene.moduleSelector?.title || "選擇一個題組開始挑戰";
+  document.querySelector("#module-select-copy").textContent = scene.moduleSelector?.copy || scene.description;
+
+  const groupDescriptions = scene.moduleSelector?.groupDescriptions || {};
+  const groups = Array.from(new Set(getSceneModules().map((module) => module.group)));
+  const groupList = document.querySelector("#module-group-list");
+
+  groups.forEach((groupName) => {
+    const modules = getSceneModules().filter((module) => module.group === groupName);
+    const groupSection = document.createElement("section");
+    groupSection.className = "module-group";
+
+    const header = document.createElement("div");
+    header.className = "module-group-header";
+    header.innerHTML = `
+      <h3>${groupName}</h3>
+      <p>${groupDescriptions[groupName] || "選擇你想先深入理解的智慧農業方向。"}</p>
+    `;
+    groupSection.appendChild(header);
+
+    const grid = document.createElement("div");
+    grid.className = "module-grid";
+
+    modules.forEach((module) => {
+      const enabled = module.enabled !== false;
+      const card = document.createElement("article");
+      card.className = `module-card ${enabled ? "" : "is-disabled"}`.trim();
+      card.innerHTML = `
+        <div class="module-card-top">
+          <span class="module-card-chip">${enabled ? "已開放" : "規劃中"}</span>
+          <h4>${module.title}</h4>
+          <p>${module.description}</p>
+        </div>
+        <div class="module-meta">
+          <span>${module.questionCountLabel || `${module.questions?.length || 0} 題`}</span>
+          <span>${module.focusLabel || groupName}</span>
+        </div>
+        <div class="module-card-actions">
+          <button class="${enabled ? "cta-button" : "ghost-button"}" type="button" ${enabled ? "" : "disabled"}>
+            ${enabled ? "進入題組" : "即將開放"}
+          </button>
+        </div>
+      `;
+
+      const button = card.querySelector("button");
+      if (enabled) {
+        button.addEventListener("click", () => {
+          state.currentModuleId = module.id;
+          state.moduleLocked = true;
+          resetState();
+          showLanding();
+        });
+      }
+
+      grid.appendChild(card);
+    });
+
+    groupSection.appendChild(grid);
+    groupList.appendChild(groupSection);
+  });
+
+  const backButton = document.querySelector("#module-select-back");
+  backButton.hidden = isLockedSceneMode();
+  if (!isLockedSceneMode()) {
+    backButton.addEventListener("click", () => {
+      showMasterIntro();
+    });
+  }
 }
 
 function showLanding() {
@@ -423,15 +615,22 @@ function showLanding() {
     return;
   }
 
+  if (isModuleScene(scene) && !getCurrentModule()) {
+    showModuleSelect();
+    return;
+  }
+
   clearTimer();
   syncLockedModeUrl();
   updateHero();
   app.innerHTML = "";
   app.appendChild(renderTemplate("#landing-template"));
 
-  document.querySelector("#scene-pill").textContent = scene.panel.badge;
-  document.querySelector("#landing-title").textContent = scene.landing.title;
-  document.querySelector("#landing-copy").textContent = scene.landing.copy;
+  const landing = getActiveLandingContent() || scene.landing;
+  const activeModule = getCurrentModule();
+  document.querySelector("#scene-pill").textContent = activeModule?.landingPill || activeModule?.title || scene.panel.badge;
+  document.querySelector("#landing-title").textContent = landing?.title || scene.landing.title;
+  document.querySelector("#landing-copy").textContent = landing?.copy || scene.landing.copy;
 
   const timerPresetSelect = document.querySelector("#timer-preset");
   const timerPresetHint = document.querySelector("#timer-preset-hint");
@@ -533,7 +732,7 @@ function showLanding() {
   }
 
   const rulesNode = document.querySelector("#scene-rules");
-  scene.landing.rules.forEach((rule) => {
+  (landing?.rules || []).forEach((rule) => {
     const item = document.createElement("li");
     item.textContent = rule;
     rulesNode.appendChild(item);
@@ -541,8 +740,8 @@ function showLanding() {
 
   const backToScenesButton = document.querySelector("#back-to-scenes");
   if (backToScenesButton) {
-    backToScenesButton.hidden = isLockedSceneMode();
-    if (!isLockedSceneMode()) {
+    backToScenesButton.hidden = isLockedSceneMode() || Boolean(activeModule);
+    if (!isLockedSceneMode() && !activeModule) {
       backToScenesButton.addEventListener("click", () => {
         showSceneSelect();
       });
@@ -1304,6 +1503,8 @@ function syncLeaderboardDescription() {
   const copy = document.querySelector("#leaderboard-copy");
   const clearButton = document.querySelector("#clear-board");
   const scene = getCurrentScene();
+  const module = getCurrentModule();
+  const boardLabel = module ? `${scene.title} / ${module.title}` : scene.title;
 
   if (!title || !copy || !clearButton) {
     return;
@@ -1357,7 +1558,7 @@ function registerServiceWorker() {
   }
 
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js?v=20260419h").catch((error) => {
+    navigator.serviceWorker.register("./service-worker.js?v=20260420a").catch((error) => {
       console.error("Service worker registration failed.", error);
     });
   });
@@ -1395,7 +1596,16 @@ function boot() {
 
   if (INITIAL_SCENE_ID && window.SceneRegistry.getSceneById(INITIAL_SCENE_ID)) {
     setCurrentScene(INITIAL_SCENE_ID);
-    showLanding();
+    if (INITIAL_MODULE_ID && getSceneModules().some((module) => module.id === INITIAL_MODULE_ID)) {
+      state.currentModuleId = INITIAL_MODULE_ID;
+      state.moduleLocked = true;
+    }
+
+    if (isModuleScene() && !getCurrentModule()) {
+      showMasterIntro();
+    } else {
+      showLanding();
+    }
   } else if (isLockedSceneMode()) {
     updateHero();
     showLockedSceneUnavailable();

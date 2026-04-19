@@ -9,10 +9,10 @@
       content="可切換多場景的互動式 Puzzle Game，適合 AI Lab 與參訪活動的現場體驗。"
     />
     <meta name="theme-color" content="#0a7f6f" />
-    <link rel="manifest" href="./manifest.webmanifest?v=20260419h" />
-    <link rel="icon" href="./icon.svg?v=20260419h" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="./icon.svg?v=20260419h" />
-    <link rel="stylesheet" href="./styles.css?v=20260419h" />
+    <link rel="manifest" href="./manifest.webmanifest?v=20260420a" />
+    <link rel="icon" href="./icon.svg?v=20260420a" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icon.svg?v=20260420a" />
+    <link rel="stylesheet" href="./styles.css?v=20260420a" />
   </head>
   <body>
     <div class="app-shell">
@@ -42,6 +42,42 @@
         </div>
 
         <div id="scene-grid" class="scene-grid"></div>
+      </section>
+    </template>
+
+    <template id="master-intro-template">
+      <section class="screen screen-master-intro">
+        <div class="screen-copy">
+          <span id="master-intro-pill" class="pill">主題任務站</span>
+          <h2 id="master-intro-title">主場景介紹</h2>
+          <p id="master-intro-copy"></p>
+        </div>
+
+        <div class="rules-box">
+          <h3>參與方式</h3>
+          <ul id="master-intro-rules" class="rules-list"></ul>
+        </div>
+
+        <div class="button-row button-row-landing">
+          <button class="ghost-button" id="master-intro-back" type="button">返回場景列表</button>
+          <button class="cta-button" id="to-module-select" type="button">選擇題組</button>
+        </div>
+      </section>
+    </template>
+
+    <template id="module-select-template">
+      <section class="screen screen-module-select">
+        <div class="screen-copy">
+          <span id="module-select-pill" class="pill">模組選擇</span>
+          <h2 id="module-select-title">選擇一個題組開始挑戰</h2>
+          <p id="module-select-copy"></p>
+        </div>
+
+        <div id="module-group-list" class="module-group-list"></div>
+
+        <div class="button-row button-row-landing">
+          <button class="ghost-button" id="module-select-back" type="button">返回主題介紹</button>
+        </div>
       </section>
     </template>
 
@@ -194,9 +230,9 @@
       </section>
     </template>
 
-    <script src="./config.js?v=20260419h"></script>
-    <script src="./leaderboard-shared.js?v=20260419h"></script>
-    <script src="./scene-registry.js?v=20260419h"></script>
-    <script src="./app.js?v=20260419h"></script>
+    <script src="./config.js?v=20260420a"></script>
+    <script src="./leaderboard-shared.js?v=20260420a"></script>
+    <script src="./scene-registry.js?v=20260420a"></script>
+    <script src="./app.js?v=20260420a"></script>
   </body>
 </html>

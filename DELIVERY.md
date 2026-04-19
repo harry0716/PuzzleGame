@@ -165,3 +165,15 @@ This delivery baseline now additionally includes:
 - a 10-question smart-care mission flow centered on healthcare support and long-term care
 - repository-native SVG assets for the care cover, vitals monitor, bedside sensor, and four result-role icons
 - four new result traits for the care scene: `vitals`, `care`, `systems`, and `support`
+
+## 2026-04-20 Fifth Scene First Slice
+
+This delivery baseline now additionally includes:
+
+- a new module-based fifth-scene hub: `智慧農場全球任務站`
+- two new main-entry views for the fifth scene:
+  - shared intro
+  - module selector
+- the first playable fifth-scene pilot module: `智慧灌溉題組`
+- a fifth-scene data structure that supports one master scene owning multiple internal modules
+- backward compatibility for the first four scenes without forcing them into the module-based pattern
