@@ -1,5 +1,24 @@
 # Version Record
 
+## v1.7.2
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Harden GitHub Pages cache behavior
+
+### Changes
+
+- added versioned asset URLs to the main, presenter, and leaderboard entry pages
+- updated service worker registration to use the current versioned service worker script
+- added service worker registration coverage for presenter and leaderboard entry pages
+- replaced the old cache-only fetch behavior with a network-first strategy for HTML and versioned core assets
+- bumped the service worker cache version to `v13`
+
+### Notes
+
+- this batch is intended to reduce stale-page problems during real GitHub Pages testing
+- participants and staff should be less likely to see old UI after a deployment while online
+
 ## v1.7.1
 
 - Date: 2026-04-19

@@ -63,4 +63,15 @@ clearStandalone.addEventListener("click", async () => {
   }
 });
 
+function registerLeaderboardServiceWorker() {
+  if (!("serviceWorker" in navigator)) {
+    return;
+  }
+
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js?v=20260419b").catch(() => {});
+  });
+}
+
+registerLeaderboardServiceWorker();
 loadStandaloneBoard();

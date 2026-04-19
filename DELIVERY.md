@@ -136,3 +136,12 @@ This delivery baseline now additionally includes:
 - browser-side persistence for the custom timer value
 - presenter-side scene selection for QR routing
 - presenter-side public base URL input so students can scan into GitHub Pages instead of localhost
+
+## 2026-04-19 Cache Hardening Update
+
+This delivery baseline now additionally includes:
+
+- versioned asset URLs on the main entry pages
+- service worker registration from the game, presenter, and leaderboard entry pages
+- a network-first update strategy for HTML and versioned core assets when online
+- a more reliable GitHub Pages refresh path for real-device testing

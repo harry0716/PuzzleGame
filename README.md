@@ -33,6 +33,7 @@ Repository:
 - Front-end leaderboard reset button
 - Standalone leaderboard page
 - Presenter page with scene-specific QR code, public URL input, and auto-refresh leaderboard
+- Cache-resilient asset loading for GitHub Pages updates
 - PWA basics via `manifest.webmanifest` and `service-worker.js`
 
 ## Project Structure
@@ -101,6 +102,12 @@ When new content is added, update these files first:
 - `VERSION_RECORD.md`
 - `SLIDES.md` if presentation flow changes
 - `LEADERBOARD_SETUP.md` if backend rules change
+
+## Additional 2026-04-19 Update
+
+- Hardened cache/update behavior with versioned asset URLs on the main entry pages
+- Updated the service worker strategy so online users are more likely to receive the latest HTML, CSS, and JS on GitHub Pages
+- Added service worker registration coverage for the presenter and leaderboard entry pages
 
 ## Latest Recorded Update
 

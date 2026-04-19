@@ -40,6 +40,8 @@ GitHub Pages will deploy the latest `main` branch automatically.
 - wait a few minutes for Pages to redeploy
 - hard refresh with `Ctrl + F5`
 - check whether `service-worker.js` cache version was updated
+- open the page in an incognito window if the current browser has a stale service worker
+- note that the main entry pages now use versioned CSS / JS asset URLs to reduce stale-cache problems after deployment
 
 ### The site opens but leaderboard data is wrong
 

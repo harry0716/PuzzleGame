@@ -68,16 +68,20 @@ Use these settings:
 
 The site uses a service worker for static asset caching.
 
-When front-end files change, update the cache name in `service-worker.js`.
+The project now also uses versioned asset URLs on the main entry pages.
+When front-end files change, update both the cache name in `service-worker.js`
+and the current asset version string used in the entry-page URLs and service worker registration.
+
 Current cache version:
 
-- `ai-lab-talent-sprint-v3`
+- `ai-lab-talent-sprint-v13`
 
 If a deployment appears not to update immediately:
 
 - wait 1 to 3 minutes for hosting to finish deployment
 - hard refresh the browser with `Ctrl + F5`
 - reopen the page in a new tab
+- try an incognito window if the current browser still shows an older presenter or game page
 
 ## Shared Leaderboard Deployment Notes
 

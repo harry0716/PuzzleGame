@@ -129,5 +129,16 @@ presenterBaseUrl.addEventListener("input", () => {
   syncPresenterQr();
 });
 
+function registerPresenterServiceWorker() {
+  if (!("serviceWorker" in navigator)) {
+    return;
+  }
+
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js?v=20260419b").catch(() => {});
+  });
+}
+
+registerPresenterServiceWorker();
 window.setInterval(loadPresenterBoard, 5000);
 loadPresenterBoard();

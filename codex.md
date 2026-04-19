@@ -320,6 +320,20 @@ Current design-prep artifacts:
 - the presenter page is now easier to validate during GitHub Pages testing
 - on-site staff can tell which scene the QR code and leaderboard are currently bound to without guessing
 
+## Completed On 2026-04-19 (Cache Resilience Hardening)
+
+### Implemented Progress
+
+- added versioned query parameters to core CSS, JS, icon, and manifest URLs in the main entry pages
+- updated service worker registration so the app, presenter page, and leaderboard page all request the current service worker script version
+- replaced the old cache-only fetch behavior with a safer strategy that prefers the network for HTML and versioned core assets when online
+- bumped the service worker cache version again after the new strategy was introduced
+
+### Practical Result
+
+- GitHub Pages updates should now be more visible on real devices without repeated manual cache clearing
+- presenter, leaderboard, and main gameplay pages now share a more reliable update path instead of depending on the main game alone
+
 After adding new project content, update:
 
 - `codex.md`
