@@ -37,6 +37,25 @@
 - this is a tuning pass on top of the original randomization rollout
 - the goal is to make answer-position changes feel clearer during real event play
 
+## v1.10.0
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Add dual scoring modes
+
+### Changes
+
+- added landing-page selection for `展示模式` and `競賽模式`
+- added persistent scoring-mode state in the browser
+- kept showcase scoring as the faster speed-weighted mode
+- added a competition scoring formula that emphasizes correctness with a capped speed bonus
+- added result-page feedback showing which scoring mode was used
+
+### Notes
+
+- this is phase 2 of the planned event-control upgrade
+- scene locking and cross-scene restrictions remain scheduled for the next phase
+
 ## v1.9.0
 
 - Date: 2026-04-19

@@ -23,6 +23,7 @@ Repository:
 - Current playable scenes: `晶片獵人`, `電子工程雙體驗`, `智慧工廠任務站`, `智慧照護任務站`
 - Landing page for participant onboarding
 - Adjustable pacing before gameplay starts, including presets and manual seconds input
+- Selectable scoring mode for showcase-style or competition-style activities
 - Timed quiz flow with scoring
 - Randomized answer presentation with anti-repeat tuning to reduce fixed-position memorization during repeated play
 - Type-aware question rendering foundation

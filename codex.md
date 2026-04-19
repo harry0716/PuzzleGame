@@ -510,3 +510,20 @@ Planning artifact:
 
 - strengthened the shuffle behavior for selectable-answer questions so the same visible order is avoided when possible
 - added a second guard for `single-choice`, `timed-choice`, and `image-choice` so the correct answer tries not to remain in the same slot between attempts
+
+## Completed On 2026-04-19 (Event-Control Upgrade Phase 2)
+
+### Implemented Progress
+
+- added a front-end scoring-mode selector on the scene landing page
+- introduced two scoring modes:
+  - `showcase`
+  - `competition`
+- kept showcase scoring as the faster arcade-style option
+- added competition scoring as a correctness-first mode with a reduced speed bonus
+- surfaced the active scoring mode in the result card summary
+
+### Practical Result
+
+- the same scene can now be used in either a display-oriented activity or a more controlled competition flow
+- score inflation from repeated answer memorization is reduced in competition mode compared with the original formula

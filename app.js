@@ -3,11 +3,17 @@ const MAX_LEADERBOARD = 8;
 const LOCAL_BOARD_KEY = "ai-lab-board";
 const TIMER_PRESET_KEY = "ai-lab-timer-preset";
 const TIMER_CUSTOM_SECONDS_KEY = "ai-lab-custom-timer-seconds";
+const SCORING_MODE_KEY = "ai-lab-scoring-mode";
 const TIMER_PRESETS = {
   relaxed: { label: "從容模式", multiplier: 1.6, description: "每題時間延長，適合導覽或首次體驗。" },
   standard: { label: "標準模式", multiplier: 1, description: "維持目前預設節奏。" },
   challenge: { label: "挑戰模式", multiplier: 0.8, description: "節奏較快，適合熟悉流程後使用。" },
   custom: { label: "自訂秒數", multiplier: 1, description: "手動輸入每題秒數，適合依現場狀況調整。" }
+};
+
+const SCORING_MODES = {
+  showcase: { label: "展示模式", description: "保留較明顯的速度差異，適合自由體驗與展示活動。" },
+  competition: { label: "競賽模式", description: "以答對為主、速度為輔，較適合正式闖關與排行。" }
 };
 
 const APP_CONFIG = window.APP_CONFIG || {
@@ -48,7 +54,8 @@ const state = {
   pendingNextQuestionId: null,
   currentQuestionType: null,
   timerPresetKey: window.localStorage.getItem(TIMER_PRESET_KEY) || "standard",
-  customTimerSeconds: window.localStorage.getItem(TIMER_CUSTOM_SECONDS_KEY) || "15"
+  customTimerSeconds: window.localStorage.getItem(TIMER_CUSTOM_SECONDS_KEY) || "15",
+  scoringModeKey: window.localStorage.getItem(SCORING_MODE_KEY) || "showcase"
 };
 
 let timerId = null;
@@ -138,6 +145,10 @@ function getTimerPreset() {
   return TIMER_PRESETS[state.timerPresetKey] || TIMER_PRESETS.standard;
 }
 
+function getScoringMode() {
+  return SCORING_MODES[state.scoringModeKey] || SCORING_MODES.showcase;
+}
+
 function getCustomTimerSeconds() {
   const parsed = Number.parseInt(state.customTimerSeconds, 10);
   if (Number.isFinite(parsed)) {
@@ -153,6 +164,17 @@ function getEffectiveTimeLimit(question) {
     return getCustomTimerSeconds();
   }
   return Math.max(6, Math.round(baseTimeLimit * getTimerPreset().multiplier));
+}
+
+function calculateEarnedScore(timeLimit, elapsed) {
+  const remaining = Math.max(0, timeLimit - elapsed);
+
+  if (state.scoringModeKey === "competition") {
+    const bonus = Math.round((remaining / Math.max(timeLimit, 1)) * 20);
+    return 80 + bonus;
+  }
+
+  return 60 + (remaining * 8);
 }
 
 function getActiveEventCode() {
@@ -430,6 +452,42 @@ function showLanding() {
     }
   }
 
+  const scoringModeWrap = document.querySelector("#scoring-mode");
+  const scoringModeHint = document.querySelector("#scoring-mode-hint");
+  if (scoringModeWrap && scoringModeHint) {
+    const syncScoringUi = () => {
+      scoringModeHint.textContent = getScoringMode().description;
+    };
+
+    scoringModeWrap.innerHTML = Object.entries(SCORING_MODES)
+      .map(
+        ([key, mode]) => `
+          <button
+            class="preset-option ${key === state.scoringModeKey ? "is-active" : ""}"
+            type="button"
+            data-score-mode="${key}"
+            aria-pressed="${key === state.scoringModeKey ? "true" : "false"}"
+          >
+            ${mode.label}
+          </button>
+        `
+      )
+      .join("");
+    syncScoringUi();
+    scoringModeWrap.querySelectorAll(".preset-option").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.scoringModeKey = button.dataset.scoreMode;
+        window.localStorage.setItem(SCORING_MODE_KEY, state.scoringModeKey);
+        scoringModeWrap.querySelectorAll(".preset-option").forEach((item) => {
+          const active = item.dataset.scoreMode === state.scoringModeKey;
+          item.classList.toggle("is-active", active);
+          item.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+        syncScoringUi();
+      });
+    });
+  }
+
   const rulesNode = document.querySelector("#scene-rules");
   scene.landing.rules.forEach((rule) => {
     const item = document.createElement("li");
@@ -456,6 +514,7 @@ function showLanding() {
       state.player = "測試員";
       state.timerPresetKey = "standard";
       state.customTimerSeconds = "15";
+      state.scoringModeKey = "showcase";
       resetState();
       showQuestion();
     }, 120);
@@ -935,10 +994,10 @@ function handleAnswer(selectedValue) {
   let earned = 0;
   let tag = "這題可惜了，但你已經更接近場景核心主題。";
   if (correct) {
-    earned = 60 + Math.max(0, (timeLimit - elapsed) * 8);
+    earned = calculateEarnedScore(timeLimit, elapsed);
     state.score += earned;
     state.correct += 1;
-    tag = `答對！本題獲得 ${earned} 分。`;
+    tag = `答對！本題獲得 ${earned} 分（${getScoringMode().label}）。`;
   } else if (!selectedValue) {
     tag = "時間到，這題沒有得分。";
   }
@@ -1115,6 +1174,7 @@ async function showResult() {
   }
   document.querySelector("#result-summary").textContent = talent.summary;
   document.querySelector("#final-score").textContent = `${state.score}`;
+  document.querySelector("#score-mode-note").textContent = `本次採用：${getScoringMode().label}`;
   document.querySelector("#correct-count").textContent = `${state.correct} / ${state.index}`;
   document.querySelector("#result-fit").textContent = talent.fit;
   document.querySelector("#result-hook").textContent = `${talent.hook}${scene.resultOutro}`;

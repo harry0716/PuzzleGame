@@ -78,6 +78,12 @@
             <small class="field-hint">建議範圍 6 到 60 秒，會套用到一般題目與限時題。</small>
           </label>
 
+          <label class="field">
+            <span>計分模式</span>
+            <div id="scoring-mode" class="preset-toggle" role="group" aria-label="計分模式"></div>
+            <small id="scoring-mode-hint" class="field-hint"></small>
+          </label>
+
           <div class="rules-box">
             <h3>玩法說明</h3>
             <ul id="scene-rules" class="rules-list"></ul>
@@ -137,6 +143,7 @@
           <div>
             <p class="stat-label">總分</p>
             <p id="final-score" class="stat-value"></p>
+            <p id="score-mode-note" class="field-hint"></p>
           </div>
           <div>
             <p class="stat-label">答對題數</p>
