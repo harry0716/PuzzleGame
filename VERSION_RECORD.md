@@ -56,6 +56,26 @@
 - this is phase 2 of the planned event-control upgrade
 - scene locking and cross-scene restrictions remain scheduled for the next phase
 
+## v1.10.1
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Add locked scene mode
+
+### Changes
+
+- added support for locked scene entry with `?scene=<scene-id>&locked=1`
+- locked mode now skips the scene-selection view and opens the requested scene directly
+- hid the landing-page return-to-scene-list control during locked sessions
+- hid the result-page cross-scene switch control during locked sessions
+- added a locked-mode fallback message for invalid or missing scene ids
+- bumped asset version to `20260419f` and service worker cache version to `v17`
+
+### Notes
+
+- this is phase 3 of the planned event-control upgrade
+- presenter / QR routing can now be aligned to locked scene URLs in the next step
+
 ## v1.9.0
 
 - Date: 2026-04-19

@@ -26,6 +26,7 @@ Repository:
 - Selectable scoring mode for showcase-style or competition-style activities
 - Timed quiz flow with scoring
 - Randomized answer presentation with anti-repeat tuning to reduce fixed-position memorization during repeated play
+- Locked scene entry support for single-activity URLs such as `?scene=...&locked=1`
 - Type-aware question rendering foundation
 - Current supported question types: `single-choice`, `timed-choice`, `ordering`, `image-choice`, `matching`, `branching`
 - Result card based on answer traits

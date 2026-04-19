@@ -30,6 +30,7 @@ const APP_CONFIG = window.APP_CONFIG || {
 const SEARCH_PARAMS = new URLSearchParams(window.location.search);
 const AUTO_PLAY = SEARCH_PARAMS.get("autoplay") === "1";
 const INITIAL_SCENE_ID = SEARCH_PARAMS.get("scene");
+const LOCKED_MODE = SEARCH_PARAMS.get("locked") === "1";
 const SCENES = window.SceneRegistry?.getAllScenes?.() || [];
 
 const app = document.querySelector("#app");
@@ -65,6 +66,10 @@ let autoPlayAnswerTimer = null;
 
 function getCurrentScene() {
   return SCENES.find((scene) => scene.id === state.currentSceneId) || null;
+}
+
+function isLockedSceneMode() {
+  return LOCKED_MODE;
 }
 
 function getSceneQuestions() {
@@ -333,7 +338,25 @@ function updateHero() {
   updateHeaderMeta();
 }
 
+function showLockedSceneUnavailable() {
+  app.innerHTML = `
+    <section class="screen">
+      <h2>目前無法開啟指定場景</h2>
+      <p class="hero-copy">這個活動入口需要有效的場景代碼。請重新確認 QR code 或活動網址。</p>
+    </section>
+  `;
+}
+
 function showSceneSelect() {
+  if (isLockedSceneMode()) {
+    if (getCurrentScene()) {
+      showLanding();
+    } else {
+      showLockedSceneUnavailable();
+    }
+    return;
+  }
+
   clearTimer();
   state.currentSceneId = null;
   updateHero();
@@ -376,7 +399,11 @@ function showSceneSelect() {
 function showLanding() {
   const scene = getCurrentScene();
   if (!scene) {
-    showSceneSelect();
+    if (isLockedSceneMode()) {
+      showLockedSceneUnavailable();
+    } else {
+      showSceneSelect();
+    }
     return;
   }
 
@@ -495,9 +522,15 @@ function showLanding() {
     rulesNode.appendChild(item);
   });
 
-  document.querySelector("#back-to-scenes").addEventListener("click", () => {
-    showSceneSelect();
-  });
+  const backToScenesButton = document.querySelector("#back-to-scenes");
+  if (backToScenesButton) {
+    backToScenesButton.hidden = isLockedSceneMode();
+    if (!isLockedSceneMode()) {
+      backToScenesButton.addEventListener("click", () => {
+        showSceneSelect();
+      });
+    }
+  }
 
   const form = document.querySelector("#player-form");
   form.addEventListener("submit", (event) => {
@@ -1194,9 +1227,15 @@ async function showResult() {
     showLanding();
   });
 
-  document.querySelector("#choose-another-scene").addEventListener("click", () => {
-    showSceneSelect();
-  });
+  const chooseAnotherSceneButton = document.querySelector("#choose-another-scene");
+  if (chooseAnotherSceneButton) {
+    chooseAnotherSceneButton.hidden = isLockedSceneMode();
+    if (!isLockedSceneMode()) {
+      chooseAnotherSceneButton.addEventListener("click", () => {
+        showSceneSelect();
+      });
+    }
+  }
 
   document.querySelector("#share-result").addEventListener("click", async () => {
     const text = `${state.player} 完成 ${scene.title}，得到 ${state.score} 分，結果是 ${talent.name}。`;
@@ -1300,7 +1339,7 @@ function registerServiceWorker() {
   }
 
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js?v=20260419e").catch((error) => {
+    navigator.serviceWorker.register("./service-worker.js?v=20260419f").catch((error) => {
       console.error("Service worker registration failed.", error);
     });
   });
@@ -1320,6 +1359,9 @@ function boot() {
   if (INITIAL_SCENE_ID && window.SceneRegistry.getSceneById(INITIAL_SCENE_ID)) {
     setCurrentScene(INITIAL_SCENE_ID);
     showLanding();
+  } else if (isLockedSceneMode()) {
+    updateHero();
+    showLockedSceneUnavailable();
   } else {
     updateHero();
     showSceneSelect();

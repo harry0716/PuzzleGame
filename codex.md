@@ -527,3 +527,19 @@ Planning artifact:
 
 - the same scene can now be used in either a display-oriented activity or a more controlled competition flow
 - score inflation from repeated answer memorization is reduced in competition mode compared with the original formula
+
+## Completed On 2026-04-19 (Event-Control Upgrade Phase 3)
+
+### Implemented Progress
+
+- added `locked=1` scene access mode
+- locked mode now requires a valid `scene` query parameter and opens that scene directly
+- hidden the landing-page return-to-scene-list control during locked sessions
+- hidden the result-page cross-scene switch control during locked sessions
+- preserved replay of the same scene while locked
+- added a fallback locked-mode message when the requested scene is missing or invalid
+
+### Practical Result
+
+- a single event can now route participants into one specific scene without exposing the full scene panel
+- locked sessions no longer allow participants to leave the intended activity flow and browse other scenes

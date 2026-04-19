@@ -16,12 +16,12 @@ Build a lightweight interactive event website for visiting students that can:
 ### Core User Flow
 
 1. Participant opens the game page
-2. Participant selects a scene from the scene panel
+2. Participant selects a scene from the scene panel, or enters a locked single-scene activity URL
 3. Participant enters a nickname
 4. Participant answers the scene's questions
 5. System calculates score and trait result
 6. System saves the result to the scene-aware leaderboard
-7. Participant can replay or return to the scene panel
+7. Participant can replay, and in unlocked mode may return to the scene panel
 
 ### Quiz Experience
 
