@@ -558,3 +558,16 @@ Planning artifact:
 
 - event staff can now generate QR codes that send participants straight into a single locked scene without exposing the multi-scene homepage
 - presenter routing is now aligned with the new event-control model end to end
+
+## Completed On 2026-04-19 (Locked Scene Guard Follow-Up)
+
+### Implemented Progress
+
+- added a stronger locked-mode URL guard inside the main app flow
+- locked sessions now re-sync the `scene` and `locked=1` parameters when landing and result screens are shown
+- added a `popstate` guard so locked activity flows recover back into the locked scene instead of falling through to the general scene browser
+- bumped asset version and service worker cache again after the lock-guard patch
+
+### Practical Result
+
+- locked single-scene activity URLs are now harder to escape through normal in-site navigation or browser back behavior

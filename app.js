@@ -72,6 +72,22 @@ function isLockedSceneMode() {
   return LOCKED_MODE;
 }
 
+function syncLockedModeUrl() {
+  if (!isLockedSceneMode()) {
+    return;
+  }
+
+  const scene = getCurrentScene();
+  if (!scene) {
+    return;
+  }
+
+  const url = new URL(window.location.href);
+  url.searchParams.set("scene", scene.id);
+  url.searchParams.set("locked", "1");
+  window.history.replaceState({ lockedScene: scene.id }, "", url.toString());
+}
+
 function getSceneQuestions() {
   return getCurrentScene()?.questions || [];
 }
@@ -408,6 +424,7 @@ function showLanding() {
   }
 
   clearTimer();
+  syncLockedModeUrl();
   updateHero();
   app.innerHTML = "";
   app.appendChild(renderTemplate("#landing-template"));
@@ -1174,6 +1191,7 @@ async function createSharedEntry(entry) {
 
 async function showResult() {
   clearTimer();
+  syncLockedModeUrl();
 
   const scene = getCurrentScene();
   const talentKey = getTalentKey();
@@ -1339,9 +1357,28 @@ function registerServiceWorker() {
   }
 
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js?v=20260419g").catch((error) => {
+    navigator.serviceWorker.register("./service-worker.js?v=20260419h").catch((error) => {
       console.error("Service worker registration failed.", error);
     });
+  });
+}
+
+function registerLockedModeGuard() {
+  if (!isLockedSceneMode()) {
+    return;
+  }
+
+  window.addEventListener("popstate", () => {
+    if (!getCurrentScene() && INITIAL_SCENE_ID && window.SceneRegistry.getSceneById(INITIAL_SCENE_ID)) {
+      setCurrentScene(INITIAL_SCENE_ID);
+    }
+
+    if (getCurrentScene()) {
+      syncLockedModeUrl();
+      showLanding();
+    } else {
+      showLockedSceneUnavailable();
+    }
   });
 }
 
@@ -1367,6 +1404,7 @@ function boot() {
     showSceneSelect();
   }
 
+  registerLockedModeGuard();
   registerServiceWorker();
 }
 

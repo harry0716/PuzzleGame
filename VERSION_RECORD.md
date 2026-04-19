@@ -95,6 +95,24 @@
 - this is phase 4 of the planned event-control upgrade
 - the presenter flow can now generate QR codes that match the locked single-scene activity model
 
+## v1.10.3
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Strengthen locked scene navigation guard
+
+### Changes
+
+- added a stronger locked-mode URL sync inside the main gameplay flow
+- added a browser-history guard for locked scene sessions
+- ensured landing and result screens reapply the locked scene URL state
+- bumped asset version to `20260419h` and service worker cache version to `v19`
+
+### Notes
+
+- this is a hardening patch on top of the locked scene rollout
+- the goal is to reduce accidental fall-through from locked activity flow back into general scene browsing
+
 ## v1.9.0
 
 - Date: 2026-04-19
