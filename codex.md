@@ -505,3 +505,8 @@ Planning artifact:
 - players can no longer rely on fixed answer positions across repeated attempts
 - ordering and matching questions now start from a less predictable layout
 - the system now has the first core layer needed to reduce answer-sharing advantages during on-site events
+
+### Follow-Up Tuning
+
+- strengthened the shuffle behavior for selectable-answer questions so the same visible order is avoided when possible
+- added a second guard for `single-choice`, `timed-choice`, and `image-choice` so the correct answer tries not to remain in the same slot between attempts

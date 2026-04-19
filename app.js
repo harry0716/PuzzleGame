@@ -76,13 +76,58 @@ function getCurrentQuestion() {
   return getSceneQuestions()[0] || null;
 }
 
-function shuffleArray(items) {
-  const nextItems = [...items];
-  for (let index = nextItems.length - 1; index > 0; index -= 1) {
-    const swapIndex = Math.floor(Math.random() * (index + 1));
-    [nextItems[index], nextItems[swapIndex]] = [nextItems[swapIndex], nextItems[index]];
+function shuffleArray(items, options = {}) {
+  const {
+    avoidSameOrder = false,
+    avoidSameIndexForId = null
+  } = options;
+
+  if (!Array.isArray(items) || items.length < 2) {
+    return [...items];
   }
-  return nextItems;
+
+  const originalItems = [...items];
+  const originalIndexById = new Map(
+    originalItems.map((item, index) => [item?.id ?? index, index])
+  );
+
+  const isSameOrder = (candidate) =>
+    candidate.every((item, index) => (item?.id ?? index) === (originalItems[index]?.id ?? index));
+
+  const isTrackedItemAtSameIndex = (candidate) => {
+    if (!avoidSameIndexForId) {
+      return false;
+    }
+
+    const originalIndex = originalIndexById.get(avoidSameIndexForId);
+    const nextIndex = candidate.findIndex((item) => item?.id === avoidSameIndexForId);
+    return originalIndex !== undefined && originalIndex === nextIndex;
+  };
+
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const nextItems = [...originalItems];
+    for (let index = nextItems.length - 1; index > 0; index -= 1) {
+      const swapIndex = Math.floor(Math.random() * (index + 1));
+      [nextItems[index], nextItems[swapIndex]] = [nextItems[swapIndex], nextItems[index]];
+    }
+
+    if (avoidSameOrder && isSameOrder(nextItems)) {
+      continue;
+    }
+
+    if (isTrackedItemAtSameIndex(nextItems)) {
+      continue;
+    }
+
+    return nextItems;
+  }
+
+  const rotatedItems = [...originalItems.slice(1), originalItems[0]];
+  if (!isTrackedItemAtSameIndex(rotatedItems)) {
+    return rotatedItems;
+  }
+
+  return [...originalItems.slice(2), ...originalItems.slice(0, 2)];
 }
 
 function getSceneTalents() {
@@ -496,7 +541,10 @@ function renderTimedChoiceQuestion(question) {
   `;
   list.appendChild(intro);
 
-  shuffleArray(question.answers).forEach((answer) => {
+  shuffleArray(question.answers, {
+    avoidSameOrder: true,
+    avoidSameIndexForId: question.correctId
+  }).forEach((answer) => {
     const button = document.createElement("button");
     button.className = "answer-button";
     button.type = "button";
@@ -510,7 +558,10 @@ function renderSingleChoiceQuestion(question) {
   const list = document.querySelector("#answer-list");
   list.innerHTML = "";
 
-  shuffleArray(question.answers).forEach((answer) => {
+  shuffleArray(question.answers, {
+    avoidSameOrder: true,
+    avoidSameIndexForId: question.correctId
+  }).forEach((answer) => {
     const button = document.createElement("button");
     button.className = "answer-button";
     button.type = "button";
@@ -524,7 +575,9 @@ function renderBranchingQuestion(question) {
   const list = document.querySelector("#answer-list");
   list.innerHTML = "";
 
-  shuffleArray(question.choices).forEach((choice) => {
+  shuffleArray(question.choices, {
+    avoidSameOrder: true
+  }).forEach((choice) => {
     const button = document.createElement("button");
     button.className = "answer-button";
     button.type = "button";
@@ -539,7 +592,10 @@ function renderImageChoiceQuestion(question) {
   list.innerHTML = "";
   list.classList.add("image-answer-list");
 
-  shuffleArray(question.options).forEach((option) => {
+  shuffleArray(question.options, {
+    avoidSameOrder: true,
+    avoidSameIndexForId: question.correctId
+  }).forEach((option) => {
     const button = document.createElement("button");
     button.className = "answer-button image-answer-button";
     button.type = "button";
@@ -556,7 +612,9 @@ function renderImageChoiceQuestion(question) {
 function renderOrderingQuestion(question) {
   const list = document.querySelector("#answer-list");
   list.innerHTML = "";
-  state.orderingDraft = shuffleArray(question.items);
+  state.orderingDraft = shuffleArray(question.items, {
+    avoidSameOrder: true
+  });
 
   const wrapper = document.createElement("div");
   wrapper.className = "ordering-question";
@@ -630,8 +688,12 @@ function renderMatchingQuestion(question) {
   const list = document.querySelector("#answer-list");
   list.innerHTML = "";
   state.matchingDraft = {};
-  const shuffledLeftItems = shuffleArray(question.leftItems);
-  const shuffledRightItems = shuffleArray(question.rightItems);
+  const shuffledLeftItems = shuffleArray(question.leftItems, {
+    avoidSameOrder: true
+  });
+  const shuffledRightItems = shuffleArray(question.rightItems, {
+    avoidSameOrder: true
+  });
 
   const wrapper = document.createElement("div");
   wrapper.className = "matching-question";

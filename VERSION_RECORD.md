@@ -20,6 +20,23 @@
 - scoring-mode changes and scene-locking changes are intentionally left for later phases
 - the main goal of this batch is to reduce fixed-position memorization during repeated play
 
+## v1.9.2
+
+- Date: 2026-04-19
+- Branch: `main`
+- Title: Strengthen answer-position randomization
+
+### Changes
+
+- upgraded the shuffle helper to avoid repeating the same visible order when possible
+- added extra position-avoidance logic for the correct answer in `single-choice`, `timed-choice`, and `image-choice`
+- kept `ordering`, `matching`, and `branching` randomization while reducing obvious repeated layouts
+
+### Notes
+
+- this is a tuning pass on top of the original randomization rollout
+- the goal is to make answer-position changes feel clearer during real event play
+
 ## v1.9.0
 
 - Date: 2026-04-19
