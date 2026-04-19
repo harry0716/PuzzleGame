@@ -445,6 +445,80 @@ If shared leaderboard behavior changes, also update:
 - `LEADERBOARD_SETUP.md`
 - `supabase-leaderboard.sql`
 
+## Confirmed Fifth Scene Research Direction (2026-04-19)
+
+The fifth planned scene is now entering a research-first phase before content
+writing begins.
+
+Working direction:
+
+- topic focus: smart agriculture / smart farm / AIoT in agriculture
+- design goal: combine local relevance with global agrifood-system context
+- content should not stop at device demonstrations, and must also cover
+  business, adoption barriers, water, energy, and future outlook questions
+- this scene is expected to be more system-oriented and policy-aware than the
+  previous four scenes
+
+Required research buckets:
+
+- core smart-farm technology topics
+- business and market background for smart agriculture adoption
+- barriers and promotion challenges
+- water-use and irrigation governance issues
+- electricity / energy-use implications
+- future development, resilience, and global food-system outlook
+
+Planning artifact:
+
+- `FIFTH_SCENE_RESEARCH.md`
+
+## Confirmed Fifth Scene Structure Direction (2026-04-19)
+
+The fifth scene will not follow the earlier single-track scene structure.
+Instead, it will use one smart-agriculture master scene with multiple selectable
+question modules inside it.
+
+Confirmed structure decisions:
+
+- keep one master scene rather than splitting the topic into many separate top-level scenes
+- add a shared smart-agriculture intro before module selection
+- use a module-selection panel inside the scene
+- once a player selects a module, lock them into that module for the session
+- do not allow switching to another module mid-run
+- each module should target a 10-question flow
+- each module should eventually support its own result-card direction
+
+Confirmed module set:
+
+- 技術題組
+- 商業題組
+- 能源題組
+- ESG 題組
+- 國際市場題組
+- 水資源治理題組
+- 智慧灌溉題組
+
+Recommended module grouping for UX:
+
+- 技術與系統
+- 經營與市場
+- 永續與治理
+
+Future routing intent:
+
+- after the module system is implemented, event URLs should eventually support
+  a module parameter such as `?scene=<scene-id>&module=<module-id>&locked=1`
+- this would allow one event to lock not only a scene, but also a specific
+  smart-agriculture module
+
+Planning artifact:
+
+- `FIFTH_SCENE_MODULE_SPEC.md`
+
+Current next planning artifact:
+
+- `FIFTH_SCENE_MODULE_OUTLINES.md`
+
 ## Confirmed Event-Control Upgrade Direction (2026-04-19)
 
 The next confirmed upgrade is an event-control pass that makes the game more
