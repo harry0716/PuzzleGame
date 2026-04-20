@@ -848,6 +848,7 @@ Planning artifact:
 ### Planning Artifact
 
 - `SMART_IRRIGATION_DIFFICULTY_SCRIPT_SPEC.md`
+- `SMART_IRRIGATION_DIFFICULTY_SCRIPT_DRAFT.md`
 
 ## Project Plans Track (2026-04-20)
 
