@@ -244,3 +244,22 @@ This delivery baseline now additionally includes:
 - distinct `easy`, `medium`, and `hard` question-bank structures for the same scene
 - a guided introductory `easy` path for first-time visitors
 - a more interpretive `hard` path focused on system-level understanding
+
+## 2026-04-20 Development Snapshot
+
+This delivery baseline now additionally includes:
+
+- five live scene directions in one repository
+- one module-based smart-agriculture hub as the fifth scene
+- seven live fifth-scene modules
+- authored difficulty-script support already proven on:
+  - `smart-irrigation`
+  - `chip-hunter`
+- a proposal / research planning track stored in:
+  - `project-plans/`
+
+This means the project should now be treated as:
+
+- an event activity system
+- a cross-disciplinary science-popularization platform
+- a reusable base for future teaching-practice or research proposals

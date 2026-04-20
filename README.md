@@ -174,3 +174,38 @@ When new content is added, update these files first:
 - kept the standard live scene as the `medium` baseline
 - added a more guided `easy` visit path and a more interpretive `hard` challenge path
 - preserved the same role-card family while allowing difficulty-specific emphasis
+
+## Current Development Snapshot
+
+- live playable scenes:
+  - `chip-hunter`
+  - `electronics-dual-experience`
+  - `smart-factory-mission-station`
+  - `smart-care-mission-station`
+  - `smart-farm-global-mission`
+- live playable fifth-scene modules:
+  - `smart-irrigation`
+  - `agri-tech`
+  - `farm-energy`
+  - `farm-business`
+  - `global-market`
+  - `farm-esg`
+  - `water-governance`
+- authored independent difficulty scripts are now live for:
+  - `chip-hunter`
+  - `smart-irrigation`
+- the next recommended authored-difficulty targets are:
+  - `smart-care-mission-station`
+  - `smart-factory-mission-station`
+
+## Proposal And Research Track
+
+The repository now includes a proposal-development track in:
+
+- `project-plans/`
+
+This folder is intended for:
+
+- science-popularization positioning
+- teaching-practice positioning
+- research-concept and future proposal drafting

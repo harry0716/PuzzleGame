@@ -1,5 +1,23 @@
 # Version Record
 
+## v1.12.5
+
+- Date: 2026-04-20
+- Branch: `main`
+- Title: Record development snapshot and sync planning docs
+
+### Changes
+
+- added a current continuation snapshot to `codex.md`
+- updated `README.md` with the current live scene/module and authored-difficulty status
+- updated `DELIVERY.md` with the current platform-level maturity snapshot
+- updated `project-plans/README.md` to reflect the repository's proposal-development role
+
+### Notes
+
+- this batch is a documentation synchronization milestone
+- no gameplay logic changed in this step; the goal is to preserve continuity for the next development round
+
 ## v1.12.4
 
 - Date: 2026-04-20

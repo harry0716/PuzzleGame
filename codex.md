@@ -120,6 +120,57 @@ Confirmed requirements:
 
 ## Project Plans Track (2026-04-20)
 
+## Current Continuation Snapshot (2026-04-20)
+
+### Product State
+
+- scenes 1 through 5 are all playable on the live site
+- scene 5 is no longer a linear scene; it is a master smart-agriculture scene
+  with internal module routing
+- all event-control foundations are already live:
+  - scene lock
+  - module routing
+  - difficulty routing
+  - presenter QR diversion
+  - leaderboard separation by difficulty
+
+### Difficulty Progress
+
+- `smart-irrigation` now uses fully authored `easy / medium / hard` scripts
+- `chip-hunter` now also uses fully authored `easy / medium / hard` scripts
+- the authored-difficulty pattern is now validated for both:
+  - a module-based target
+  - a standard non-module scene
+
+### Next Recommended Scene Order
+
+1. `smart-care-mission-station`
+2. `smart-factory-mission-station`
+3. `electronics-dual-experience`
+4. fifth-scene modules beyond `smart-irrigation`
+
+### Planning Tracks Already Established
+
+- technical implementation record:
+  - `codex.md`
+- project / proposal development track:
+  - `project-plans/`
+- difficulty-system planning:
+  - `DIFFICULTY_AND_ACTIVITY_MANAGEMENT_SPEC.md`
+- fifth-scene planning artifacts:
+  - research
+  - module spec
+  - module outlines
+  - structure spec
+  - smart-irrigation drafts
+
+### Development Principle Going Forward
+
+- continue scene by scene
+- always write the difficulty spec and draft before live implementation
+- keep documentation and project-plans synchronized as first-class assets, not
+  as an afterthought
+
 Confirmed direction:
 
 - this project now has enough depth to support a second documentation track focused on
