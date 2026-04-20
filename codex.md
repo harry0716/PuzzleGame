@@ -809,6 +809,48 @@ Planning artifact:
 - organizer-side difficulty selection can now be tested against actual content differences
 - the next safest step is to observe whether the smart-irrigation pilot feels sufficiently differentiated before applying the same model to other scenes or modules
 
+## Confirmed On 2026-04-20 (Independent Difficulty Scripts Direction)
+
+### Confirmed Problem
+
+- the first smart-irrigation difficulty pilot proved that the routing and loading framework works
+- however, the current `easy / medium / hard` differences are still too close to one another
+- at the moment, they mostly vary in prompt complexity, timing, and selectable density
+- this is not yet the desired long-term difficulty model
+
+### Confirmed Direction
+
+- difficulty should evolve from "surface difficulty" into "content difficulty"
+- each difficulty tier should become its own script, not only a modified copy of the same base question set
+- the user explicitly wants:
+  - one smart-irrigation script for `easy`
+  - one smart-irrigation script for `medium`
+  - one smart-irrigation script for `hard`
+- these three scripts may share the same broad theme, but should differ in:
+  - prompts
+  - answer choices
+  - concept depth
+  - scenario framing
+  - decision complexity
+
+### Working Principle
+
+- `easy` should feel like guided concept-building
+- `medium` should feel like standard activity depth
+- `hard` should feel like integrated decision-making and challenge content
+- future scene-by-scene expansion is preferred over trying to convert the whole system at once
+
+### First Implementation Target
+
+- keep using fifth-scene module `smart-irrigation` as the first full independent-script pilot
+- write a dedicated planning artifact before rewriting the live question bank
+
+### Planning Artifact
+
+- `SMART_IRRIGATION_DIFFICULTY_SCRIPT_SPEC.md`
+
+## Project Plans Track (2026-04-20)
+
 ## Confirmed On 2026-04-20 (Difficulty-System Planning)
 
 ### Confirmed Direction
