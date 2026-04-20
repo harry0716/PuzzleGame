@@ -118,6 +118,36 @@ Confirmed requirements:
 - do not call the model directly from the public front end
 - expand interaction types beyond the current single quiz format
 
+## Project Plans Track (2026-04-20)
+
+Confirmed direction:
+
+- this project now has enough depth to support a second documentation track focused on
+  external-facing project positioning, proposal writing, and future research development
+- this second track should live inside the same repository, but in a dedicated folder
+- recommended folder name: `project-plans/`
+- this folder should evolve in parallel with the product, not replace the main technical docs
+
+Planned purpose of the new folder:
+
+- capture a science-popularization version of the project
+- capture a teaching-practice / curriculum-integration version of the project
+- capture a research-concept version of the project
+- preserve multiple proposal versions over time instead of overwriting one master draft
+
+Initial baseline files to maintain:
+
+- `project-plans/README.md`
+- `project-plans/plan-v1-science-popularization.md`
+- `project-plans/plan-v1-teaching-practice.md`
+- `project-plans/plan-v1-research-concept.md`
+
+Working principle:
+
+- the game system and the proposal-writing track are now parallel long-term assets
+- future scene growth, module design, difficulty planning, and activity control features
+  should be reflected in both the technical docs and the project-plans folder when relevant
+
 Confirmed target question types:
 
 - single-choice
