@@ -711,3 +711,29 @@ Planning artifact:
 ### Practical Result
 
 - locked single-scene activity URLs are now harder to escape through normal in-site navigation or browser back behavior
+
+## Completed On 2026-04-20 (Fifth Scene Full Module Rollout)
+
+### Implemented Progress
+
+- expanded the fifth-scene smart-farm hub from a single pilot module into seven playable modules
+- converted the following planned cards into full playable module content:
+  - `agri-tech`
+  - `farm-energy`
+  - `farm-business`
+  - `global-market`
+  - `farm-esg`
+  - `water-governance`
+- retained `smart-irrigation` as the original playable pilot module
+- kept the existing fifth-scene master flow:
+  - shared intro
+  - module selector
+  - locked module run
+  - module-specific result and leaderboard path
+- preserved compatibility for scenes 1 through 4 without forcing them into the module-based structure
+
+### Practical Result
+
+- the fifth scene is now a real smart-agriculture content hub rather than a single pilot path
+- event staff can route students into one of seven different smart-agriculture learning directions depending on activity needs
+- the presenter page and module-level QR routing now have enough playable module coverage to support broader fifth-scene event testing

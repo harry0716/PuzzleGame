@@ -1,5 +1,30 @@
 # Version Record
 
+## v1.12.0
+
+- Date: 2026-04-20
+- Branch: `main`
+- Title: Expand fifth scene into a full seven-module hub
+
+### Changes
+
+- converted six previously planned fifth-scene modules into playable content:
+  - `agri-tech`
+  - `farm-energy`
+  - `farm-business`
+  - `global-market`
+  - `farm-esg`
+  - `water-governance`
+- kept `smart-irrigation` as the existing pilot module inside the same smart-farm master scene
+- completed a seven-module smart-agriculture hub under the fifth-scene structure
+- aligned the module cards with real landing, question, result, and leaderboard data
+- bumped asset version to `20260420b` and service worker cache version to `v21`
+
+### Notes
+
+- this is the first full-content rollout for the fifth-scene module architecture
+- presenter module routing remains compatible with the expanded fifth-scene module list
+
 ## v1.11.0
 
 - Date: 2026-04-20

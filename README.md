@@ -20,6 +20,14 @@ Repository:
 
 - Visual scene selection panel
 - Scene registry / multi-scene-ready architecture
+- Current fifth-scene module ids:
+  - `smart-irrigation`
+  - `agri-tech`
+  - `farm-energy`
+  - `farm-business`
+  - `global-market`
+  - `farm-esg`
+  - `water-governance`
 - Current playable scenes: `晶片獵人`, `電子工程雙體驗`, `智慧工廠任務站`, `智慧照護任務站`
 - Module-based fifth-scene hub: `智慧農場全球任務站`
 - Current fifth-scene pilot module: `智慧灌溉題組`
@@ -128,3 +136,15 @@ When new content is added, update these files first:
 - added shared intro and module-selector views to the main game entry
 - wired the first playable fifth-scene pilot module: `智慧灌溉題組`
 - preserved backward compatibility for scenes 1 through 4
+
+## Additional 2026-04-20 Full Module Update
+
+- expanded the smart-farm fifth scene into a seven-module hub
+- made these additional modules playable:
+  - `agri-tech`
+  - `farm-energy`
+  - `farm-business`
+  - `global-market`
+  - `farm-esg`
+  - `water-governance`
+- kept `smart-irrigation` as the original pilot module in the same hub

@@ -293,7 +293,7 @@ function registerPresenterServiceWorker() {
   }
 
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js?v=20260420a").catch(() => {});
+    navigator.serviceWorker.register("./service-worker.js?v=20260420b").catch(() => {});
   });
 }
 

@@ -185,3 +185,19 @@ This delivery baseline now additionally includes:
 - presenter-side module selection for module-based scenes
 - QR generation that can point directly to `?scene=...&module=...`
 - presenter leaderboard loading aligned to module-specific event codes and local keys
+
+## 2026-04-20 Fifth Scene Full Module Rollout
+
+This delivery baseline now additionally includes:
+
+- six newly playable smart-agriculture modules inside the fifth-scene hub:
+  - `agri-tech`
+  - `farm-energy`
+  - `farm-business`
+  - `global-market`
+  - `farm-esg`
+  - `water-governance`
+- one existing pilot module retained as part of the same hub:
+  - `smart-irrigation`
+- full seven-module fifth-scene experience with shared intro, module selection, module landing, module questions, and module result flow
+- module-level leaderboard event-code coverage for all currently playable fifth-scene modules
