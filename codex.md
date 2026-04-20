@@ -758,6 +758,27 @@ Planning artifact:
 - presenter QR routing is now ready for difficulty-aware activity control
 - the next implementation step can focus on applying real `easy / medium / hard` question banks to a pilot target such as `smart-irrigation`
 
+## Completed On 2026-04-20 (Difficulty Pilot Phase 2)
+
+### Implemented Progress
+
+- applied the first real three-tier difficulty rollout to:
+  - `smart-farm-global-mission`
+  - module `smart-irrigation`
+- kept the existing smart-irrigation question bank as the medium baseline
+- generated `easy`, `medium`, and `hard` difficulty sets on top of that baseline
+- tuned the pilot so:
+  - `easy` uses clearer copy, longer time, and reduced selectable options on applicable question types
+  - `medium` keeps the original baseline experience
+  - `hard` uses denser prompts and tighter timing on applicable questions
+- updated the smart-irrigation module card label to reflect three difficulty tiers
+
+### Practical Result
+
+- the project now has one real difficulty-aware content pilot instead of only routing support
+- organizer-side difficulty selection can now be tested against actual content differences
+- the next safest step is to observe whether the smart-irrigation pilot feels sufficiently differentiated before applying the same model to other scenes or modules
+
 ## Confirmed On 2026-04-20 (Difficulty-System Planning)
 
 ### Confirmed Direction

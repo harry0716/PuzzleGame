@@ -1,5 +1,25 @@
 # Version Record
 
+## v1.12.2
+
+- Date: 2026-04-20
+- Branch: `main`
+- Title: Add smart-irrigation difficulty pilot
+
+### Changes
+
+- applied the first real `easy / medium / hard` content rollout to the fifth-scene `smart-irrigation` module
+- kept the original smart-irrigation content as the `medium` baseline
+- generated an `easy` variant with simpler framing, more time, and reduced selectable-option density on applicable question types
+- generated a `hard` variant with denser prompt framing and tighter timing on applicable question types
+- updated the smart-irrigation module label to show that it now supports three difficulty tiers
+- bumped asset version to `20260420d` and service worker cache version to `v23`
+
+### Notes
+
+- this is the first real difficulty-aware content pilot in the project
+- other scenes and modules still use the difficulty-routing foundation until their own question-bank tiers are authored
+
 ## v1.12.1
 
 - Date: 2026-04-20

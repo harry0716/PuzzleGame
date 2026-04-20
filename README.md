@@ -155,3 +155,9 @@ When new content is added, update these files first:
 - added landing-page difficulty selection
 - added presenter-side difficulty selection for QR generation
 - prepared leaderboard separation by difficulty for future pilot content rollout
+
+## Additional 2026-04-20 Difficulty Pilot Update
+
+- applied the first real `easy / medium / hard` content pilot to the fifth-scene `smart-irrigation` module
+- kept the original smart-irrigation content as the medium baseline
+- added easier and harder variants with adjusted wording, timing, and applicable option density

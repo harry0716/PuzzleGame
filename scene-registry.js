@@ -70,6 +70,132 @@
     `);
   }
 
+  function cloneData(value) {
+    return JSON.parse(JSON.stringify(value));
+  }
+
+  function selectQuestionOptions(question, limit) {
+    if (question.answers) {
+      const correct = question.answers.find((item) => item.id === question.correctId);
+      const distractors = question.answers.filter((item) => item.id !== question.correctId).slice(0, Math.max(0, limit - 1));
+      question.answers = [correct, ...distractors].filter(Boolean);
+    }
+
+    if (question.options) {
+      const correct = question.options.find((item) => item.id === question.correctId);
+      const distractors = question.options.filter((item) => item.id !== question.correctId).slice(0, Math.max(0, limit - 1));
+      question.options = [correct, ...distractors].filter(Boolean);
+    }
+
+    return question;
+  }
+
+  function simplifyMatchingQuestion(question, limit) {
+    if (!question.leftItems || !question.rightItems || !question.pairs) {
+      return question;
+    }
+
+    const leftItems = question.leftItems.slice(0, limit);
+    const leftIds = new Set(leftItems.map((item) => item.id));
+    const pairs = question.pairs.filter((pair) => leftIds.has(pair.leftId)).slice(0, limit);
+    const rightIds = new Set(pairs.map((pair) => pair.rightId));
+
+    question.leftItems = leftItems;
+    question.pairs = pairs;
+    question.rightItems = question.rightItems.filter((item) => rightIds.has(item.id));
+    return question;
+  }
+
+  function createSmartIrrigationDifficultySet(level, baseQuestions, baseResults) {
+    const questions = cloneData(baseQuestions).map((question) => {
+      const nextQuestion = { ...question };
+
+      if (level === "easy") {
+        nextQuestion.prompt = `【初階】${question.prompt}`;
+        nextQuestion.description = question.description
+          ? `${question.description} 這一版會把判斷重點說得更直接。`
+          : "這一版會把判斷重點說得更直接。";
+
+        if (question.type === "single-choice" || question.type === "timed-choice") {
+          selectQuestionOptions(nextQuestion, 3);
+        } else if (question.type === "image-choice") {
+          selectQuestionOptions(nextQuestion, 3);
+        } else if (question.type === "matching") {
+          simplifyMatchingQuestion(nextQuestion, 3);
+        }
+
+        if (question.type === "timed-choice") {
+          nextQuestion.timeLimit = Math.min((question.timeLimit || 8) + 4, 16);
+          nextQuestion.countdownLabel = `${nextQuestion.timeLimit} 秒初階判斷`;
+          nextQuestion.urgencyText = "先抓最核心的線索，再做選擇。";
+        }
+
+        return nextQuestion;
+      }
+
+      if (level === "hard") {
+        nextQuestion.prompt = `【進階】${question.prompt} 請同時考量資源效率、現場條件與決策理由。`;
+        nextQuestion.description = question.description
+          ? `${question.description} 這一版希望你把答案背後的取捨一起想進去。`
+          : "這一版希望你把答案背後的取捨一起想進去。";
+
+        if (question.type === "timed-choice") {
+          nextQuestion.timeLimit = Math.max(6, (question.timeLimit || 8) - 2);
+          nextQuestion.countdownLabel = `${nextQuestion.timeLimit} 秒進階判斷`;
+          nextQuestion.urgencyText = "時間更短，請更快判斷哪個條件真正影響灌溉。";
+        }
+
+        return nextQuestion;
+      }
+
+      return nextQuestion;
+    });
+
+    const difficultyMeta = {
+      easy: {
+        title: "智慧灌溉題組啟動",
+        copy: "這是初階版智慧灌溉題組。你會用更清楚、較低干擾的題目，先建立土壤濕度、灌溉時機與節水判斷的基本觀念。",
+        rules: [
+          "共 10 題，題意更直接，適合導覽、暖身或第一次接觸智慧灌溉。",
+          "部分題型會使用較少選項，幫助你更聚焦地建立判斷概念。",
+          "完成後仍會得到完整的智慧灌溉結果卡。"
+        ],
+        settings: { questionCount: 10, defaultTimeLimit: 18 }
+      },
+      medium: {
+        title: "智慧灌溉題組啟動",
+        copy: "這是標準版智慧灌溉題組。你會從農場現場的角度，理解土壤、天氣、設備與調度如何影響真正的灌溉決策。",
+        rules: [
+          "共 10 題，題型包含單選、限時、分支、圖片、配對與排序。",
+          "重點不是背設備名稱，而是理解為什麼灌溉不能只靠習慣。",
+          "結果卡會依你的作答傾向，回饋你在智慧灌溉中的判斷風格。"
+        ],
+        settings: { questionCount: 10, defaultTimeLimit: 14 }
+      },
+      hard: {
+        title: "智慧灌溉題組啟動",
+        copy: "這是進階版智慧灌溉題組。題目會更強調取捨、條件交叉與全球水壓力脈絡，適合競賽或較熟悉主題的參與者。",
+        rules: [
+          "共 10 題，保留完整題型，但會要求你一起思考時機、資源與決策理由。",
+          "限時題秒數更短，整體閱讀與判斷壓力更高。",
+          "結果卡仍使用同一套角色，但更能反映你在高壓條件下的判斷傾向。"
+        ],
+        settings: { questionCount: 10, defaultTimeLimit: 11 }
+      }
+    };
+
+    return {
+      landing: {
+        title: difficultyMeta[level].title,
+        copy: difficultyMeta[level].copy,
+        rules: difficultyMeta[level].rules
+      },
+      settings: difficultyMeta[level].settings,
+      questions,
+      results: cloneData(baseResults)
+    };
+  }
+
   const CHIP_HUNTER_SCENE = {
     id: "chip-hunter",
     title: "晶片獵人",
@@ -3192,6 +3318,19 @@
       SMART_FARM_WATER_GOVERNANCE_MODULE
     ]
   };
+
+  const smartIrrigationModule = SMART_FARM_GLOBAL_SCENE.modules.find((module) => module.id === "smart-irrigation");
+  if (smartIrrigationModule) {
+    const irrigationBaseQuestions = cloneData(smartIrrigationModule.questions || []);
+    const irrigationBaseResults = cloneData(smartIrrigationModule.results || {});
+
+    smartIrrigationModule.difficultySets = {
+      easy: createSmartIrrigationDifficultySet("easy", irrigationBaseQuestions, irrigationBaseResults),
+      medium: createSmartIrrigationDifficultySet("medium", irrigationBaseQuestions, irrigationBaseResults),
+      hard: createSmartIrrigationDifficultySet("hard", irrigationBaseQuestions, irrigationBaseResults)
+    };
+    smartIrrigationModule.questionCountLabel = "10 題 / 三段難度";
+  }
 
   const scenes = [CHIP_HUNTER_SCENE, DUAL_EXPERIENCE_SCENE, SMART_FACTORY_SCENE, SMART_CARE_SCENE, SMART_FARM_GLOBAL_SCENE];
 

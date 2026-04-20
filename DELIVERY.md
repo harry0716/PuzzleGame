@@ -215,3 +215,14 @@ This delivery baseline now additionally includes:
 - difficulty-aware local leaderboard keys
 - difficulty-aware shared leaderboard event-code suffixing
 - preserved compatibility for existing scenes and modules that do not yet have dedicated difficulty-specific question banks
+
+## 2026-04-20 Difficulty Pilot Update
+
+This delivery baseline now additionally includes:
+
+- the first real three-tier difficulty pilot on:
+  - fifth scene
+  - module `smart-irrigation`
+- a medium baseline that preserves the original pilot content
+- an easy variant with clearer copy, longer timing, and reduced selectable-option density on applicable question types
+- a hard variant with denser prompt framing and tighter timing on applicable question types
