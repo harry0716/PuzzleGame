@@ -177,3 +177,11 @@ This delivery baseline now additionally includes:
 - the first playable fifth-scene pilot module: `智慧灌溉題組`
 - a fifth-scene data structure that supports one master scene owning multiple internal modules
 - backward compatibility for the first four scenes without forcing them into the module-based pattern
+
+## 2026-04-20 Fifth Scene Routing Follow-Up
+
+This delivery baseline now additionally includes:
+
+- presenter-side module selection for module-based scenes
+- QR generation that can point directly to `?scene=...&module=...`
+- presenter leaderboard loading aligned to module-specific event codes and local keys

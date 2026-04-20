@@ -64,8 +64,21 @@ Planning / research artifacts:
 ### Remaining Planned Work
 
 - expand the remaining six smart-agriculture modules
-- add stronger direct module-entry routing through `module=`
-- align presenter routing with module-level locked URLs when needed
+- expand presenter routing so it can generate module-level locked URLs directly
+
+## Completed On 2026-04-20 (Fifth Scene Routing Follow-Up)
+
+### Implemented Progress
+
+- presenter routing now supports module-level QR generation for module-based scenes
+- the presenter page can now choose a fifth-scene module and generate a matching `module=` URL
+- module-aware leaderboard loading is now aligned with the selected scene / module combination in the presenter flow
+
+### Practical Result
+
+- the fifth scene can now be reached in two valid ways:
+  - scene hub -> manual module selection
+  - direct presenter QR routing into a chosen module
 
 ## Confirmed Maintenance Rules
 

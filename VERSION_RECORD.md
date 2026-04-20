@@ -24,6 +24,23 @@
 - scenes 1 through 4 remain on the existing linear scene flow
 - future work can extend the same structure with direct `module=` routing and additional smart-agriculture modules
 
+## v1.11.1
+
+- Date: 2026-04-20
+- Branch: `main`
+- Title: Align presenter routing with fifth-scene modules
+
+### Changes
+
+- updated `presenter.html` and `presenter.js` to support module selection for module-based scenes
+- added direct QR generation for `?scene=...&module=...` style fifth-scene URLs
+- aligned presenter leaderboard loading with module-level event codes and local storage keys
+
+### Notes
+
+- this is the routing follow-up to the fifth-scene hub rollout
+- the presenter flow can now directly guide players into `智慧灌溉題組` without first going through manual module selection
+
 ## v1.9.1
 
 - Date: 2026-04-19

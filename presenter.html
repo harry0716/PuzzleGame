@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PuzzleGame Presenter</title>
     <meta name="theme-color" content="#0a7f6f" />
-    <link rel="stylesheet" href="./styles.css?v=20260419h" />
+    <link rel="stylesheet" href="./styles.css?v=20260420a" />
   </head>
   <body class="presenter-body">
     <div class="presenter-shell">
@@ -13,10 +13,10 @@
         <p class="eyebrow">HOST MODE</p>
         <h1>AI Lab Talent Sprint</h1>
         <p class="presenter-copy">
-          用一個主持端畫面管理掃碼入口與現場排行榜，讓學生可以直接用自己的手機加入指定場景。
+          用主持頁集中管理掃碼入口與現場排行榜。現在除了場景切換，也可以直接指定第五場景的題組導流，讓 QR code 更貼近真實活動流程。
         </p>
         <div class="presenter-meta">
-          <span id="presenter-mode" class="meta-chip">排行榜模式載入中</span>
+          <span id="presenter-mode" class="meta-chip">排行榜模式</span>
           <span class="meta-chip">QR 導流模式</span>
         </div>
       </section>
@@ -24,16 +24,17 @@
       <section class="presenter-grid">
         <div class="presenter-card presenter-qr-card">
           <p class="mini-label">SCAN TO PLAY</p>
-          <h2>掃碼加入活動</h2>
+          <h2>掃碼開始活動</h2>
           <p id="presenter-scene-label" class="presenter-scene-label"></p>
           <div class="stack-lg presenter-config">
             <label class="field">
               <span>導流場景</span>
-              <div class="presenter-scene-links" aria-label="導流場景快速切換">
-                <a class="ghost-button link-button" href="./presenter.html?refresh=qrscene5&scene=chip-hunter">晶片獵人</a>
-                <a class="ghost-button link-button" href="./presenter.html?refresh=qrscene5&scene=electronics-dual-experience">電子工程雙體驗</a>
-              </div>
               <div id="presenter-scene" class="preset-toggle presenter-scene-toggle" role="group" aria-label="導流場景"></div>
+            </label>
+            <label class="field">
+              <span>題組導流</span>
+              <div id="presenter-module" class="preset-toggle presenter-scene-toggle" role="group" aria-label="題組導流"></div>
+              <small id="presenter-module-hint" class="field-hint"></small>
             </label>
             <label class="field">
               <span>公開活動網址</span>
@@ -54,12 +55,12 @@
           <div class="leaderboard-page-head">
             <div>
               <p class="mini-label">LIVE RANKING</p>
-              <h2 id="presenter-board-title">現場排行榜</h2>
+              <h2 id="presenter-board-title">目前排行榜</h2>
               <p id="presenter-board-copy" class="presenter-url"></p>
             </div>
             <div class="leaderboard-actions">
-              <button id="refresh-presenter" class="ghost-button" type="button">重新整理</button>
-              <a class="ghost-button link-button" href="./leaderboard.html">開啟排行榜頁</a>
+              <button id="refresh-presenter" class="ghost-button" type="button">立即更新</button>
+              <a class="ghost-button link-button" href="./leaderboard.html">獨立排行榜頁</a>
             </div>
           </div>
           <ol id="presenter-board" class="leaderboard-list leaderboard-list-presenter"></ol>
@@ -67,9 +68,9 @@
       </section>
     </div>
 
-    <script src="./config.js?v=20260419h"></script>
-    <script src="./leaderboard-shared.js?v=20260419h"></script>
-    <script src="./scene-registry.js?v=20260419h"></script>
-    <script src="./presenter.js?v=20260419h"></script>
+    <script src="./config.js?v=20260420a"></script>
+    <script src="./leaderboard-shared.js?v=20260420a"></script>
+    <script src="./scene-registry.js?v=20260420a"></script>
+    <script src="./presenter.js?v=20260420a"></script>
   </body>
 </html>

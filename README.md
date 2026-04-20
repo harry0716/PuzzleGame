@@ -39,6 +39,7 @@ Repository:
 - Standalone leaderboard page
 - Presenter page with scene-specific QR code, public URL input, and auto-refresh leaderboard
 - Presenter QR routing supports locked single-scene event URLs by default
+- Presenter QR routing can now target module-based fifth-scene URLs for `智慧農場全球任務站`
 - Cache-resilient asset loading for GitHub Pages updates
 - PWA basics via `manifest.webmanifest` and `service-worker.js`
 
