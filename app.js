@@ -4,6 +4,7 @@ const LOCAL_BOARD_KEY = "ai-lab-board";
 const TIMER_PRESET_KEY = "ai-lab-timer-preset";
 const TIMER_CUSTOM_SECONDS_KEY = "ai-lab-custom-timer-seconds";
 const SCORING_MODE_KEY = "ai-lab-scoring-mode";
+const DIFFICULTY_KEY = "ai-lab-difficulty";
 const TIMER_PRESETS = {
   relaxed: { label: "從容模式", multiplier: 1.6, description: "每題時間延長，適合導覽或首次體驗。" },
   standard: { label: "標準模式", multiplier: 1, description: "維持目前預設節奏。" },
@@ -14,6 +15,12 @@ const TIMER_PRESETS = {
 const SCORING_MODES = {
   showcase: { label: "展示模式", description: "保留較明顯的速度差異，適合自由體驗與展示活動。" },
   competition: { label: "競賽模式", description: "以答對為主、速度為輔，較適合正式闖關與排行。" }
+};
+
+const DIFFICULTY_LEVELS = {
+  easy: { label: "初階", description: "題目更直接、干擾較低，適合導覽或第一次接觸這個主題的參與者。" },
+  medium: { label: "標準", description: "目前預設難度，兼顧閱讀量、情境判斷與活動節奏。" },
+  hard: { label: "進階", description: "題目更密集、判斷更細，較適合競賽或熟悉主題的參與者。" }
 };
 
 const APP_CONFIG = window.APP_CONFIG || {
@@ -31,6 +38,7 @@ const SEARCH_PARAMS = new URLSearchParams(window.location.search);
 const AUTO_PLAY = SEARCH_PARAMS.get("autoplay") === "1";
 const INITIAL_SCENE_ID = SEARCH_PARAMS.get("scene");
 const INITIAL_MODULE_ID = SEARCH_PARAMS.get("module");
+const INITIAL_DIFFICULTY = SEARCH_PARAMS.get("difficulty");
 const LOCKED_MODE = SEARCH_PARAMS.get("locked") === "1";
 const SCENES = window.SceneRegistry?.getAllScenes?.() || [];
 
@@ -40,6 +48,10 @@ const leaderboardModeNode = document.querySelector("#leaderboard-mode");
 const heroEyebrowNode = document.querySelector("#hero-eyebrow");
 const heroTitleNode = document.querySelector("#hero-title");
 const heroCopyNode = document.querySelector("#hero-copy");
+
+function sanitizeDifficultyKey(value) {
+  return DIFFICULTY_LEVELS[value] ? value : "medium";
+}
 
 const state = {
   currentSceneId: INITIAL_SCENE_ID || null,
@@ -59,8 +71,11 @@ const state = {
   currentQuestionType: null,
   timerPresetKey: window.localStorage.getItem(TIMER_PRESET_KEY) || "standard",
   customTimerSeconds: window.localStorage.getItem(TIMER_CUSTOM_SECONDS_KEY) || "15",
-  scoringModeKey: window.localStorage.getItem(SCORING_MODE_KEY) || "showcase"
+  scoringModeKey: window.localStorage.getItem(SCORING_MODE_KEY) || "showcase",
+  currentDifficultyKey: sanitizeDifficultyKey(INITIAL_DIFFICULTY || window.localStorage.getItem(DIFFICULTY_KEY) || "medium")
 };
+
+window.localStorage.setItem(DIFFICULTY_KEY, state.currentDifficultyKey);
 
 let timerId = null;
 let timeLeft = GAME_DURATION;
@@ -95,6 +110,50 @@ function isLockedSceneMode() {
   return LOCKED_MODE;
 }
 
+function isDifficultyLocked() {
+  return isLockedSceneMode() && SEARCH_PARAMS.has("difficulty");
+}
+
+function getDifficultyConfig() {
+  return DIFFICULTY_LEVELS[state.currentDifficultyKey] || DIFFICULTY_LEVELS.medium;
+}
+
+function getActiveDifficultySet() {
+  const target = isModuleScene() ? getCurrentModule() : getCurrentScene();
+  if (!target?.difficultySets) {
+    return null;
+  }
+
+  return (
+    target.difficultySets[state.currentDifficultyKey] ||
+    target.difficultySets.medium ||
+    target.difficultySets.easy ||
+    target.difficultySets.hard ||
+    null
+  );
+}
+
+function getActiveSettings() {
+  const scene = getCurrentScene();
+  const module = getCurrentModule();
+  return getActiveDifficultySet()?.settings || module?.settings || scene?.settings || {};
+}
+
+function appendDifficultySuffix(baseValue) {
+  if (!baseValue) {
+    return baseValue;
+  }
+
+  const suffix = `-${state.currentDifficultyKey}`;
+  return baseValue.endsWith(suffix) ? baseValue : `${baseValue}${suffix}`;
+}
+
+function syncDifficultyUrl() {
+  const url = new URL(window.location.href);
+  url.searchParams.set("difficulty", state.currentDifficultyKey);
+  window.history.replaceState(window.history.state || {}, "", url.toString());
+}
+
 function syncLockedModeUrl() {
   if (!isLockedSceneMode()) {
     return;
@@ -112,11 +171,21 @@ function syncLockedModeUrl() {
   } else {
     url.searchParams.delete("module");
   }
+  url.searchParams.set("difficulty", state.currentDifficultyKey);
   url.searchParams.set("locked", "1");
-  window.history.replaceState({ lockedScene: scene.id, lockedModule: state.currentModuleId || null }, "", url.toString());
+  window.history.replaceState(
+    { lockedScene: scene.id, lockedModule: state.currentModuleId || null, lockedDifficulty: state.currentDifficultyKey },
+    "",
+    url.toString()
+  );
 }
 
 function getSceneQuestions() {
+  const difficultySet = getActiveDifficultySet();
+  if (difficultySet?.questions?.length) {
+    return difficultySet.questions;
+  }
+
   if (isModuleScene()) {
     return getCurrentModule()?.questions || [];
   }
@@ -191,6 +260,11 @@ function shuffleArray(items, options = {}) {
 }
 
 function getSceneTalents() {
+  const difficultySet = getActiveDifficultySet();
+  if (difficultySet?.results) {
+    return difficultySet.results;
+  }
+
   if (isModuleScene()) {
     return getCurrentModule()?.results || {};
   }
@@ -215,12 +289,10 @@ function getCustomTimerSeconds() {
 }
 
 function getEffectiveTimeLimit(question) {
-  const scene = getCurrentScene();
-  const module = getCurrentModule();
+  const settings = getActiveSettings();
   const baseTimeLimit =
     question.timeLimit ||
-    module?.settings?.defaultTimeLimit ||
-    scene?.settings?.defaultTimeLimit ||
+    settings.defaultTimeLimit ||
     GAME_DURATION;
   if (state.timerPresetKey === "custom") {
     return getCustomTimerSeconds();
@@ -242,7 +314,12 @@ function calculateEarnedScore(timeLimit, elapsed) {
 function getActiveEventCode() {
   const scene = getCurrentScene();
   const module = getCurrentModule();
-  return module?.leaderboard?.eventCode || scene?.leaderboard?.eventCode || APP_CONFIG.leaderboard.eventCode;
+  const baseEventCode =
+    getActiveDifficultySet()?.leaderboard?.eventCode ||
+    module?.leaderboard?.eventCode ||
+    scene?.leaderboard?.eventCode ||
+    APP_CONFIG.leaderboard.eventCode;
+  return appendDifficultySuffix(baseEventCode);
 }
 
 function getDefaultTraitCount() {
@@ -254,6 +331,11 @@ function getDefaultTraitCount() {
 }
 
 function getActiveLandingContent() {
+  const difficultySet = getActiveDifficultySet();
+  if (difficultySet?.landing) {
+    return difficultySet.landing;
+  }
+
   if (isModuleScene() && getCurrentModule()) {
     return getCurrentModule().landing || getCurrentScene().landing;
   }
@@ -264,7 +346,8 @@ function getActiveLandingContent() {
 function getLocalLeaderboardKey() {
   const sceneId = getCurrentScene()?.id || "default";
   const moduleId = getCurrentModule()?.id;
-  return moduleId ? `${LOCAL_BOARD_KEY}:${sceneId}:${moduleId}` : `${LOCAL_BOARD_KEY}:${sceneId}`;
+  const baseKey = moduleId ? `${LOCAL_BOARD_KEY}:${sceneId}:${moduleId}` : `${LOCAL_BOARD_KEY}:${sceneId}`;
+  return `${baseKey}:${state.currentDifficultyKey}`;
 }
 
 function hasSharedLeaderboard() {
@@ -492,6 +575,7 @@ function showMasterIntro() {
 
   clearTimer();
   syncLockedModeUrl();
+  syncDifficultyUrl();
   updateHero();
   app.innerHTML = "";
   app.appendChild(renderTemplate("#master-intro-template"));
@@ -729,6 +813,51 @@ function showLanding() {
         syncScoringUi();
       });
     });
+  }
+
+  const difficultyWrap = document.querySelector("#difficulty-mode");
+  const difficultyHint = document.querySelector("#difficulty-mode-hint");
+  if (difficultyWrap && difficultyHint) {
+    const syncDifficultyUi = () => {
+      difficultyHint.textContent = isDifficultyLocked()
+        ? `本次活動固定為：${getDifficultyConfig().label} 難度。`
+        : getDifficultyConfig().description;
+    };
+
+    if (isDifficultyLocked()) {
+      difficultyWrap.innerHTML = `<button class="preset-option is-active" type="button" aria-pressed="true" disabled>${getDifficultyConfig().label}</button>`;
+      syncDifficultyUi();
+    } else {
+      difficultyWrap.innerHTML = Object.entries(DIFFICULTY_LEVELS)
+        .map(
+          ([key, difficulty]) => `
+            <button
+              class="preset-option ${key === state.currentDifficultyKey ? "is-active" : ""}"
+              type="button"
+              data-difficulty="${key}"
+              aria-pressed="${key === state.currentDifficultyKey ? "true" : "false"}"
+            >
+              ${difficulty.label}
+            </button>
+          `
+        )
+        .join("");
+      syncDifficultyUi();
+
+      difficultyWrap.querySelectorAll(".preset-option").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.currentDifficultyKey = sanitizeDifficultyKey(button.dataset.difficulty);
+          window.localStorage.setItem(DIFFICULTY_KEY, state.currentDifficultyKey);
+          difficultyWrap.querySelectorAll(".preset-option").forEach((item) => {
+            const active = item.dataset.difficulty === state.currentDifficultyKey;
+            item.classList.toggle("is-active", active);
+            item.setAttribute("aria-pressed", active ? "true" : "false");
+          });
+          syncDifficultyUrl();
+          syncDifficultyUi();
+        });
+      });
+    }
   }
 
   const rulesNode = document.querySelector("#scene-rules");
@@ -1424,7 +1553,7 @@ async function showResult() {
   }
   document.querySelector("#result-summary").textContent = talent.summary;
   document.querySelector("#final-score").textContent = `${state.score}`;
-  document.querySelector("#score-mode-note").textContent = `本次採用：${getScoringMode().label}`;
+  document.querySelector("#score-mode-note").textContent = `本次採用：${getScoringMode().label} / ${getDifficultyConfig().label}難度`;
   document.querySelector("#correct-count").textContent = `${state.correct} / ${state.index}`;
   document.querySelector("#result-fit").textContent = talent.fit;
   document.querySelector("#result-hook").textContent = `${talent.hook}${scene.resultOutro}`;
@@ -1504,7 +1633,7 @@ function syncLeaderboardDescription() {
   const clearButton = document.querySelector("#clear-board");
   const scene = getCurrentScene();
   const module = getCurrentModule();
-  const boardLabel = module ? `${scene.title} / ${module.title}` : scene.title;
+  const boardLabel = module ? `${scene.title} / ${module.title} / ${getDifficultyConfig().label}` : `${scene.title} / ${getDifficultyConfig().label}`;
 
   if (!title || !copy || !clearButton) {
     return;
@@ -1558,7 +1687,7 @@ function registerServiceWorker() {
   }
 
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js?v=20260420b").catch((error) => {
+    navigator.serviceWorker.register("./service-worker.js?v=20260420c").catch((error) => {
       console.error("Service worker registration failed.", error);
     });
   });

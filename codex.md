@@ -737,3 +737,55 @@ Planning artifact:
 - the fifth scene is now a real smart-agriculture content hub rather than a single pilot path
 - event staff can route students into one of seven different smart-agriculture learning directions depending on activity needs
 - the presenter page and module-level QR routing now have enough playable module coverage to support broader fifth-scene event testing
+
+## Completed On 2026-04-20 (Difficulty Foundation Phase 1)
+
+### Implemented Progress
+
+- added a formal difficulty state to the main gameplay flow
+- added support for `difficulty` in the main URL model
+- added landing-page difficulty selection with three baseline tiers:
+  - `easy`
+  - `medium`
+  - `hard`
+- added presenter-side difficulty selection so QR routing can now include difficulty-specific activity links
+- extended leaderboard key / event-code handling so difficulty can be separated in both local and shared leaderboard contexts
+- updated locked routing so difficulty is preserved alongside scene and module when present
+
+### Practical Result
+
+- the system now understands scene + module + difficulty as one activity path
+- presenter QR routing is now ready for difficulty-aware activity control
+- the next implementation step can focus on applying real `easy / medium / hard` question banks to a pilot target such as `smart-irrigation`
+
+## Confirmed On 2026-04-20 (Difficulty-System Planning)
+
+### Confirmed Direction
+
+- add a formal difficulty system across scenes and scene-modules
+- use three baseline difficulty tiers:
+  - `easy`
+  - `medium`
+  - `hard`
+- support difficulty selection before gameplay begins
+- support presenter-side difficulty selection before generating QR routing
+- support future activity-control URLs that can lock:
+  - scene
+  - module
+  - difficulty
+- keep this work staged in order:
+  1. difficulty data structure and routing
+  2. presenter difficulty control
+  3. pilot difficulty rollout on one scene or one module
+  4. broader activity-management controls
+
+### Recommended Pilot
+
+- first difficulty pilot should use the fifth-scene smart-agriculture structure
+- recommended first pilot target:
+  - `smart-farm-global-mission`
+  - module `smart-irrigation`
+
+### Planning Artifact
+
+- `DIFFICULTY_AND_ACTIVITY_MANAGEMENT_SPEC.md`

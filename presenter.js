@@ -6,6 +6,8 @@ const presenterUrl = document.querySelector("#presenter-url");
 const presenterScene = document.querySelector("#presenter-scene");
 const presenterModule = document.querySelector("#presenter-module");
 const presenterModuleHint = document.querySelector("#presenter-module-hint");
+const presenterDifficulty = document.querySelector("#presenter-difficulty");
+const presenterDifficultyHint = document.querySelector("#presenter-difficulty-hint");
 const presenterBaseUrl = document.querySelector("#presenter-base-url");
 const presenterSceneLabel = document.querySelector("#presenter-scene-label");
 const presenterBoardTitle = document.querySelector("#presenter-board-title");
@@ -23,6 +25,12 @@ const ENTRY_MODES = {
     label: "一般入口",
     description: "學生掃碼後仍可看到一般入口流程，適合自由探索。"
   }
+};
+
+const DIFFICULTY_LEVELS = {
+  easy: { label: "初階 / easy", shortLabel: "初階" },
+  medium: { label: "標準 / medium", shortLabel: "標準" },
+  hard: { label: "進階 / hard", shortLabel: "進階" }
 };
 
 const DEFAULT_PUBLIC_BASE_URL =
@@ -52,10 +60,28 @@ function getSelectedEntryMode() {
   return presenterEntryMode?.dataset.entryMode || "locked";
 }
 
+function getSelectedDifficulty() {
+  const requestedDifficulty = presenterDifficulty?.dataset.selectedDifficulty || presenterParams.get("difficulty") || "medium";
+  return DIFFICULTY_LEVELS[requestedDifficulty] ? requestedDifficulty : "medium";
+}
+
+function getSelectedDifficultyConfig() {
+  return DIFFICULTY_LEVELS[getSelectedDifficulty()] || DIFFICULTY_LEVELS.medium;
+}
+
+function appendDifficultySuffix(baseValue) {
+  if (!baseValue) {
+    return baseValue;
+  }
+
+  const suffix = `-${getSelectedDifficulty()}`;
+  return baseValue.endsWith(suffix) ? baseValue : `${baseValue}${suffix}`;
+}
+
 function getActiveEventCode() {
   const scene = getSelectedScene();
   const module = getSelectedModule();
-  return module?.leaderboard?.eventCode || scene?.leaderboard?.eventCode;
+  return appendDifficultySuffix(module?.leaderboard?.eventCode || scene?.leaderboard?.eventCode);
 }
 
 function getLocalBoardKey() {
@@ -64,7 +90,8 @@ function getLocalBoardKey() {
   if (!scene) {
     return undefined;
   }
-  return module ? `ai-lab-board:${scene.id}:${module.id}` : `ai-lab-board:${scene.id}`;
+  const baseKey = module ? `ai-lab-board:${scene.id}:${module.id}` : `ai-lab-board:${scene.id}`;
+  return `${baseKey}:${getSelectedDifficulty()}`;
 }
 
 function buildPlayUrl() {
@@ -82,6 +109,8 @@ function buildPlayUrl() {
   } else {
     url.searchParams.delete("module");
   }
+
+  url.searchParams.set("difficulty", getSelectedDifficulty());
 
   if (getSelectedEntryMode() === "locked") {
     url.searchParams.set("locked", "1");
@@ -106,6 +135,52 @@ function syncPresenterQr() {
       ? `目前導流：${scene.title} / ${module.title} / ${mode.label}`
       : `目前導流：${scene?.title || "未選擇"} / ${mode.label}`;
   }
+}
+
+function syncPresenterStatusLabel() {
+  const scene = getSelectedScene();
+  const module = getSelectedModule();
+  const mode = ENTRY_MODES[getSelectedEntryMode()];
+  const difficulty = getSelectedDifficultyConfig();
+
+  if (!presenterSceneLabel) {
+    return;
+  }
+
+  const sceneLabel = scene?.title || "未選場景";
+  const moduleLabel = module ? ` / ${module.title}` : "";
+  presenterSceneLabel.textContent = `目前導流：${sceneLabel}${moduleLabel} / ${difficulty.shortLabel} / ${mode.label}`;
+}
+
+function populatePresenterDifficulty() {
+  if (!presenterDifficulty || !presenterDifficultyHint) {
+    return;
+  }
+
+  const selectedDifficulty = getSelectedDifficulty();
+  presenterDifficulty.dataset.selectedDifficulty = selectedDifficulty;
+  presenterParams.set("difficulty", selectedDifficulty);
+
+  presenterDifficulty.innerHTML = Object.entries(DIFFICULTY_LEVELS)
+    .map(([key, difficulty]) => {
+      const active = key === selectedDifficulty;
+      return `<button class="preset-option${active ? " is-active" : ""}" type="button" data-difficulty="${key}" aria-pressed="${active ? "true" : "false"}">${difficulty.label}</button>`;
+    })
+    .join("");
+
+  presenterDifficultyHint.textContent = `已選難度：${getSelectedDifficultyConfig().label}。掃碼後會直接用這個難度進入活動。`;
+
+  presenterDifficulty.querySelectorAll("[data-difficulty]").forEach((button) => {
+    button.addEventListener("click", () => {
+      presenterDifficulty.dataset.selectedDifficulty = button.dataset.difficulty;
+      presenterParams.set("difficulty", button.dataset.difficulty);
+      window.history.replaceState({}, "", `${window.location.pathname}?${presenterParams.toString()}`);
+      populatePresenterDifficulty();
+      syncPresenterQr();
+      syncPresenterStatusLabel();
+      loadPresenterBoard();
+    });
+  });
 }
 
 function populatePresenterEntryMode() {
@@ -135,6 +210,7 @@ function populatePresenterEntryMode() {
       window.history.replaceState({}, "", `${window.location.pathname}?${presenterParams.toString()}`);
       populatePresenterEntryMode();
       syncPresenterQr();
+      syncPresenterStatusLabel();
     });
   });
 }
@@ -183,6 +259,7 @@ function populatePresenterModuleSelect() {
       window.history.replaceState({}, "", `${window.location.pathname}?${presenterParams.toString()}`);
       populatePresenterModuleSelect();
       syncPresenterQr();
+      syncPresenterStatusLabel();
       loadPresenterBoard();
     });
   });
@@ -213,7 +290,9 @@ function populatePresenterSceneSelect() {
       window.history.replaceState({}, "", `${window.location.pathname}?${presenterParams.toString()}`);
       populatePresenterSceneSelect();
       populatePresenterModuleSelect();
+      populatePresenterDifficulty();
       syncPresenterQr();
+      syncPresenterStatusLabel();
       loadPresenterBoard();
     });
   });
@@ -260,6 +339,21 @@ async function loadPresenterBoard() {
       : `目前顯示的是 ${boardLabel} 的成績。`;
   }
 
+  const difficultyLabel = getSelectedDifficultyConfig().label;
+  const displayLabel = module
+    ? `${scene.title} / ${module.title} / ${difficultyLabel}`
+    : `${scene?.title || "未選場景"} / ${difficultyLabel}`;
+
+  if (presenterBoardTitle) {
+    presenterBoardTitle.textContent = `${displayLabel} 排行榜`;
+  }
+
+  if (presenterBoardCopy) {
+    presenterBoardCopy.textContent = module
+      ? `目前顯示 ${module.title} 的 ${difficultyLabel} 排行榜。`
+      : `目前顯示 ${displayLabel} 的排行榜。`;
+  }
+
   presenterMode.textContent = window.LeaderboardShared.hasSharedLeaderboard({
     eventCode: getActiveEventCode()
   })
@@ -280,11 +374,14 @@ refreshPresenter.addEventListener("click", () => {
 presenterBaseUrl.value = DEFAULT_PUBLIC_BASE_URL;
 populatePresenterSceneSelect();
 populatePresenterModuleSelect();
+populatePresenterDifficulty();
 populatePresenterEntryMode();
 syncPresenterQr();
+syncPresenterStatusLabel();
 
 presenterBaseUrl.addEventListener("input", () => {
   syncPresenterQr();
+  syncPresenterStatusLabel();
 });
 
 function registerPresenterServiceWorker() {
@@ -293,7 +390,7 @@ function registerPresenterServiceWorker() {
   }
 
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js?v=20260420b").catch(() => {});
+    navigator.serviceWorker.register("./service-worker.js?v=20260420c").catch(() => {});
   });
 }
 

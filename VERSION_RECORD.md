@@ -1,5 +1,25 @@
 # Version Record
 
+## v1.12.1
+
+- Date: 2026-04-20
+- Branch: `main`
+- Title: Add difficulty-aware routing foundation
+
+### Changes
+
+- added a formal `difficulty` state to the main game flow
+- added landing-page difficulty selection with `easy`, `medium`, and `hard`
+- added presenter-side difficulty selection for QR routing
+- updated URL handling so scene, module, locked mode, and difficulty can travel together
+- updated local leaderboard keys and shared leaderboard event-code handling to separate by difficulty
+- bumped asset version to `20260420c` and service worker cache version to `v22`
+
+### Notes
+
+- this is the routing and state foundation only
+- dedicated easy / medium / hard question-bank content is still a follow-up implementation step
+
 ## v1.12.0
 
 - Date: 2026-04-20

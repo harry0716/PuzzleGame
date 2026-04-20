@@ -148,3 +148,10 @@ When new content is added, update these files first:
   - `farm-esg`
   - `water-governance`
 - kept `smart-irrigation` as the original pilot module in the same hub
+
+## Additional 2026-04-20 Difficulty Foundation Update
+
+- added difficulty-aware routing with `easy`, `medium`, and `hard`
+- added landing-page difficulty selection
+- added presenter-side difficulty selection for QR generation
+- prepared leaderboard separation by difficulty for future pilot content rollout

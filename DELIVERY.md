@@ -201,3 +201,17 @@ This delivery baseline now additionally includes:
   - `smart-irrigation`
 - full seven-module fifth-scene experience with shared intro, module selection, module landing, module questions, and module result flow
 - module-level leaderboard event-code coverage for all currently playable fifth-scene modules
+
+## 2026-04-20 Difficulty Foundation Update
+
+This delivery baseline now additionally includes:
+
+- difficulty-aware activity routing using:
+  - `easy`
+  - `medium`
+  - `hard`
+- landing-page difficulty selection in the main game flow
+- presenter-side difficulty selection before QR generation
+- difficulty-aware local leaderboard keys
+- difficulty-aware shared leaderboard event-code suffixing
+- preserved compatibility for existing scenes and modules that do not yet have dedicated difficulty-specific question banks
