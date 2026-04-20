@@ -3319,17 +3319,421 @@
     ]
   };
 
+  function createSmartIrrigationDifficultyResultsV2(level, baseResults) {
+    const results = cloneData(baseResults);
+    const copyByLevel = {
+      easy: {
+        timing: "你很會在不慌張的情況下抓住灌溉時機，適合先從明確訊號與現場節奏建立判斷。",
+        moisture: "你會先看懂土壤和水分訊號，這代表你很適合從感測資料的閱讀進入智慧灌溉。",
+        systems: "你會自然把設備、資料和田間流程串起來，已經抓到智慧灌溉不是單點設備，而是一套系統。",
+        resilience: "你會把缺水壓力和長期穩定放進思考，這是智慧灌溉很重要的起點。"
+      },
+      medium: {
+        timing: "你會把時機、天氣與田區狀態一起放進灌溉節奏，屬於很穩定的現場判斷型。",
+        moisture: "你不會只看表面乾濕，而是習慣從土壤與感測資料理解真正的灌溉需求。",
+        systems: "你擅長把感測、控制、調度與回饋串起來，已經接近灌溉系統整合的思考方式。",
+        resilience: "你會注意資源壓力與田區韌性，知道智慧灌溉的價值不只在省力，而在長期穩定。"
+      },
+      hard: {
+        timing: "你擅長在多重條件下判斷灌溉時機，已經接近真正的場域決策節奏。",
+        moisture: "你會把水分訊號當成策略資料，而不是單純數字，這是進階灌溉判讀的重要能力。",
+        systems: "你能把水、電、感測、控制與資源限制一起思考，屬於高階的系統整合取向。",
+        resilience: "你會把缺水、風險與韌性規劃一起納入，已經很接近面對真實農業壓力的決策者。"
+      }
+    };
+
+    Object.keys(results).forEach((key) => {
+      if (copyByLevel[level] && copyByLevel[level][key]) {
+        results[key].summary = copyByLevel[level][key];
+      }
+    });
+
+    return results;
+  }
+
+  function createSmartIrrigationDifficultyLandingV2(level) {
+    const landingMeta = {
+      easy: {
+        title: "智慧灌溉題組｜初階版",
+        copy: "這一版會從最容易理解的田間情境開始，幫你建立智慧灌溉的核心觀念。你會先學會看懂土壤訊號、判斷是否真的需要澆水，以及為什麼固定排程不一定最好。",
+        rules: [
+          "共 10 題，適合第一次接觸智慧農業或智慧灌溉的參與者。",
+          "題目會用較直觀的生活化場景，幫你先建立關鍵概念。",
+          "重點是理解智慧灌溉的基本邏輯，不必先記大量術語。"
+        ],
+        settings: { questionCount: 10, defaultTimeLimit: 18 }
+      },
+      medium: {
+        title: "智慧灌溉題組｜標準版",
+        copy: "這一版聚焦在農場現場的真實灌溉判斷，會把土壤、天氣、設備與調度一起放進灌溉決策裡，是目前最平衡的標準體驗。",
+        rules: [
+          "共 10 題，題型包含單選、限時、分支、圖片、配對與排序。",
+          "你需要結合灌溉時機、土壤資料與系統判斷，不只是背答案。",
+          "結果卡會回應你在智慧灌溉裡最強的決策傾向。"
+        ],
+        settings: { questionCount: 10, defaultTimeLimit: 14 }
+      },
+      hard: {
+        title: "智慧灌溉題組｜進階版",
+        copy: "這一版會帶入更多複合條件與資源取捨，你要同時面對土壤、天氣、勞務限制、缺水壓力與能源負擔，像在做真正的系統判斷。",
+        rules: [
+          "共 10 題，題目會更常出現多個變數一起判讀。",
+          "進階版不是用艱澀名詞卡你，而是要求你做更成熟的取捨。",
+          "如果你喜歡挑戰，這一組會最接近競賽與決策模擬。"
+        ],
+        settings: { questionCount: 10, defaultTimeLimit: 11 }
+      }
+    };
+
+    return landingMeta[level];
+  }
+
+  function buildSmartIrrigationEasyQuestionsV2() {
+    return [
+      {
+        id: "farm-irrigation-easy-q1",
+        type: "single-choice",
+        prompt: "學生參訪農場時聽到工作人員說：「我們以前也會澆水，為什麼現在還要叫做智慧灌溉？」哪一個回答最貼近智慧灌溉的意思？",
+        description: "先建立最核心的概念：智慧灌溉不是把水澆得更多，而是澆得更準。",
+        topic: "智慧灌溉概念",
+        correctId: "data-based",
+        answers: [
+          { id: "data-based", label: "它會根據土壤、天氣和作物狀況，決定更合適的灌溉時機與水量", detail: "這代表灌溉不再只靠習慣，而是有資料依據。", trait: "systems" },
+          { id: "more-water", label: "它的重點是讓田裡隨時保持更多水分", detail: "水越多不一定越好，反而可能造成浪費。", trait: "moisture" },
+          { id: "same-schedule", label: "它只是把人工排程改成電腦固定排程", detail: "如果沒有依條件調整，就還不夠智慧。", trait: "timing" }
+        ]
+      },
+      {
+        id: "farm-irrigation-easy-q2",
+        type: "single-choice",
+        prompt: "下午天氣很熱，田地表面看起來乾乾的，但土壤濕度感測器顯示根部附近的水分還夠。這時最該先理解什麼？",
+        description: "這一題幫你分清楚「看起來乾」和「真的需要澆水」不一定是同一件事。",
+        topic: "土壤濕度判讀",
+        correctId: "not-surface-only",
+        answers: [
+          { id: "not-surface-only", label: "表面乾不代表根部真的缺水，還是要看感測資料", detail: "智慧灌溉強調的是根據真實需求做判斷。", trait: "moisture" },
+          { id: "water-immediately", label: "只要看起來乾就應該立刻澆水", detail: "如果只看表面，可能會過度灌溉。", trait: "timing" },
+          { id: "ignore-sensors", label: "感測器只是參考，最後還是完全看肉眼就好", detail: "智慧灌溉的價值正是把資料納入判斷。", trait: "systems" }
+        ]
+      },
+      {
+        id: "farm-irrigation-easy-q3",
+        type: "timed-choice",
+        prompt: "早上巡田時，有一區看起來有點沒精神，但控制面板顯示水分還沒掉到警戒線。你要先做哪個動作？",
+        description: "初階版先練習最基本的節奏：先看懂資料，再決定要不要灌溉。",
+        topic: "灌溉時機",
+        correctId: "check-first",
+        timeLimit: 12,
+        countdownLabel: "12 秒初階判斷",
+        urgencyText: "別急著澆水，先看懂訊號再出手。",
+        answers: [
+          { id: "check-first", label: "先確認土壤濕度和天氣，再決定是否灌溉", detail: "智慧灌溉重視的是判斷順序。", trait: "timing" },
+          { id: "water-now", label: "先澆再說，這樣最保險", detail: "如果資料顯示還沒必要，這樣可能浪費水。", trait: "systems" },
+          { id: "wait-random", label: "什麼都不看，等到傍晚再說", detail: "延後也需要有理由，而不是隨意等待。", trait: "resilience" }
+        ]
+      },
+      {
+        id: "farm-irrigation-easy-q4",
+        type: "branching",
+        prompt: "兩位工作人員討論灌溉方式。一位說每天同一時間澆水最簡單，另一位說應該先看土壤和天氣。你會先支持哪一種做法？",
+        description: "這一題要分辨固定排程和資料調整之間的差別。",
+        topic: "固定排程 vs 資料調整",
+        correctId: "data-first",
+        choices: [
+          { id: "routine-first", label: "固定排程先執行，因為最不容易出錯", detail: "固定排程很方便，但不一定符合田區的真實需求。", trait: "resilience", next: "farm-irrigation-easy-q5" },
+          { id: "data-first", label: "先看土壤和天氣資料，再決定要不要澆水", detail: "這才是智慧灌溉最重要的精神。", trait: "systems", next: "farm-irrigation-easy-q5" }
+        ]
+      },
+      {
+        id: "farm-irrigation-easy-q5",
+        type: "single-choice",
+        prompt: "如果一段時間缺水，智慧灌溉最大的幫助是什麼？",
+        description: "這題先用最直觀的方式理解節水與缺水壓力。",
+        topic: "節水與韌性",
+        correctId: "prioritize",
+        answers: [
+          { id: "prioritize", label: "讓農場知道哪裡更需要先灌溉，不必每個區都一樣處理", detail: "缺水時更需要精準分配。", trait: "resilience" },
+          { id: "same-all", label: "讓所有田區都維持完全一樣的灌溉量", detail: "看起來公平，但不一定合理。", trait: "timing" },
+          { id: "bigger-pump", label: "讓抽水設備變得更大", detail: "設備升級不等於判斷更好。", trait: "systems" }
+        ]
+      },
+      {
+        id: "farm-irrigation-easy-q6",
+        type: "image-choice",
+        prompt: "下面哪一個畫面最像「基本的智慧灌溉場站」？",
+        description: "用圖像辨識幫你把感測與控制連在一起。",
+        topic: "設備辨識",
+        correctId: "smart-station",
+        options: [
+          { id: "smart-station", label: "土壤感測器、控制器與資料面板", detail: "這種組合最接近智慧灌溉的基本場站。", alt: "智慧灌溉場站", image: buildSceneIllustration({ title: "Smart Irrigation", subtitle: "Sensor + Control", accent: "#2f7b4f", highlight: "#9ed38a", symbol: "滴" }), trait: "systems" },
+          { id: "tractor", label: "大型農耕機具", detail: "這是重要設備，但不等於智慧灌溉場站。", alt: "農耕機具", image: buildSceneIllustration({ title: "Field Machine", subtitle: "Farm Power", accent: "#9a6a2a", highlight: "#e5bf73", symbol: "車" }), trait: "timing" },
+          { id: "warehouse", label: "收成後的倉儲空間", detail: "這和灌溉現場控制不是同一類型。", alt: "倉儲空間", image: buildSceneIllustration({ title: "Storage", subtitle: "Postharvest", accent: "#58636f", highlight: "#c4ccd6", symbol: "箱" }), trait: "resilience" }
+        ],
+        next: "farm-irrigation-easy-q7"
+      },
+      {
+        id: "farm-irrigation-easy-q7",
+        type: "matching",
+        prompt: "把下面的工具和它最直接的用途配起來。",
+        description: "初階版先用最好懂的方式認識常見工具。",
+        topic: "工具與用途",
+        trait: "moisture",
+        instructions: "將左邊工具配對到右邊用途。",
+        leftItems: [
+          { id: "soil-sensor", label: "土壤濕度感測器", detail: "幫忙知道土裡還有沒有足夠水分" },
+          { id: "weather-station", label: "氣象站", detail: "提供溫度與天氣變化資訊" },
+          { id: "controller", label: "灌溉控制器", detail: "協助控制何時開始灌溉" }
+        ],
+        rightItems: [
+          { id: "know-soil", label: "了解土壤是否真的缺水" },
+          { id: "see-weather", label: "提前看到天氣變化" },
+          { id: "start-water", label: "讓灌溉可以依設定執行" }
+        ],
+        pairs: [
+          { leftId: "soil-sensor", rightId: "know-soil" },
+          { leftId: "weather-station", rightId: "see-weather" },
+          { leftId: "controller", rightId: "start-water" }
+        ]
+      },
+      {
+        id: "farm-irrigation-easy-q8",
+        type: "ordering",
+        prompt: "把一個基本的智慧灌溉流程排成合理順序。",
+        description: "這一題用最簡單的四步驟建立流程感。",
+        topic: "流程順序",
+        trait: "timing",
+        instructions: "把判斷與執行流程由前到後排好。",
+        items: [
+          { id: "read", label: "先看資料", detail: "讀取土壤和天氣訊號" },
+          { id: "judge", label: "判斷是否需要灌溉", detail: "比較資料和需求" },
+          { id: "act", label: "決定開始或延後", detail: "依結果執行" },
+          { id: "review", label: "確認結果", detail: "看看判斷是否合適" }
+        ],
+        correctOrder: ["read", "judge", "act", "review"]
+      },
+      {
+        id: "farm-irrigation-easy-q9",
+        type: "single-choice",
+        prompt: "為什麼智慧灌溉就算在不缺人的農場裡也有價值？",
+        description: "讓玩家理解它不是只為了省人力。",
+        topic: "系統價值",
+        correctId: "better-judgment",
+        answers: [
+          { id: "better-judgment", label: "因為它可以幫忙做更準的判斷，不只是加快工作", detail: "重點在更好的決策品質。", trait: "systems" },
+          { id: "only-fast", label: "因為它只是讓澆水速度更快", detail: "速度不是唯一價值。", trait: "timing" },
+          { id: "always-more", label: "因為它可以讓農場一直澆更多水", detail: "智慧灌溉不追求無限制用水。", trait: "moisture" }
+        ]
+      },
+      {
+        id: "farm-irrigation-easy-q10",
+        type: "single-choice",
+        prompt: "如果要用一句話總結智慧灌溉，哪一個說法最好？",
+        description: "最後把概念收回到最清楚的一句話。",
+        topic: "總結",
+        correctId: "right-time",
+        answers: [
+          { id: "right-time", label: "在對的時間，用比較準確的資訊做灌溉判斷", detail: "這最符合整個題組的核心精神。", trait: "resilience" },
+          { id: "everyday", label: "每天固定澆水，但改成電腦幫忙記時間", detail: "如果缺少資料調整，還不算完整的智慧灌溉。", trait: "timing" },
+          { id: "water-more", label: "盡量保持田裡一直有很多水", detail: "這不符合節水與精準的方向。", trait: "moisture" }
+        ]
+      }
+    ];
+  }
+
+  function buildSmartIrrigationHardQuestionsV2() {
+    return [
+      {
+        id: "farm-irrigation-hard-q1",
+        type: "single-choice",
+        prompt: "一位新進人員認為：「在不確定時多澆一點水，至少作物不會缺水。」站在精準灌溉的角度，哪一個回應最能指出這種想法的問題？",
+        description: "進階版從錯誤但常見的直覺出發，要求玩家判斷真正的系統風險。",
+        topic: "精準灌溉核心",
+        correctId: "overwatering-risk",
+        answers: [
+          { id: "overwatering-risk", label: "多澆水可能掩蓋真實需求，還會浪費水、增加成本並破壞判斷品質", detail: "進階題要看見『多一點』也可能是錯誤決策。", trait: "systems" },
+          { id: "always-safe", label: "只要作物不枯萎，多澆一些幾乎沒有代價", detail: "這忽略了水、能耗與土壤狀態。", trait: "moisture" },
+          { id: "ignore-threshold", label: "感測門檻只是理論，實務上還是保守多澆最好", detail: "這和精準灌溉的精神相反。", trait: "timing" },
+          { id: "forecast-only", label: "只要看隔天氣象就能決定是否多澆水", detail: "單一資訊來源不足以支撐完整決策。", trait: "resilience" }
+        ]
+      },
+      {
+        id: "farm-irrigation-hard-q2",
+        type: "single-choice",
+        prompt: "某田區尚未跨過土壤濕度警戒線，但明天預報會出現高溫與強風。面對目前與未來壓力並不一致的訊號，哪一種判讀最合理？",
+        description: "這題要把『現在的資料』和『即將到來的天氣壓力』一起納入。",
+        topic: "衝突訊號判讀",
+        correctId: "combine-current-future",
+        answers: [
+          { id: "combine-current-future", label: "要把目前水分與未來天氣壓力一起看，不能只盯著當下數值或只看預報", detail: "進階題強調多變數整合。", trait: "moisture" },
+          { id: "water-now", label: "既然預報很熱，就應該立刻加大灌溉", detail: "預報重要，但不代表一定要立刻大量澆水。", trait: "timing" },
+          { id: "ignore-forecast", label: "只要現在沒破線，就完全不用考慮明天的壓力", detail: "這忽略了提前應對的重要性。", trait: "systems" },
+          { id: "same-as-yesterday", label: "照昨天的做法就好，比較不容易出錯", detail: "這是固定習慣思維，不是進階判讀。", trait: "resilience" }
+        ]
+      },
+      {
+        id: "farm-irrigation-hard-q3",
+        type: "timed-choice",
+        prompt: "控制面板同時顯示蒸散量上升、勞務有限、兩個田區逼近不同門檻，而且中午前只剩一個可執行灌溉的時間窗。你必須先看哪一個判斷重點？",
+        description: "這一題不是要找『單一最大聲的警示』，而是先抓住最影響優先順序的因素。",
+        topic: "多條件快判",
+        correctId: "priority-risk",
+        timeLimit: 7,
+        countdownLabel: "7 秒進階快答",
+        urgencyText: "先抓住會影響優先順序的風險，而不是只看最吵的警示。",
+        answers: [
+          { id: "priority-risk", label: "先判斷哪個田區的門檻風險與時間窗壓力組合最危急", detail: "這才是真正影響調度先後的核心。", trait: "timing" },
+          { id: "highest-heat", label: "只看哪個田區現在氣溫最高", detail: "單看氣溫不夠，還要看門檻與時間窗。", trait: "moisture" },
+          { id: "least-work", label: "先做最省人力的那一區，讓流程比較順", detail: "便利性不等於最好的優先順序。", trait: "systems" },
+          { id: "biggest-zone", label: "先灌溉面積最大的那一區", detail: "面積不是唯一優先判準。", trait: "resilience" }
+        ]
+      },
+      {
+        id: "farm-irrigation-hard-q4",
+        type: "branching",
+        prompt: "兩個灌溉時窗發生衝突。舊習慣的排程比較容易執行，但另一條路徑更符合即時資料。若你只能先選一條，應該怎麼做？",
+        description: "進階版的分支題帶入勞務與調度壓力，不只是『固定排程好不好』。",
+        topic: "衝突排程",
+        correctId: "data-priority",
+        choices: [
+          { id: "routine-priority", label: "先照既有排程走，至少人員不會亂掉", detail: "這有管理上的好處，但可能犧牲了真正急迫的田區。", trait: "resilience", next: "farm-irrigation-hard-q5" },
+          { id: "data-priority", label: "先把最符合即時門檻與風險的田區排在前面", detail: "這更接近進階智慧灌溉的決策方式。", trait: "systems", next: "farm-irrigation-hard-q5" }
+        ]
+      },
+      {
+        id: "farm-irrigation-hard-q5",
+        type: "single-choice",
+        prompt: "乾旱週期間，農場無法像平常那樣平均分配灌溉量。面對不同作物階段、不同濕度狀態與不同熱壓力預報，哪一個原則最合理？",
+        description: "這一題把缺水情境從概念題拉到真正的配置邏輯。",
+        topic: "乾旱配置",
+        correctId: "vulnerability-priority",
+        answers: [
+          { id: "vulnerability-priority", label: "依田區脆弱度、作物階段與即將到來的壓力來排優先順序", detail: "缺水時更需要精準分配，而不是平均主義。", trait: "resilience" },
+          { id: "equal-share", label: "為了公平，每個田區都拿一樣的水量", detail: "看起來公平，但不一定是最有效率的韌性策略。", trait: "timing" },
+          { id: "largest-first", label: "先保最大田區，因為總產量影響最大", detail: "面積大不代表最需要優先救援。", trait: "systems" },
+          { id: "easy-access", label: "先處理最好到達的田區，這樣比較省工", detail: "便利性不能取代風險判斷。", trait: "moisture" }
+        ]
+      },
+      {
+        id: "farm-irrigation-hard-q6",
+        type: "image-choice",
+        prompt: "下面哪一種配置最像真正整合了監測、控制與回饋的進階智慧灌溉環境？",
+        description: "這一題要辨識的不只是『有感測器』，而是有沒有形成完整回路。",
+        topic: "整合型配置辨識",
+        correctId: "integrated-loop",
+        options: [
+          { id: "integrated-loop", label: "多點感測、控制器、儀表板與執行回饋形成閉環", detail: "這代表監測、判斷與執行真正接在一起。", alt: "整合型智慧灌溉", image: buildSceneIllustration({ title: "Integrated Irrigation", subtitle: "Monitor + Control + Feedback", accent: "#225c3d", highlight: "#78c27b", symbol: "環" }), trait: "systems" },
+          { id: "sensor-only", label: "只有單點感測器，其他仍靠人工臨場決定", detail: "感測有幫助，但還不能算完整整合。", alt: "單點感測", image: buildSceneIllustration({ title: "Single Sensor", subtitle: "Monitor Only", accent: "#6f8f42", highlight: "#c5dd8b", symbol: "點" }), trait: "moisture" },
+          { id: "pump-only", label: "大型抽水設備主導，一切以供水能力為核心", detail: "供水能力重要，但不等於智慧灌溉系統。", alt: "抽水設備", image: buildSceneIllustration({ title: "Pump Station", subtitle: "Power First", accent: "#5f6d83", highlight: "#aebbd2", symbol: "泵" }), trait: "resilience" },
+          { id: "manual-board", label: "白板排班加人工回報，沒有即時資料串接", detail: "這比較像傳統管理，不是整合型灌溉環境。", alt: "人工白板排程", image: buildSceneIllustration({ title: "Manual Schedule", subtitle: "Whiteboard", accent: "#7b5d43", highlight: "#d8b08a", symbol: "表" }), trait: "timing" }
+        ],
+        next: "farm-irrigation-hard-q7"
+      },
+      {
+        id: "farm-irrigation-hard-q7",
+        type: "matching",
+        prompt: "把下列系統輸入和它最可能帶來的灌溉結果配起來。",
+        description: "進階版把配對從『工具對用途』拉高到『輸入對系統結果』。",
+        topic: "系統輸入與結果",
+        trait: "systems",
+        instructions: "把左邊的系統訊號或機制，配到右邊最合理的灌溉結果。",
+        leftItems: [
+          { id: "threshold-data", label: "門檻式土壤資料", detail: "幫助判斷什麼時候真的接近警戒" },
+          { id: "weather-linked", label: "連動氣象的排程", detail: "把未來壓力放進灌溉時間" },
+          { id: "feedback-loop", label: "控制器回饋機制", detail: "讓執行與結果能被持續修正" },
+          { id: "zone-dashboard", label: "跨田區比較面板", detail: "讓有限資源可以做優先排序" }
+        ],
+        rightItems: [
+          { id: "habit-reduction", label: "避免灌溉只憑習慣觸發" },
+          { id: "timing-shift", label: "降低不必要的高壓時段灌溉" },
+          { id: "repeatable-action", label: "讓資料能變成可重複的行動流程" },
+          { id: "wise-allocation", label: "讓灌溉容量分配更有根據" }
+        ],
+        pairs: [
+          { leftId: "threshold-data", rightId: "habit-reduction" },
+          { leftId: "weather-linked", rightId: "timing-shift" },
+          { leftId: "feedback-loop", rightId: "repeatable-action" },
+          { leftId: "zone-dashboard", rightId: "wise-allocation" }
+        ]
+      },
+      {
+        id: "farm-irrigation-hard-q8",
+        type: "ordering",
+        prompt: "把一個受限條件下的智慧灌溉回應流程排成合理順序。",
+        description: "這一題要求玩家先看風險，再排優先，再執行，而不是直接動手。",
+        topic: "受限情境流程",
+        trait: "timing",
+        instructions: "把多條件判讀到執行的流程排好。",
+        items: [
+          { id: "signals", label: "先看多田區訊號", detail: "掌握所有主要風險來源" },
+          { id: "compare", label: "比較門檻與預報壓力", detail: "判斷哪裡最急" },
+          { id: "rank", label: "排出田區優先順序", detail: "把限制納入資源分配" },
+          { id: "execute", label: "執行最有價值的灌溉回應", detail: "先做最值得做的一步" }
+        ],
+        correctOrder: ["signals", "compare", "rank", "execute"]
+      },
+      {
+        id: "farm-irrigation-hard-q9",
+        type: "single-choice",
+        prompt: "農場想提升精準灌溉，但同時也注意到抽水、控制和資料設備可能增加能源負擔。哪一種想法最符合系統層次的判斷？",
+        description: "進階題要看見『節水』和『耗能』之間不能只選一邊。",
+        topic: "水電取捨",
+        correctId: "optimize-both",
+        answers: [
+          { id: "optimize-both", label: "要一起優化水效率、灌溉品質與能源負擔，而不是只追單一指標", detail: "這才是系統取捨的核心。", trait: "systems" },
+          { id: "water-only", label: "只要節水幅度夠大，能源負擔可以不用特別考慮", detail: "這樣會把另一個重要成本藏起來。", trait: "moisture" },
+          { id: "energy-only", label: "只要省電，灌溉是否更精準就不是最重要", detail: "若忽略灌溉品質，系統目標就失衡。", trait: "timing" },
+          { id: "manual-return", label: "既然有能源問題，就乾脆回到完全人工判斷", detail: "這可能失去資料判斷的優勢。", trait: "resilience" }
+        ]
+      },
+      {
+        id: "farm-irrigation-hard-q10",
+        type: "single-choice",
+        prompt: "面對氣候不確定、缺水風險與糧食壓力，為什麼智慧灌溉會成為未來農業的重要能力？",
+        description: "收束題把智慧灌溉放回更長期的農業韌性脈絡。",
+        topic: "未來與韌性",
+        correctId: "future-resilience",
+        answers: [
+          { id: "future-resilience", label: "因為它能讓農業在資源與壓力變動中做出更有韌性的調整", detail: "這是智慧灌溉在未來農業中的核心價值。", trait: "resilience" },
+          { id: "replace-farmers", label: "因為未來會完全不需要農民做判斷", detail: "智慧系統是輔助更好的判斷，不是完全取代人。", trait: "systems" },
+          { id: "water-unlimited", label: "因為它能讓農場永遠維持充足用水", detail: "智慧灌溉不是創造無限資源，而是更好的配置。", trait: "moisture" },
+          { id: "machines-only", label: "因為未來農業只要買更多設備就能解決問題", detail: "真正重要的是系統判斷與治理，不是單純設備數量。", trait: "timing" }
+        ]
+      }
+    ];
+  }
+
+  function createSmartIrrigationDifficultySetV2(level, baseQuestions, baseResults) {
+    const landingMeta = createSmartIrrigationDifficultyLandingV2(level);
+
+    const questionsByLevel = {
+      easy: buildSmartIrrigationEasyQuestionsV2(),
+      medium: cloneData(baseQuestions),
+      hard: buildSmartIrrigationHardQuestionsV2()
+    };
+
+    return {
+      landing: {
+        title: landingMeta.title,
+        copy: landingMeta.copy,
+        rules: landingMeta.rules
+      },
+      settings: landingMeta.settings,
+      questions: questionsByLevel[level],
+      results: createSmartIrrigationDifficultyResultsV2(level, baseResults)
+    };
+  }
+
   const smartIrrigationModule = SMART_FARM_GLOBAL_SCENE.modules.find((module) => module.id === "smart-irrigation");
   if (smartIrrigationModule) {
     const irrigationBaseQuestions = cloneData(smartIrrigationModule.questions || []);
     const irrigationBaseResults = cloneData(smartIrrigationModule.results || {});
 
     smartIrrigationModule.difficultySets = {
-      easy: createSmartIrrigationDifficultySet("easy", irrigationBaseQuestions, irrigationBaseResults),
-      medium: createSmartIrrigationDifficultySet("medium", irrigationBaseQuestions, irrigationBaseResults),
-      hard: createSmartIrrigationDifficultySet("hard", irrigationBaseQuestions, irrigationBaseResults)
+      easy: createSmartIrrigationDifficultySetV2("easy", irrigationBaseQuestions, irrigationBaseResults),
+      medium: createSmartIrrigationDifficultySetV2("medium", irrigationBaseQuestions, irrigationBaseResults),
+      hard: createSmartIrrigationDifficultySetV2("hard", irrigationBaseQuestions, irrigationBaseResults)
     };
-    smartIrrigationModule.questionCountLabel = "10 題 / 三段難度";
+    smartIrrigationModule.questionCountLabel = "10 題 / 三套腳本";
   }
 
   const scenes = [CHIP_HUNTER_SCENE, DUAL_EXPERIENCE_SCENE, SMART_FACTORY_SCENE, SMART_CARE_SCENE, SMART_FARM_GLOBAL_SCENE];

@@ -161,3 +161,9 @@ When new content is added, update these files first:
 - applied the first real `easy / medium / hard` content pilot to the fifth-scene `smart-irrigation` module
 - kept the original smart-irrigation content as the medium baseline
 - added easier and harder variants with adjusted wording, timing, and applicable option density
+
+## Additional 2026-04-20 Independent Difficulty Script Update
+
+- replaced the first `smart-irrigation` difficulty pilot with authored three-script content
+- `easy`, `medium`, and `hard` now use distinct question-bank content instead of only prompt-density tuning
+- kept one shared role-card family for module identity, while allowing difficulty-specific landing and result-summary emphasis

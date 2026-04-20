@@ -1,5 +1,26 @@
 # Version Record
 
+## v1.12.3
+
+- Date: 2026-04-20
+- Branch: `main`
+- Title: Author independent smart-irrigation difficulty scripts
+
+### Changes
+
+- replaced the first smart-irrigation difficulty pilot with authored independent script content
+- added a distinct `easy` question bank for first-contact learning
+- kept `medium` as the standard field-judgment baseline
+- added a distinct `hard` question bank focused on multi-variable trade-off reasoning
+- added difficulty-specific landing copy and result-summary emphasis for `smart-irrigation`
+- updated the smart-irrigation module label to show that it now uses three authored scripts
+- bumped asset version to `20260420e` and service worker cache version to `v24`
+
+### Notes
+
+- this is the first module in the project to move from surface difficulty to content difficulty
+- future scenes and modules can now be upgraded one by one using the same authored-script model
+
 ## v1.12.2
 
 - Date: 2026-04-20

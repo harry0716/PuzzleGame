@@ -226,3 +226,12 @@ This delivery baseline now additionally includes:
 - a medium baseline that preserves the original pilot content
 - an easy variant with clearer copy, longer timing, and reduced selectable-option density on applicable question types
 - a hard variant with denser prompt framing and tighter timing on applicable question types
+
+## 2026-04-20 Independent Difficulty Script Update
+
+This delivery baseline now additionally includes:
+
+- a rewritten `smart-irrigation` difficulty model based on three authored scripts
+- distinct `easy`, `medium`, and `hard` question-bank structures for the same module
+- difficulty-specific landing copy and result-summary emphasis for the smart-irrigation pilot
+- a stronger content-difficulty baseline that can later be copied scene by scene

@@ -850,6 +850,21 @@ Planning artifact:
 - `SMART_IRRIGATION_DIFFICULTY_SCRIPT_SPEC.md`
 - `SMART_IRRIGATION_DIFFICULTY_SCRIPT_DRAFT.md`
 
+## Completed On 2026-04-20 (Independent Smart-Irrigation Scripts)
+
+### Implemented Progress
+
+- replaced the first smart-irrigation difficulty pilot with three authored difficulty scripts
+- `easy` now uses an introductory question bank focused on concept-building and direct field recognition
+- `medium` remains the standard smart-irrigation baseline for balanced operational judgment
+- `hard` now uses a more strategic question bank focused on conflicting signals, constraints, and trade-off reasoning
+- difficulty-specific landing copy and result-summary emphasis are now part of the live module data
+
+### Practical Result
+
+- smart-irrigation is now the first module in the project where difficulty means different content, not only different wording
+- the system now has a real example of how future scenes or modules can evolve from one baseline into three independent scripts
+
 ## Project Plans Track (2026-04-20)
 
 ## Confirmed On 2026-04-20 (Difficulty-System Planning)
