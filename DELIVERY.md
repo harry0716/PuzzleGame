@@ -235,3 +235,12 @@ This delivery baseline now additionally includes:
 - distinct `easy`, `medium`, and `hard` question-bank structures for the same module
 - difficulty-specific landing copy and result-summary emphasis for the smart-irrigation pilot
 - a stronger content-difficulty baseline that can later be copied scene by scene
+
+## 2026-04-20 Chip Hunter Difficulty Script Update
+
+This delivery baseline now additionally includes:
+
+- a rewritten `chip-hunter` difficulty model based on three authored scripts
+- distinct `easy`, `medium`, and `hard` question-bank structures for the same scene
+- a guided introductory `easy` path for first-time visitors
+- a more interpretive `hard` path focused on system-level understanding

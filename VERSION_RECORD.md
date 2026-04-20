@@ -1,5 +1,24 @@
 # Version Record
 
+## v1.12.4
+
+- Date: 2026-04-20
+- Branch: `main`
+- Title: Author chip-hunter difficulty scripts
+
+### Changes
+
+- upgraded `chip-hunter` from one baseline scene into three authored difficulty scripts
+- kept the current live scene logic as the `medium` baseline
+- added an `easy` guided-visit script focused on recognition and scene orientation
+- added a `hard` challenge script focused on comparison, integration, and system-level interpretation
+- updated the chip-hunter panel label to reflect three-tier difficulty coverage
+
+### Notes
+
+- this is the first non-module scene in the project to adopt the authored difficulty-script model
+- the scene-by-scene rollout pattern is now validated for both module-based and non-module scene structures
+
 ## v1.12.3
 
 - Date: 2026-04-20

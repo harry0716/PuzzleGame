@@ -865,6 +865,42 @@ Planning artifact:
 - smart-irrigation is now the first module in the project where difficulty means different content, not only different wording
 - the system now has a real example of how future scenes or modules can evolve from one baseline into three independent scripts
 
+## Confirmed On 2026-04-20 (Next Independent Difficulty Target)
+
+### Confirmed Direction
+
+- after `smart-irrigation`, the next recommended scene to upgrade is `chip-hunter`
+- this scene is still one of the project’s core identity scenes
+- it should become the first non-module scene to receive authored `easy / medium / hard` scripts
+
+### Working Goal
+
+- keep the original scene identity centered on AI devices, semiconductors, and system integration
+- preserve its shorter event-friendly structure
+- but give each difficulty tier its own question focus instead of only rewriting wording
+
+### Planning Artifact
+
+- `CHIP_HUNTER_DIFFICULTY_SCRIPT_SPEC.md`
+- `CHIP_HUNTER_DIFFICULTY_SCRIPT_DRAFT.md`
+
+## Completed On 2026-04-20 (Independent Chip-Hunter Scripts)
+
+### Implemented Progress
+
+- upgraded `chip-hunter` into three authored difficulty scripts
+- `easy` now behaves as a guided visit and recognition path
+- `medium` remains the current balanced live baseline
+- `hard` now behaves as a stronger interpretation and systems-thinking challenge
+- the role-card family remains consistent while summary emphasis is allowed to shift by difficulty
+
+### Practical Result
+
+- the project now has authored difficulty scripts in both:
+  - a module-based target (`smart-irrigation`)
+  - a standard scene target (`chip-hunter`)
+- the authored-script pattern is now reusable across the remaining scenes
+
 ## Project Plans Track (2026-04-20)
 
 ## Confirmed On 2026-04-20 (Difficulty-System Planning)

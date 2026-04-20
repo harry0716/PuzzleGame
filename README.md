@@ -167,3 +167,10 @@ When new content is added, update these files first:
 - replaced the first `smart-irrigation` difficulty pilot with authored three-script content
 - `easy`, `medium`, and `hard` now use distinct question-bank content instead of only prompt-density tuning
 - kept one shared role-card family for module identity, while allowing difficulty-specific landing and result-summary emphasis
+
+## Additional 2026-04-20 Chip Hunter Difficulty Script Update
+
+- upgraded `chip-hunter` into the first non-module scene with authored `easy`, `medium`, and `hard` scripts
+- kept the standard live scene as the `medium` baseline
+- added a more guided `easy` visit path and a more interpretive `hard` challenge path
+- preserved the same role-card family while allowing difficulty-specific emphasis

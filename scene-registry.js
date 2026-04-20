@@ -429,6 +429,398 @@
     }
   };
 
+  function createChipHunterDifficultyResults(level, baseResults) {
+    const results = cloneData(baseResults);
+    const copyByLevel = {
+      easy: {
+        ai: "你對 AI 核心設備最有感，適合從辨識 GPU、伺服器與 AI 展示亮點開始，慢慢建立自己的科技視野。",
+        system: "你會自然把設備和用途連在一起，代表你很適合從系統整合與 AIoT 的角度理解這個場景。",
+        industry: "你很容易看見展示背後和智慧製造、工業場域的連結，適合從產業應用角度建立興趣。",
+        maker: "你對動手做和新技術展示很有好奇心，適合從實作與創意挑戰切入這個領域。"
+      },
+      medium: {
+        ai: "你對 AI 推理、影像辨識與模型應用最有感，看到新技術會想知道它怎麼做到。",
+        system: "你喜歡把不同裝置、感測器、控制邏輯和 AI 判斷串成完整系統。",
+        industry: "你對工廠流程、自動化設備和智慧製造情境特別敏感，喜歡看系統如何穩定運作。",
+        maker: "你喜歡把技術做成看得見、摸得到的成果，對創新展示與實作挑戰充滿行動力。"
+      },
+      hard: {
+        ai: "你不只看見 AI 設備本身，還會追問它在整個算力與應用鏈中的位置，屬於進階的 AI 生態理解型。",
+        system: "你擅長把 AI、控制、設備與整合流程一起看，已經接近系統設計者的思考方式。",
+        industry: "你會把展示內容放回智慧製造與產業價值鏈來理解，具備更高層次的技術解讀力。",
+        maker: "你不只喜歡動手做，還會思考作品背後的系統價值與跨域應用，屬於進階實作挑戰型。"
+      }
+    };
+
+    Object.keys(results).forEach((key) => {
+      if (copyByLevel[level] && copyByLevel[level][key]) {
+        results[key].summary = copyByLevel[level][key];
+      }
+    });
+
+    return results;
+  }
+
+  function createChipHunterDifficultyLanding(level) {
+    const landingMeta = {
+      easy: {
+        title: "開始晶片獵人挑戰｜初階版",
+        copy: "這一版會用最直觀的方式帶你認識 AI 實驗室中最重要的設備、展示主題與學習方向。適合第一次接觸這個場景的參與者。",
+        rules: [
+          "共 7 題，會先從設備辨識與場景理解開始。",
+          "題目更像導覽版，幫你快速看懂這個場景在介紹什麼。",
+          "如果你是第一次參觀，初階版會最容易上手。"
+        ],
+        settings: { questionCount: 7, defaultTimeLimit: 14 }
+      },
+      medium: {
+        title: "開始晶片獵人挑戰｜標準版",
+        copy: "你將在 7 個互動節點中，認識 AI 實驗室設備、智慧工廠與 AIoT 系統整合。",
+        rules: [
+          "共 7 個互動節點，每題預設 12 秒。",
+          "目前支援單選題、限時題、排序題、圖片題、配對題、分支題。",
+          "答對可得分，越快作答分數越高。",
+          "結果卡會依照你的選擇傾向給出適合方向。"
+        ],
+        settings: { questionCount: 7, defaultTimeLimit: 12 }
+      },
+      hard: {
+        title: "開始晶片獵人挑戰｜進階版",
+        copy: "這一版不只要你認設備，還要你看懂設備、系統、應用與產業價值之間的關係。適合想挑戰更高層次判斷的人。",
+        rules: [
+          "共 7 題，題目會更強調比較、推理與跨域連結。",
+          "你需要分辨什麼是核心技術，什麼只是周邊展示。",
+          "進階版更接近競賽或深度導覽型挑戰。"
+        ],
+        settings: { questionCount: 7, defaultTimeLimit: 10 }
+      }
+    };
+
+    return landingMeta[level];
+  }
+
+  function buildChipHunterEasyQuestions() {
+    return [
+      {
+        id: "chip-easy-q1",
+        type: "single-choice",
+        prompt: "如果你剛走進 AI 實驗室，哪一種設備最能代表這裡真的有高階 AI 運算能力？",
+        description: "初階版先從最容易辨識的核心設備開始。",
+        topic: "AI 設備",
+        correctId: "server",
+        answers: [
+          { id: "server", label: "AI 伺服器 / GPU 機櫃", detail: "這是最能代表 AI 算力的設備。", trait: "ai" },
+          { id: "printer", label: "辦公室印表機", detail: "它很常見，但不是 AI 核心設備。", trait: "maker" },
+          { id: "projector", label: "投影展示設備", detail: "能呈現內容，但不是運算主角。", trait: "system" }
+        ]
+      },
+      {
+        id: "chip-easy-q2",
+        type: "single-choice",
+        prompt: "這個場景想讓學生知道的，不只是電子硬體本身，而是什麼？",
+        description: "幫玩家快速抓到場景最想傳達的跨域特色。",
+        topic: "跨域整合",
+        correctId: "integration",
+        answers: [
+          { id: "integration", label: "電子 + AI + 控制 + 系統整合", detail: "這是場景真正的核心訊息。", trait: "system" },
+          { id: "soldering", label: "只學焊接與線路", detail: "硬體很重要，但不是全部。", trait: "maker" },
+          { id: "apps-only", label: "只學手機 App", detail: "不是這個場景的重點。", trait: "ai" }
+        ]
+      },
+      {
+        id: "chip-easy-q3",
+        type: "timed-choice",
+        prompt: "如果只有幾秒鐘可以判斷哪一區最有 AI 代表性，你最該先看哪裡？",
+        description: "用短秒數建立最基本的『先抓核心』能力。",
+        topic: "快速辨識",
+        correctId: "gpu",
+        timeLimit: 10,
+        countdownLabel: "10 秒初階快答",
+        urgencyText: "先抓最能代表 AI 核心算力的設備。",
+        answers: [
+          { id: "gpu", label: "有 GPU / AI 伺服器的展示區", detail: "這通常最能直接代表 AI 核心。", trait: "ai" },
+          { id: "poster", label: "海報文字最多的地方", detail: "資訊很多，但不一定最快抓到核心。", trait: "industry" },
+          { id: "lights", label: "燈光最亮的展示物", detail: "吸睛不等於技術重點。", trait: "maker" }
+        ]
+      },
+      {
+        id: "chip-easy-q4",
+        type: "ordering",
+        prompt: "把一個新手參觀晶片獵人場景的理解順序排好。",
+        description: "初階版先建立最直觀的參觀理解流程。",
+        topic: "參訪流程",
+        trait: "industry",
+        instructions: "把從看到設備到理解方向的步驟排好。",
+        items: [
+          { id: "see", label: "先看見設備", detail: "先知道現場展示了什麼" },
+          { id: "know", label: "知道設備用途", detail: "理解它是做什麼的" },
+          { id: "connect", label: "連到 AI 或系統應用", detail: "知道它為何重要" },
+          { id: "reflect", label: "想到自己的興趣方向", detail: "開始思考自己適合哪條路" }
+        ],
+        correctOrder: ["see", "know", "connect", "reflect"]
+      },
+      {
+        id: "chip-easy-q5",
+        type: "branching",
+        prompt: "如果你第一次來參觀，你會先看哪一區？",
+        description: "讓玩家先意識到『硬體入口』和『系統入口』是兩種不同理解方式。",
+        topic: "探索路徑",
+        correctId: "server-first",
+        choices: [
+          {
+            id: "server-first",
+            label: "先看 AI 伺服器和核心設備",
+            detail: "先從最強的硬體印象開始。",
+            trait: "ai",
+            next: "chip-easy-q6"
+          },
+          {
+            id: "system-first",
+            label: "先看系統整合和應用展示",
+            detail: "先理解做得到什麼，再回頭看設備。",
+            trait: "system",
+            next: "chip-easy-q6"
+          }
+        ]
+      },
+      {
+        id: "chip-easy-q6",
+        type: "image-choice",
+        prompt: "哪一張圖最像這個場景裡代表 AI 核心算力的設備？",
+        description: "用圖像方式加深設備辨識。",
+        topic: "圖片辨識",
+        correctId: "server",
+        options: [
+          {
+            id: "server",
+            label: "AI 伺服器機櫃",
+            detail: "最能代表這個場景的 AI 算力亮點。",
+            alt: "AI 伺服器機櫃",
+            image: buildSceneIllustration({ title: "AI Server", subtitle: "Core Compute", accent: "#0a7f6f", highlight: "#16325c", symbol: "◆" }),
+            trait: "ai"
+          },
+          {
+            id: "printer",
+            label: "辦公室印表機",
+            detail: "不是這個場景的核心設備。",
+            alt: "印表機",
+            image: buildSceneIllustration({ title: "Printer", subtitle: "Office Device", accent: "#d46a3b", highlight: "#ffb36e", symbol: "●" }),
+            trait: "maker"
+          },
+          {
+            id: "projector",
+            label: "投影設備",
+            detail: "能展示內容，但不是 AI 計算主角。",
+            alt: "投影設備",
+            image: buildSceneIllustration({ title: "Projector", subtitle: "Display Only", accent: "#445a7a", highlight: "#7aa2c8", symbol: "▲" }),
+            trait: "system"
+          }
+        ]
+      },
+      {
+        id: "chip-easy-q7",
+        type: "matching",
+        prompt: "把這個場景的主題和最直接的說明配對起來。",
+        description: "最後用最簡單的配對，確認玩家已能看懂主題差異。",
+        topic: "主題配對",
+        trait: "system",
+        instructions: "左邊是主題，右邊是它最直接的說明。",
+        leftItems: [
+          { id: "ai-server", label: "AI 伺服器", detail: "和高運算能力有關" },
+          { id: "factory-io", label: "Factory IO", detail: "和智慧工廠展示有關" },
+          { id: "aiot", label: "AIoT", detail: "和 AI 結合系統整合有關" }
+        ],
+        rightItems: [
+          { id: "compute", label: "高效運算與模型訓練" },
+          { id: "factory", label: "智慧產線與工業模擬" },
+          { id: "integration", label: "設備、感測與系統整合" }
+        ],
+        pairs: [
+          { leftId: "ai-server", rightId: "compute" },
+          { leftId: "factory-io", rightId: "factory" },
+          { leftId: "aiot", rightId: "integration" }
+        ]
+      }
+    ];
+  }
+
+  function buildChipHunterHardQuestions() {
+    return [
+      {
+        id: "chip-hard-q1",
+        type: "single-choice",
+        prompt: "如果展示現場同時有伺服器、投影、周邊設備與視覺特效，哪一種物件最能真正代表這個場景的 AI 技術核心，而不是只是科技感氛圍？",
+        description: "進階版不只問你看到了什麼，還要分辨什麼才是技術核心。",
+        topic: "核心設備辨識",
+        correctId: "compute-infra",
+        answers: [
+          { id: "compute-infra", label: "高效 AI 運算基礎設施，例如 GPU / AI 伺服器", detail: "這才是支撐模型運算與推理的核心。", trait: "ai" },
+          { id: "visual-effects", label: "任何看起來最炫的展示效果", detail: "科技感不等於技術核心。", trait: "maker" },
+          { id: "peripheral-tools", label: "能輔助展示的周邊設備", detail: "周邊重要，但不是核心。", trait: "system" },
+          { id: "crowded-zone", label: "哪裡人多就代表那裡最重要", detail: "熱度不等於技術價值。", trait: "industry" }
+        ]
+      },
+      {
+        id: "chip-hard-q2",
+        type: "single-choice",
+        prompt: "如果有人把這個場景理解成『只是在展示很厲害的硬體』，哪一個回應最能指出這種理解為什麼不完整？",
+        description: "這題把場景從設備辨識提升到系統與應用層次。",
+        topic: "跨域價值",
+        correctId: "ecosystem-view",
+        answers: [
+          { id: "ecosystem-view", label: "因為這個場景真正想傳達的是電子、AI、控制與系統整合如何一起形成應用能力", detail: "進階版要看見的是整個技術生態，不只是單一硬體。", trait: "system" },
+          { id: "hardware-only", label: "其實沒錯，硬體夠強就代表全部都夠強", detail: "這忽略了系統整合與應用層。", trait: "ai" },
+          { id: "software-only", label: "只要有 AI 軟體就好，硬體不是重點", detail: "這反過來又忽略了算力與設備角色。", trait: "maker" },
+          { id: "marketing-only", label: "場景主要只是用來吸引參觀者，不一定真的有教育意義", detail: "這低估了場景設計的技術轉譯價值。", trait: "industry" }
+        ]
+      },
+      {
+        id: "chip-hard-q3",
+        type: "timed-choice",
+        prompt: "在極短時間內，你要判斷這個場景最有價值的地方不是『有很多設備』，而是『設備如何形成一個技術故事』。你最該先抓哪個關鍵？",
+        description: "進階版快答強調『技術故事』而不是『設備清單』。",
+        topic: "技術核心判斷",
+        correctId: "compute-to-application",
+        timeLimit: 7,
+        countdownLabel: "7 秒進階快答",
+        urgencyText: "先抓出設備如何支撐應用，而不是只數設備。",
+        answers: [
+          { id: "compute-to-application", label: "先看核心算力如何連到系統整合與應用展示", detail: "這是整個場景最重要的技術脈絡。", trait: "ai" },
+          { id: "largest-machine", label: "先找體積最大的設備", detail: "大不一定等於最有技術代表性。", trait: "industry" },
+          { id: "most-text", label: "先讀完說明文字最多的看板", detail: "內容重要，但不一定是最快抓核心的方法。", trait: "system" },
+          { id: "brightest-display", label: "先看最亮最吸睛的展示", detail: "視覺焦點不等於技術焦點。", trait: "maker" }
+        ]
+      },
+      {
+        id: "chip-hard-q4",
+        type: "ordering",
+        prompt: "如果你要把這個場景解釋給另一位同學聽，下面哪一個順序最能呈現它的完整邏輯？",
+        description: "進階版排序題把場景從硬體一路拉到職涯方向。",
+        topic: "邏輯層次",
+        trait: "industry",
+        instructions: "請把從技術核心到個人方向的解釋順序排好。",
+        items: [
+          { id: "hardware", label: "先說明核心算力硬體", detail: "先抓住場景的技術基礎" },
+          { id: "system", label: "再說明系統整合", detail: "設備如何形成可運作的系統" },
+          { id: "application", label: "接著連到應用場景", detail: "智慧工廠、AIoT 等實際用途" },
+          { id: "career", label: "最後回到個人方向", detail: "思考自己適合哪種學習路線" }
+        ],
+        correctOrder: ["hardware", "system", "application", "career"]
+      },
+      {
+        id: "chip-hard-q5",
+        type: "branching",
+        prompt: "如果你要帶別人理解這個場景，你會先從『算力與晶片』開始，還是先從『應用與系統』開始？",
+        description: "這題不只問偏好，而是問你如何理解這個場景的入口與路徑。",
+        topic: "解讀入口",
+        correctId: "either-linked",
+        choices: [
+          {
+            id: "compute-first",
+            label: "先從算力、晶片與伺服器講起",
+            detail: "這條路會先抓核心硬體，再往應用延伸。",
+            trait: "ai",
+            next: "chip-hard-q6"
+          },
+          {
+            id: "application-first",
+            label: "先從智慧工廠與 AIoT 應用講起",
+            detail: "這條路會先抓用途，再回頭理解設備角色。",
+            trait: "system",
+            next: "chip-hard-q6"
+          }
+        ]
+      },
+      {
+        id: "chip-hard-q6",
+        type: "image-choice",
+        prompt: "哪一張圖最能代表『基礎設施層級』的 AI 技術價值，而不是展示周邊？",
+        description: "這題要你分辨核心基礎設施和輔助展示設備。",
+        topic: "基礎設施辨識",
+        correctId: "server",
+        options: [
+          {
+            id: "server",
+            label: "AI 伺服器機櫃",
+            detail: "代表高效運算與模型訓練基礎設施。",
+            alt: "AI 基礎設施",
+            image: buildSceneIllustration({ title: "AI Server", subtitle: "Infrastructure", accent: "#0a7f6f", highlight: "#16325c", symbol: "◆" }),
+            trait: "ai"
+          },
+          {
+            id: "projector",
+            label: "投影與展示裝置",
+            detail: "它能幫助呈現內容，但不是基礎設施核心。",
+            alt: "展示裝置",
+            image: buildSceneIllustration({ title: "Projector", subtitle: "Display Layer", accent: "#445a7a", highlight: "#7aa2c8", symbol: "▲" }),
+            trait: "system"
+          },
+          {
+            id: "printer",
+            label: "辦公周邊設備",
+            detail: "和文件輸出有關，但不是技術主角。",
+            alt: "辦公周邊",
+            image: buildSceneIllustration({ title: "Printer", subtitle: "Peripheral", accent: "#d46a3b", highlight: "#ffb36e", symbol: "●" }),
+            trait: "maker"
+          }
+        ]
+      },
+      {
+        id: "chip-hard-q7",
+        type: "matching",
+        prompt: "把技術層級和它能支撐的價值配對起來。",
+        description: "進階版配對從『主題對說明』升級成『技術層級對價值』。",
+        topic: "技術層級與價值",
+        trait: "industry",
+        instructions: "把左邊技術層級配到右邊最合理的價值說明。",
+        leftItems: [
+          { id: "compute", label: "AI 算力基礎", detail: "GPU / 伺服器等核心設備" },
+          { id: "factory", label: "工業模擬與自動化", detail: "連到智慧工廠與流程控制" },
+          { id: "integration", label: "AIoT 系統整合", detail: "把感測、控制與 AI 串成系統" }
+        ],
+        rightItems: [
+          { id: "model-value", label: "支撐模型訓練與推理能力" },
+          { id: "industry-value", label: "支撐智慧產線與工業場域理解" },
+          { id: "system-value", label: "支撐跨設備、跨功能的整合應用" }
+        ],
+        pairs: [
+          { leftId: "compute", rightId: "model-value" },
+          { leftId: "factory", rightId: "industry-value" },
+          { leftId: "integration", rightId: "system-value" }
+        ]
+      }
+    ];
+  }
+
+  function createChipHunterDifficultySet(level, baseQuestions, baseResults) {
+    const landingMeta = createChipHunterDifficultyLanding(level);
+    const questionsByLevel = {
+      easy: buildChipHunterEasyQuestions(),
+      medium: cloneData(baseQuestions),
+      hard: buildChipHunterHardQuestions()
+    };
+
+    return {
+      landing: {
+        title: landingMeta.title,
+        copy: landingMeta.copy,
+        rules: landingMeta.rules
+      },
+      settings: landingMeta.settings,
+      questions: questionsByLevel[level],
+      results: createChipHunterDifficultyResults(level, baseResults)
+    };
+  }
+
+  const chipHunterBaseQuestions = cloneData(CHIP_HUNTER_SCENE.questions || []);
+  const chipHunterBaseResults = cloneData(CHIP_HUNTER_SCENE.results || {});
+  CHIP_HUNTER_SCENE.difficultySets = {
+    easy: createChipHunterDifficultySet("easy", chipHunterBaseQuestions, chipHunterBaseResults),
+    medium: createChipHunterDifficultySet("medium", chipHunterBaseQuestions, chipHunterBaseResults),
+    hard: createChipHunterDifficultySet("hard", chipHunterBaseQuestions, chipHunterBaseResults)
+  };
+  CHIP_HUNTER_SCENE.panel.level = "三段難度";
+
   const DUAL_EXPERIENCE_SCENE = {
     id: "electronics-dual-experience",
     title: "電子工程雙體驗",
