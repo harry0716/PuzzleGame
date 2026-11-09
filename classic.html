@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Lab Talent Sprint</title>
+    <meta
+      name="description"
+      content="可切換多場景的互動式 Puzzle Game，適合 AI Lab 與參訪活動的現場體驗。"
+    />
+    <meta name="theme-color" content="#0a7f6f" />
+    <link rel="manifest" href="./manifest.webmanifest?v=20260420e" />
+    <link rel="icon" href="./icon.svg?v=20260420e" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icon.svg?v=20260420e" />
+    <link rel="stylesheet" href="./styles.css?v=20260420e" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <p id="hero-eyebrow" class="eyebrow">MULTI SCENE PUZZLE GAME</p>
+        <h1 id="hero-title">AI Lab Talent Sprint</h1>
+        <p id="hero-copy" class="hero-copy">
+          從前端切換不同活動場景，讓同一套互動遊戲可以對應不同參訪主題與展示需求。
+        </p>
+        <div class="hero-meta">
+          <span id="deploy-status" class="meta-chip">靜態部署就緒</span>
+          <span id="leaderboard-mode" class="meta-chip">排行榜：本機模式</span>
+        </div>
+      </header>
+
+      <main id="app" class="screen-card" aria-live="polite"></main>
+    </div>
+
+    <template id="scene-select-template">
+      <section class="screen screen-scene-select">
+        <div class="screen-copy">
+          <span class="pill">選擇活動場景</span>
+          <h2>先選一個要進行的內容主題</h2>
+          <p>
+            之後可以在同一個專案中持續新增更多場景。這一版先完成多場景面板與既有內容搬移，後續再擴充題型。
+          </p>
+        </div>
+
+        <div id="scene-grid" class="scene-grid"></div>
+      </section>
+    </template>
+
+    <template id="master-intro-template">
+      <section class="screen screen-master-intro">
+        <div class="screen-copy">
+          <span id="master-intro-pill" class="pill">主題任務站</span>
+          <h2 id="master-intro-title">主場景介紹</h2>
+          <p id="master-intro-copy"></p>
+        </div>
+
+        <div class="rules-box">
+          <h3>參與方式</h3>
+          <ul id="master-intro-rules" class="rules-list"></ul>
+        </div>
+
+        <div class="button-row button-row-landing">
+          <button class="ghost-button" id="master-intro-back" type="button">返回場景列表</button>
+          <button class="cta-button" id="to-module-select" type="button">選擇題組</button>
+        </div>
+      </section>
+    </template>
+
+    <template id="module-select-template">
+      <section class="screen screen-module-select">
+        <div class="screen-copy">
+          <span id="module-select-pill" class="pill">模組選擇</span>
+          <h2 id="module-select-title">選擇一個題組開始挑戰</h2>
+          <p id="module-select-copy"></p>
+        </div>
+
+        <div id="module-group-list" class="module-group-list"></div>
+
+        <div class="button-row button-row-landing">
+          <button class="ghost-button" id="module-select-back" type="button">返回主題介紹</button>
+        </div>
+      </section>
+    </template>
+
+    <template id="landing-template">
+      <section class="screen screen-landing">
+        <div class="screen-copy">
+          <span id="scene-pill" class="pill">場景載入中</span>
+          <h2 id="landing-title">準備開始挑戰</h2>
+          <p id="landing-copy"></p>
+        </div>
+
+        <form id="player-form" class="stack-lg">
+          <label class="field">
+            <span>玩家暱稱</span>
+            <input
+              id="nickname"
+              name="nickname"
+              type="text"
+              maxlength="12"
+              placeholder="輸入你的名字"
+              autocomplete="nickname"
+            />
+          </label>
+
+          <label class="field">
+            <span>答題節奏</span>
+            <div id="timer-preset" class="preset-toggle" role="group" aria-label="答題節奏"></div>
+            <small id="timer-preset-hint" class="field-hint"></small>
+          </label>
+
+          <label id="custom-timer-wrap" class="field" hidden>
+            <span>自訂每題秒數</span>
+            <input id="custom-timer-seconds" name="custom-timer-seconds" type="number" min="6" max="60" step="1" />
+            <small class="field-hint">建議範圍 6 到 60 秒，會套用到一般題目與限時題。</small>
+          </label>
+
+          <label class="field">
+            <span>計分模式</span>
+            <div id="scoring-mode" class="preset-toggle" role="group" aria-label="計分模式"></div>
+            <small id="scoring-mode-hint" class="field-hint"></small>
+          </label>
+
+          <label class="field">
+            <span>題目難度</span>
+            <div id="difficulty-mode" class="preset-toggle" role="group" aria-label="題目難度"></div>
+            <small id="difficulty-mode-hint" class="field-hint"></small>
+          </label>
+
+          <div class="rules-box">
+            <h3>玩法說明</h3>
+            <ul id="scene-rules" class="rules-list"></ul>
+          </div>
+
+          <div class="button-row button-row-landing">
+            <button class="ghost-button" id="back-to-scenes" type="button">返回場景列表</button>
+            <button class="cta-button" type="submit">開始挑戰</button>
+          </div>
+        </form>
+      </section>
+    </template>
+
+    <template id="question-template">
+      <section class="screen screen-question">
+        <div class="question-top">
+          <div>
+            <p class="mini-label">QUESTION <span id="question-number"></span></p>
+            <h2 id="question-title"></h2>
+          </div>
+          <div class="status-chip">
+            <span>剩餘</span>
+            <strong id="time-left"></strong>
+          </div>
+        </div>
+
+        <div class="progress-wrap" aria-hidden="true">
+          <div id="progress-bar" class="progress-bar"></div>
+        </div>
+
+        <p id="question-description" class="question-description"></p>
+        <div id="answer-list" class="answer-list"></div>
+      </section>
+    </template>
+
+    <template id="feedback-template">
+      <section class="screen screen-feedback">
+        <p class="mini-label">ROUND RESULT</p>
+        <h2 id="feedback-title"></h2>
+        <p id="feedback-copy" class="feedback-copy"></p>
+        <div class="feedback-panel">
+          <p>目前總分 <strong id="score-total"></strong></p>
+          <p id="feedback-tag" class="feedback-tag"></p>
+        </div>
+      </section>
+    </template>
+
+    <template id="result-template">
+      <section class="screen screen-result">
+        <p class="mini-label">YOUR TALENT CARD</p>
+        <img id="result-icon" class="result-icon" alt="" hidden />
+        <h2 id="result-name"></h2>
+        <p id="result-style" class="result-style" hidden></p>
+        <p id="result-summary" class="result-summary"></p>
+
+        <div class="talent-card">
+          <div>
+            <p class="stat-label">總分</p>
+            <p id="final-score" class="stat-value"></p>
+            <p id="score-mode-note" class="field-hint"></p>
+          </div>
+          <div>
+            <p class="stat-label">答對題數</p>
+            <p id="correct-count" class="stat-value"></p>
+          </div>
+        </div>
+
+        <div class="result-block">
+          <h3>適合發展方向</h3>
+          <p id="result-fit"></p>
+        </div>
+
+        <div class="result-block">
+          <h3>你可能喜歡的能力</h3>
+          <ul id="result-skills" class="bullet-list"></ul>
+        </div>
+
+        <div class="result-block">
+          <h3>現場延伸亮點</h3>
+          <p id="result-hook"></p>
+        </div>
+
+        <section class="leaderboard leaderboard-highlight">
+          <div class="leaderboard-head">
+            <div>
+              <h3 id="leaderboard-title">排行榜</h3>
+              <p id="leaderboard-copy" class="leaderboard-copy">
+                目前顯示的是此場景對應的排行榜資料。
+              </p>
+            </div>
+            <div class="leaderboard-actions">
+              <button id="refresh-board" class="ghost-button" type="button">重新整理</button>
+              <button id="clear-board" class="ghost-button" type="button">重置排行榜</button>
+            </div>
+          </div>
+          <div class="leaderboard-banner">
+            <strong>場景專屬排行榜</strong>
+            <span>同一個場景可以用自己的 event code 管理排名與重置範圍。</span>
+          </div>
+          <ol id="leaderboard-list" class="leaderboard-list"></ol>
+        </section>
+
+        <div class="button-row">
+          <button id="restart-game" class="cta-button" type="button">再玩一次</button>
+          <button id="choose-another-scene" class="ghost-button" type="button">切換其他場景</button>
+          <button id="share-result" class="ghost-button" type="button">複製分享文字</button>
+        </div>
+      </section>
+    </template>
+
+    <script src="./config.js?v=20260420e"></script>
+    <script src="./leaderboard-shared.js?v=20260420e"></script>
+    <script src="./scene-registry.js?v=20260420e"></script>
+    <script src="./app.js?v=20260420e"></script>
+  </body>
+</html>

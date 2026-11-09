@@ -1,0 +1,53 @@
+.presenter-body { background: radial-gradient(circle at 12% 3%, #fce6cb, transparent 30%), radial-gradient(circle at 96% 5%, #c6efe2, transparent 26%), #f7faf4; color: #173b48; }
+.presenter-shell { width: min(100%, 1440px); padding: 22px 24px 42px; }
+.presenter-hero { padding: 0 4px 16px; }
+.presenter-hero .eyebrow { margin: 0; color: #0c9584; font-weight: 900; letter-spacing: .16em; }
+.presenter-hero h1 { margin: 6px 0 5px; font-size: clamp(28px, 3vw, 42px); letter-spacing: -.05em; }
+.presenter-copy { margin: 0; max-width: 1000px; font-size: 14px; }
+.presenter-meta { display: flex; gap: 8px; margin-top: 10px; }
+.presenter-home-link { text-decoration: none; }
+.presenter-home-link:hover { color: #097f72; }
+.presenter-grid { grid-template-columns: minmax(380px, .8fr) minmax(0, 1.2fr); gap: 20px; align-items: start; }
+.presenter-card { padding: 22px; border-radius: 24px; background: #fffffff2; border: 1px solid #cee6de; box-shadow: 0 15px 42px #376b7220; }
+.presenter-qr-card { text-align: center; }
+.presenter-qr-card h2 { margin: 5px 0 12px; font-size: 24px; }
+.presenter-game-mode { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-width: 500px; margin: 0 auto 10px; padding: 5px; border-radius: 14px; background: #eaf4f0; }
+.presenter-mode-button { min-height: 47px; padding: 8px; border: 0; border-radius: 10px; background: transparent; color: #466c75; font-size: 14px; font-weight: 900; cursor: pointer; }
+.presenter-mode-button.is-active { background: #14546a; color: #fff; box-shadow: 0 4px 9px #204d5b2e; }
+.presenter-mode-button:focus-visible, .presenter-settings summary:focus-visible, .presenter-share-row a:focus-visible { outline: 3px solid #ee8b5b; outline-offset: 3px; }
+.presenter-scene-label { margin: 7px 0 9px; color: #197d78; font-size: 13px; }
+.presenter-scan-content { display: flex; flex-direction: column; align-items: center; }
+.presenter-qr { display: grid; place-items: center; width: min(100%, 340px); aspect-ratio: 1; margin: 2px auto 7px; padding: 11px; border: 1px solid #d5e9e2; border-radius: 17px; background: #fff; box-shadow: 0 8px 25px #1d677121; }
+.presenter-qr img, #presenter-dialog-image img { display: block; width: 100% !important; height: auto !important; image-rendering: pixelated; }
+.presenter-qr-message { margin: 5px 0 10px; min-height: 30px; color: #775738; font-size: 12px; line-height: 1.5; }
+.presenter-qr-message.needs-publish { width: 100%; padding: 10px 12px; border: 1px solid #e9d2a2; border-radius: 10px; background: #fff6df; color: #765632; font-weight: 800; }
+.presenter-share-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 9px; width: 100%; }
+.presenter-share-row .presenter-url { display: block; min-width: 0; overflow-wrap: anywhere; color: #176d75; font-size: 12px; font-weight: 700; text-decoration: underline; }
+.presenter-share-row .ghost-button { flex: none; min-width: 92px; padding: 9px 12px; }
+.presenter-settings { margin-top: 18px; padding: 0 16px; border: 1px solid #cfe5de; border-radius: 14px; text-align: left; background: #f8fcf9; }
+.presenter-settings summary { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 16px 0; color: #225c67; font-size: 14px; font-weight: 900; cursor: pointer; }
+.presenter-settings summary span { color: #7b9495; font-size: 11px; font-weight: 700; }
+.presenter-config { padding: 6px 0 18px; }
+.presenter-config .field { margin-bottom: 10px; }
+.presenter-config .field>span { font-size: 13px; }
+.presenter-config input { width: 100%; }
+.presenter-board-card { min-height: 610px; }
+.presenter-board-card .mini-label { color: #0e9181; font-weight: 900; letter-spacing: .13em; }
+.presenter-board-card h2 { color: #1a4653; line-height: 1.35; }
+.presenter-mission-guide { margin-top: 18px; }
+.mission-guide-intro { padding: 16px 18px; border-radius: 14px; background: #eaf8f1; color: #30616c; line-height: 1.7; }
+.presenter-mission-guide ol { list-style: none; display: grid; gap: 10px; padding: 0; margin: 18px 0; }
+.presenter-mission-guide li { display: flex; align-items: center; gap: 16px; padding: 13px 16px; border: 1px solid #d7e8e3; border-radius: 13px; background: #f9fdfb; color: #24515d; font-size: 18px; font-weight: 900; }
+.presenter-mission-guide li span { display: grid; place-items: center; width: 37px; height: 37px; border-radius: 11px; color: #176f71; background: #d8f4e7; font-size: 13px; }
+.presenter-mission-guide li:nth-child(2) span { background: #e8f3c9; }.presenter-mission-guide li:nth-child(3) span { background: #d9ecfa; }.presenter-mission-guide li:nth-child(4) span { background: #ffe6cc; }.presenter-mission-guide li:nth-child(5) span { background: #eadffc; }
+.mission-guide-tip { padding: 15px 18px; border-left: 4px solid #e9a776; border-radius: 8px; background: #fff6e9; color: #745d46; font-size: 14px; line-height: 1.7; }
+.presenter-body [hidden] { display: none !important; }
+.presenter-qr-dialog { width: min(92vw, 720px); max-height: 94vh; padding: 20px; border: 0; border-radius: 22px; background: #fff; color: #173b48; text-align: center; box-shadow: 0 30px 90px #092e4790; }
+.presenter-qr-dialog::backdrop { background: #0b3045d9; }
+.presenter-dialog-head { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 8px; }
+.presenter-dialog-head h2 { margin: 0; font-size: clamp(22px, 3vw, 32px); }
+.presenter-dialog-head button { width: 45px; height: 45px; border: 0; border-radius: 12px; background: #eaf4f0; color: #1e5862; font-weight: 900; cursor: pointer; }
+#presenter-dialog-image { display: grid; place-items: center; width: min(64vh, 560px, 100%); margin: 0 auto; }
+.presenter-qr-dialog p { overflow-wrap: anywhere; margin: 6px 0 0; color: #426875; font-size: 14px; font-weight: 800; }
+@media (max-width: 960px) { .presenter-grid { grid-template-columns: 1fr; }.presenter-board-card { min-height: 0; } }
+@media (max-width: 560px) { .presenter-shell { padding: 15px 12px 35px; }.presenter-card { padding: 18px 14px; }.presenter-qr { width: min(100%, 300px); }.presenter-game-mode { gap: 4px; }.presenter-mode-button { font-size: 12px; }.presenter-settings summary { display: block; }.presenter-settings summary span { display: block; margin-top: 3px; }.presenter-share-row { flex-direction: column; }.presenter-mission-guide li { font-size: 15px; } }

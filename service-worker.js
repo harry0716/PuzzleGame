@@ -1,17 +1,25 @@
-const CACHE_NAME = "ai-lab-talent-sprint-v24";
+const CACHE_NAME = "ai-lab-talent-sprint-v33";
 const ASSET_VERSION = "20260420e";
 const PRECACHE_URLS = [
   "./",
   "./index.html",
+  "./portal.css?v=3",
+  "./classic.html",
   "./leaderboard.html",
   "./presenter.html",
+  "./presenter-live.css?v=20261109e",
+  "./vendor/qrcodejs/qrcode.min.js?v=20261109a",
+  "./mission.html",
+  "./mission.css?v=1",
+  "./mission-light.css?v=3",
+  "./mission.js?v=3",
   `./styles.css?v=${ASSET_VERSION}`,
   `./app.js?v=${ASSET_VERSION}`,
   `./scene-registry.js?v=${ASSET_VERSION}`,
   `./config.js?v=${ASSET_VERSION}`,
   `./leaderboard-shared.js?v=${ASSET_VERSION}`,
   `./leaderboard-page.js?v=${ASSET_VERSION}`,
-  `./presenter.js?v=${ASSET_VERSION}`,
+  "./presenter.js?v=20261109g",
   `./manifest.webmanifest?v=${ASSET_VERSION}`,
   `./icon.svg?v=${ASSET_VERSION}`,
   "./assets/scenes/electronics-dual-experience/cover.svg",

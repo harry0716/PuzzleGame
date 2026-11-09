@@ -14,7 +14,52 @@ const presenterBoardTitle = document.querySelector("#presenter-board-title");
 const presenterBoardCopy = document.querySelector("#presenter-board-copy");
 const presenterEntryMode = document.querySelector("#presenter-entry-mode");
 const presenterEntryModeHint = document.querySelector("#presenter-entry-mode-hint");
+const presenterGameMode = document.querySelector("#presenter-game-mode");
+const presenterQrMessage = document.querySelector("#presenter-qr-message");
+const presenterCopyUrl = document.querySelector("#presenter-copy-url");
+const presenterExpandQr = document.querySelector("#presenter-expand-qr");
+const presenterQrDialog = document.querySelector("#presenter-qr-dialog");
+const presenterMissionGuide = document.querySelector("#presenter-mission-guide");
+const presenterBoardActions = document.querySelector("#presenter-board-actions");
+const presenterPanelKicker = document.querySelector("#presenter-panel-kicker");
 const presenterParams = new URLSearchParams(window.location.search);
+
+const GAME_MODES = {
+  classic: { label: "經典 PuzzleGame", page: "classic.html" },
+  mission: { label: "五關職人任務", page: "mission.html" }
+};
+
+function getSelectedGameMode() {
+  return presenterGameMode.dataset.gameMode === "mission" ? "mission" : "classic";
+}
+
+function populateGameMode() {
+  presenterGameMode.dataset.gameMode = presenterParams.get("game") === "mission" ? "mission" : "classic";
+  presenterGameMode.innerHTML = Object.entries(GAME_MODES).map(([key, mode]) =>
+    `<button class="presenter-mode-button${key === getSelectedGameMode() ? " is-active" : ""}" type="button" data-game-mode="${key}" aria-pressed="${key === getSelectedGameMode()}">${mode.label}</button>`
+  ).join("");
+  presenterGameMode.querySelectorAll("[data-game-mode]").forEach((button) => button.addEventListener("click", () => {
+    presenterGameMode.dataset.gameMode = button.dataset.gameMode;
+    if (button.dataset.gameMode === "mission") presenterParams.set("game", "mission");
+    else presenterParams.delete("game");
+    window.history.replaceState({}, "", `${window.location.pathname}${presenterParams.size ? `?${presenterParams.toString()}` : ""}`);
+    populateGameMode();
+    syncPresenterModeUI();
+    syncPresenterQr();
+    syncPresenterStatusLabel();
+    loadPresenterBoard();
+  }));
+}
+
+function syncPresenterModeUI() {
+  const mission = getSelectedGameMode() === "mission";
+  document.querySelectorAll("[data-classic-only]").forEach((field) => { field.hidden = mission; });
+  presenterBoard.hidden = mission;
+  presenterBoardActions.hidden = mission;
+  presenterMissionGuide.hidden = !mission;
+  presenterMode.textContent = mission ? "五關職人任務" : "經典遊戲";
+  presenterPanelKicker.textContent = mission ? "MISSION GUIDE / 現場引導" : "LIVE RANKING";
+}
 
 const ENTRY_MODES = {
   locked: {
@@ -34,7 +79,7 @@ const DIFFICULTY_LEVELS = {
 };
 
 const DEFAULT_PUBLIC_BASE_URL =
-  window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
+  window.location.protocol === "file:" || window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
     ? "https://harry0716.github.io/PuzzleGame/"
     : new URL("./", window.location.href).toString();
 
@@ -96,9 +141,19 @@ function getLocalBoardKey() {
 
 function buildPlayUrl() {
   const baseUrl = presenterBaseUrl.value.trim() || DEFAULT_PUBLIC_BASE_URL;
+  const base = new URL(baseUrl);
+  if (!(["http:", "https:"].includes(base.protocol))) throw new Error("請輸入 http 或 https 網址。");
+  if (["localhost", "127.0.0.1", "::1"].includes(base.hostname)) throw new Error("學生手機無法使用這個本機網址，請填公開網址或手機可連線的區域網路網址。");
+  if (!base.pathname.endsWith("/")) {
+    base.pathname = base.pathname.endsWith(".html") ? base.pathname.replace(/[^/]+$/, "") : `${base.pathname}/`;
+  }
+  base.search = "";
+  base.hash = "";
+  const url = new URL(GAME_MODES[getSelectedGameMode()].page, base);
+  if (getSelectedGameMode() === "mission") return url.toString();
+
   const scene = getSelectedScene();
   const module = getSelectedModule();
-  const url = new URL("./index.html", baseUrl);
 
   if (scene?.id) {
     url.searchParams.set("scene", scene.id);
@@ -122,22 +177,52 @@ function buildPlayUrl() {
 }
 
 function syncPresenterQr() {
-  const playUrl = buildPlayUrl();
+  let playUrl;
+  try {
+    playUrl = buildPlayUrl();
+  } catch (error) {
+    presenterQr.hidden = true;
+    presenterQr.innerHTML = "";
+    presenterUrl.removeAttribute("href");
+    presenterUrl.textContent = "請先填寫可供學生手機連線的網址";
+    presenterCopyUrl.disabled = true;
+    presenterExpandQr.disabled = true;
+    presenterQrMessage.className = "presenter-qr-message needs-publish";
+    presenterQrMessage.textContent = error.message || "網址格式有誤，請重新確認。";
+    return;
+  }
   const scene = getSelectedScene();
   const module = getSelectedModule();
   const mode = ENTRY_MODES[getSelectedEntryMode()];
 
-  presenterQr.src = `https://quickchart.io/qr?text=${encodeURIComponent(playUrl)}&size=360`;
+  presenterQr.hidden = false;
+  presenterQr.setAttribute("aria-label", `${GAME_MODES[getSelectedGameMode()].label}掃碼入口`);
+  presenterQr.innerHTML = "";
+  new QRCode(presenterQr, { text: playUrl, width: 480, height: 480, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M });
+  presenterUrl.href = playUrl;
   presenterUrl.textContent = playUrl;
+  presenterCopyUrl.disabled = false;
+  presenterExpandQr.disabled = false;
+  const localMissionPreview = getSelectedGameMode() === "mission" && (window.location.protocol === "file:" || ["localhost", "127.0.0.1"].includes(window.location.hostname));
+  presenterQrMessage.className = `presenter-qr-message${localMissionPreview ? " needs-publish" : ""}`;
+  presenterQrMessage.textContent = localMissionPreview
+    ? "本機預覽：若新版檔案尚未發布到下方網址，學生掃碼會無法遊玩。現場使用前請先發布，並用手機實測。"
+    : "QR 圖在這台筆電上產生。請先用一支學生手機掃碼，確認活動網址可以開啟。";
 
   if (presenterSceneLabel) {
-    presenterSceneLabel.textContent = module
+    presenterSceneLabel.textContent = getSelectedGameMode() === "mission"
+      ? "目前導流：五關職人任務 · 每關解鎖一張卡"
+      : module
       ? `目前導流：${scene.title} / ${module.title} / ${mode.label}`
       : `目前導流：${scene?.title || "未選擇"} / ${mode.label}`;
   }
 }
 
 function syncPresenterStatusLabel() {
+  if (getSelectedGameMode() === "mission") {
+    presenterSceneLabel.textContent = "目前導流：五關職人任務 · 每關解鎖一張卡";
+    return;
+  }
   const scene = getSelectedScene();
   const module = getSelectedModule();
   const mode = ENTRY_MODES[getSelectedEntryMode()];
@@ -325,6 +410,11 @@ function renderPresenterBoard(entries) {
 }
 
 async function loadPresenterBoard() {
+  if (getSelectedGameMode() === "mission") {
+    presenterBoardTitle.textContent = "五關職人任務 · 現場引導";
+    presenterBoardCopy.textContent = "學生各自在手機上完成任務，取得五張職人卡。";
+    return;
+  }
   const scene = getSelectedScene();
   const module = getSelectedModule();
   const boardLabel = module ? `${scene.title} / ${module.title}` : scene?.title || "未選擇場景";
@@ -376,8 +466,30 @@ populatePresenterSceneSelect();
 populatePresenterModuleSelect();
 populatePresenterDifficulty();
 populatePresenterEntryMode();
+populateGameMode();
+syncPresenterModeUI();
 syncPresenterQr();
 syncPresenterStatusLabel();
+
+presenterCopyUrl.addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(buildPlayUrl());
+    presenterCopyUrl.textContent = "已複製";
+    window.setTimeout(() => { presenterCopyUrl.textContent = "複製網址"; }, 1800);
+  } catch {
+    presenterQrMessage.textContent = "無法自動複製，請直接選取下方網址。";
+  }
+});
+presenterExpandQr.addEventListener("click", () => {
+  const dialogImage = document.querySelector("#presenter-dialog-image");
+  dialogImage.innerHTML = "";
+  dialogImage.setAttribute("aria-label", presenterQr.getAttribute("aria-label"));
+  new QRCode(dialogImage, { text: presenterUrl.href, width: 560, height: 560, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M });
+  document.querySelector("#presenter-dialog-url").textContent = presenterUrl.href;
+  document.querySelector("#presenter-qr-dialog-title").textContent = `掃碼遊玩 ${GAME_MODES[getSelectedGameMode()].label}`;
+  presenterQrDialog.showModal();
+});
+document.querySelector("#presenter-close-qr").addEventListener("click", () => presenterQrDialog.close());
 
 presenterBaseUrl.addEventListener("input", () => {
   syncPresenterQr();

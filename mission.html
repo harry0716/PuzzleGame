@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#e9f8f3" />
+    <meta name="description" content="完成五個電子工程救援任務，解鎖五張職人卡。" />
+    <title>電子工程救援隊｜五張職人卡</title>
+    <link rel="stylesheet" href="./mission.css?v=1" />
+    <link rel="stylesheet" href="./mission-light.css?v=3" />
+    <script src="./mission.js?v=3" defer></script>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <a class="back-link" href="./index.html" aria-label="返回遊戲首頁">← 遊戲首頁</a>
+        <div class="brand"><span class="brand-mark">◆</span> PUZZLE<span>GAME</span> <em>LAB</em></div>
+        <span class="prototype-tag">五大任務 · 五張職人卡</span>
+      </header>
+
+      <main>
+        <section class="intro" id="intro">
+          <div class="intro-copy">
+            <span class="eyebrow"><span class="pulse-dot"></span> 5 起校園與產線事件 · 等你救援</span>
+            <h1>問題來了。<br /><span>換你動手解。</span></h1>
+            <p>修復直播影像、校正花圃感測器、檢測晶片、設定工廠分流、規劃無人機航線。每完成一個任務，就解鎖一張職人卡。</p>
+            <div class="intro-points"><span>5 個案件</span><span>5 張職人卡</span><span>手機也能玩</span></div>
+            <button class="primary-button" id="start-button" type="button">開始救援 <span aria-hidden="true">↗</span></button>
+            <p class="microcopy">這是獨立任務，不會變動經典 PuzzleGame 的排行榜或答題紀錄。</p>
+          </div>
+          <div class="intro-preview" aria-hidden="true">
+            <div class="preview-top"><span>CAM 01 / MAIN STAGE</span><b>● SIGNAL LOST</b></div>
+            <div class="preview-grid"><span class="big-x">✕</span><span>INPUT NOT FOUND</span></div>
+            <div class="preview-bottom"><span>電源 <b>ONLINE</b></span><span>影像訊號 <b>OFFLINE</b></span></div>
+          </div>
+        </section>
+
+        <section class="game" id="game" hidden>
+          <div class="mission-heading">
+            <div><span class="eyebrow" id="case-eyebrow">MISSION 01 / LIVE RESCUE</span><h1 id="case-title">校慶直播大救援</h1></div>
+            <div class="mission-stats"><span id="stage-counter">任務 1 / 5</span><span id="test-counter">可用測試 3 次</span></div>
+          </div>
+          <div class="stepper" id="stepper" aria-label="任務進度"><span id="step-1">01 找出故障</span><span id="step-2">02 接好訊號</span><span id="step-3">03 調校畫面</span></div>
+          <div class="game-grid">
+            <section class="monitor-card" aria-label="直播畫面監控器">
+              <div class="card-top"><span id="monitor-label"><span class="live-dot"></span> LIVE / 校慶主舞台</span><span id="monitor-state">NO SIGNAL</span></div>
+              <div class="monitor-screen" id="monitor-screen">
+                <div class="stage-art" id="stage-art" aria-hidden="true">
+                  <div class="stage-lights"><i></i><i></i><i></i><i></i></div>
+                  <div class="stage-title">CAMPUS<br />LIVE</div>
+                  <div class="stage-floor"></div>
+                  <div class="crowd"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                </div>
+                <div class="screen-noise" id="screen-noise" aria-hidden="true"></div>
+                <div class="no-signal" id="no-signal"><span>⌁</span><strong>沒有收到影像訊號</strong><small>CAM 01 · INPUT 0 FPS</small></div>
+                <div class="case-visual" id="case-visual" hidden aria-hidden="true"></div>
+                <div class="screen-corner tl"></div><div class="screen-corner tr"></div><div class="screen-corner bl"></div><div class="screen-corner br"></div>
+              </div>
+              <div class="monitor-footer" id="monitor-footer"><span>◉ 影像感測器</span><span>→</span><span>▣ 處理晶片</span><span>→</span><span>▰ 直播畫面</span></div>
+              <div class="monitor-note" id="monitor-note" aria-live="polite">先查看現場線索，找出訊號在哪裡中斷。</div>
+            </section>
+            <section class="work-card" id="work-card" aria-live="polite"></section>
+          </div>
+          <div class="game-bottom"><button type="button" class="text-button" id="hint-button">需要一點提示？</button><span>每次失敗的測試都會留下新線索。</span></div>
+        </section>
+
+        <section class="ending" id="ending" hidden aria-live="polite"></section>
+      </main>
+      <footer>電子工程 × 半導體 × 感測與控制 <span>五個案件，看見技術如何讓現場重新運作。</span></footer>
+    </div>
+  </body>
+</html>

@@ -1,5 +1,13 @@
 # Codex Project Notes
 
+## 2026-11-09 Engineering career quest
+
+- The local prototype now has five consecutive hands-on cases: live signal repair, sensor calibration, chip inspection, factory sorting logic, and drone path/safety planning. Each completed case awards its own career card.
+- The redesigned `index.html` is a bright portal. The original `index.html` markup is preserved exactly in `classic.html`; original scene and quiz logic in `app.js`, the scene registry, and leaderboard behavior remain in place.
+- Old query-based activity links redirect to `classic.html` with their parameters intact. New presenter QR links point directly to `classic.html`.
+- The mission has no account or leaderboard writes, and the cards record completed in-game actions without claiming to assess student aptitude.
+- Art direction and asset provenance are documented in `ART_DIRECTION.md`. This is a local working copy pending student playtesting and has not been published.
+
 ## Purpose
 
 This is the primary long-term project note for Codex-assisted development.

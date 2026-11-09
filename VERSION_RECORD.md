@@ -1,5 +1,35 @@
 # Version Record
 
+## 2026-11-09 — On-site presenter integration (local preview)
+
+- Added a presenter switch for the five-case career quest and the preserved classic quiz.
+- Moved the QR above the settings so it is visible on a laptop projection; settings remain available in an expandable panel.
+- Career-quest mode generates a direct `mission.html` QR and shows a five-case facilitation guide instead of a misleading leaderboard.
+- Classic mode retains scene/module/difficulty/locked routing and live leaderboard updates.
+- Added a projector-sized QR dialog and copyable play URL, rejected localhost QR destinations, and warned when a local preview points to a version that has not yet been published.
+- The new presenter and mission are still local; deployment and one real phone scan remain required before an event.
+- Bundled MIT-licensed QRCode.js with source and license records so the presenter can generate QR artwork locally without depending on a third-party QR image endpoint.
+
+## 2026-11-09 — Five-card career quest and portal (local preview)
+
+- Replaced the project root entry with a bright portal for the five-case career quest and the preserved classic quiz.
+- Moved the unchanged original entry markup to `classic.html`; `app.js` and `styles.css` keep the original quiz behavior.
+- Preserved old `index.html?scene=...` activity links through an immediate query-preserving redirect to `classic.html`; new presenter QR links point directly there.
+- Added factory sorting logic and drone path/safety planning, for five distinct playable cases.
+- Each case now unlocks a separate action-based career card; the ending shows all five cards.
+- Updated the service-worker pre-cache for the portal, classic entry, and new mission assets.
+- This working copy is local and has not been published to GitHub Pages.
+
+## 2026-11-09 — Live rescue prototype (local preview)
+
+- Follow-up: expanded from one scenario to three consecutive cases, added garden-sensor calibration, visual and electrical chip checks, and a cumulative career card.
+- Added an original light-color art direction and case-specific monitor illustrations; documented palette and production rules in `ART_DIRECTION.md`.
+
+- Added a standalone three-stage mission: inspect evidence, rebuild the image signal chain, and tune a simulated video feed.
+- Added success/failure/retry states, limited test attempts, hints, live monitor feedback, and an action-based career card.
+- Linked the prototype from the existing scene selector and pre-cached its three new files.
+- Original quiz scenes and leaderboard remain in place. This prototype has not been published or tested with students.
+
 ## v1.12.5
 
 - Date: 2026-04-20
