@@ -502,7 +502,7 @@ function registerPresenterServiceWorker() {
   }
 
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js?v=20260420e").catch(() => {});
+    navigator.serviceWorker.register("./service-worker.js?v=20261109h").catch(() => {});
   });
 }
 

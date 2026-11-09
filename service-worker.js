@@ -1,4 +1,4 @@
-const CACHE_NAME = "ai-lab-talent-sprint-v33";
+const CACHE_NAME = "ai-lab-talent-sprint-v34";
 const ASSET_VERSION = "20260420e";
 const PRECACHE_URLS = [
   "./",
@@ -19,7 +19,7 @@ const PRECACHE_URLS = [
   `./config.js?v=${ASSET_VERSION}`,
   `./leaderboard-shared.js?v=${ASSET_VERSION}`,
   `./leaderboard-page.js?v=${ASSET_VERSION}`,
-  "./presenter.js?v=20261109g",
+  "./presenter.js?v=20261109h",
   `./manifest.webmanifest?v=${ASSET_VERSION}`,
   `./icon.svg?v=${ASSET_VERSION}`,
   "./assets/scenes/electronics-dual-experience/cover.svg",
@@ -52,7 +52,7 @@ function isSameOrigin(requestUrl) {
 async function networkFirst(request) {
   const cache = await caches.open(CACHE_NAME);
   try {
-    const response = await fetch(request);
+    const response = await fetch(request, { cache: request.mode === "navigate" ? "no-store" : "default" });
     if (response && response.ok) {
       cache.put(request, response.clone());
     }

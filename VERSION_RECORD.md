@@ -1,5 +1,10 @@
 # Version Record
 
+## 2026-11-09 — GitHub Pages cache follow-up
+
+- Navigation requests now bypass the browser HTTP cache before falling back to the service worker's offline copy, reducing stale homepage views after a GitHub Pages update.
+- Bumped the presenter script and service worker versions so returning event laptops receive the updated cache behavior.
+
 ## 2026-11-09 — On-site presenter integration (local preview)
 
 - Added a presenter switch for the five-case career quest and the preserved classic quiz.
